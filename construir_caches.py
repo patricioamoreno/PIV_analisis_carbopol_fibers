@@ -65,7 +65,6 @@ def carpetas_disponibles(base_path):
     ]
     return sorted(carpetas, key=natural_sort_key)
 
-
 # ============================================================
 # GEOMETRÍA
 # ============================================================
