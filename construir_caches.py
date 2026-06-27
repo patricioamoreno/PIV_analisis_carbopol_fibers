@@ -19,12 +19,13 @@ import re
 import glob
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 # ============================================================
 # CONFIGURACIÓN — editar aquí
 # ============================================================
 
-BASE_PATH  = "C:/Users/elisa/Desktop/PIV_INTERPOLADO"
+BASE_PATH  = Path("../PIV_INTERPOLADO")
 CACHE_DIR  = "cache_completo"
 
 # True → reconstruye aunque el caché ya exista
