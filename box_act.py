@@ -20,7 +20,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d
 
-from utils_etapas import natural_sort_key
+from utils_etapas import natural_sort_key, cargar_etapas
 from construir_caches import cargar_cache_completo, nombre_base_carpeta
 
 # ============================================================
@@ -45,11 +45,6 @@ ZONAS = {
 # ============================================================
 # UTILIDADES
 # ============================================================
-
-def cargar_etapas_polilinea():
-    with open(ETAPAS_POLILINEA_JSON, 'r', encoding='utf-8') as f:
-        return json.load(f)
-
 
 def agrupar_carpetas(etapas_poli):
     """
@@ -79,7 +74,7 @@ def recolectar_desde_cache(reo, conc, zona, etapa, variable='vel', p=True, usar_
     
     usar_magnitud=True → usa cachés _mag (magnitud √u²+v²), solo disponible para vigas.
     """
-    etapas_poli = cargar_etapas_polilinea()
+    etapas_poli = cargar_etapas(ETAPAS_POLILINEA_JSON)
     grupos      = agrupar_carpetas(etapas_poli)
     key         = (reo, conc)
     if key not in grupos:
