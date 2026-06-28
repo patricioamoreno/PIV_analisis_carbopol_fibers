@@ -25,22 +25,31 @@ from pathlib import Path
 # CONFIGURACIÓN — editar aquí
 # ============================================================
 
-BASE_PATH  = Path("../PIV_INTERPOLADO")
+BASE_PATH  = BASE_PATH = Path("../PIV_INTERPOLADO")
 CACHE_DIR  = "cache_completo"
 
 # True → reconstruye aunque el caché ya exista
 RECALCULO  = True
 
 # ── Geometría de la L ─────────────────────────────────────────
+# N_PUNTOS_LINEA se fija a la resolución espacial REAL del PIV de la Cam 4
+# (Δy ≈ 0.748 mm) sobre el FOV de ~36 mm: ~48 vectores independientes.
+# Sobremuestrear (p.ej. 200 pts) NO añade información: el IDW interpola
+# entre vectores ya interpolados y los puntos extra están correlacionados
+# artificialmente, suavizando γ̇=dv/ds. Mantener 1 punto por Δy_PIV.
 LINEA_NPY      = "Polilinea_L/linea_salida.npy"
-N_PUNTOS_LINEA = 200
+N_PUNTOS_LINEA = 48           # antes 200 (4× sobremuestreado vs PIV)
 ANGULO_L_DEG   = -30.0
 
 # ── Geometría de las vigas ────────────────────────────────────
+# Δy_PIV en vigas: car-0.5% → ~1.0 mm (W=16px), car-0.2% → ~2.0 mm (W=32px).
+# Sobre los 75 mm de perfil, el caso más fino (car-0.5%) admite ~75 puntos
+# independientes. 75 mantiene 1 punto por Δy_PIV en el caso más exigente y
+# evita sobremuestrear; el suavizado posterior maneja el caso car-0.2%.
 X_VIGA        = [175, 250]
 Y_VIGA_MIN    = -75.0
 Y_VIGA_MAX    =  0.0
-N_PUNTOS_VIGA =  80
+N_PUNTOS_VIGA =  75           # antes 80 (≈ 1 punto por Δy_PIV de car-0.5%)
 
 # Zonas a procesar: (prefijo, etiqueta)
 ZONAS = [

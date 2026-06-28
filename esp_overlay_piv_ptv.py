@@ -169,6 +169,32 @@ def _agregar_divisores(ax, tiempos_list, color='white'):
     for tl in tiempos_list[:-1]:
         ax.axvline(tl[-1], color=color, lw=1.5, ls='--', alpha=0.8)
 
+def mascara_ptv_sobre_piv(t_ptv, s_ptv, tiempos, ss, matriz_vel):
+    """
+    Devuelve un booleano por cada punto PTV: True si la celda PIV más cercana
+    (t, s) tiene lectura válida (no NaN). Los puntos PTV que caen donde el PIV
+    es NaN (sin material en ese instante/posición) se consideran artefactos de
+    tracking y se descartan.
+
+    matriz_vel tiene forma (N_t, N_s) con NaN donde no hubo medición PIV.
+    """
+    tiempos = np.asarray(tiempos, dtype=float)
+    ss      = np.asarray(ss, dtype=float)
+
+    # Índice de la celda PIV más cercana a cada punto PTV (vecino más cercano).
+    it = np.searchsorted(tiempos, t_ptv)
+    it = np.clip(it, 1, len(tiempos) - 1)
+    # elegir el borde más cercano entre it-1 e it
+    izq = (t_ptv - tiempos[it - 1]) <= (tiempos[it] - t_ptv)
+    it  = np.where(izq, it - 1, it)
+
+    js = np.searchsorted(ss, s_ptv)
+    js = np.clip(js, 1, len(ss) - 1)
+    izq_s = (s_ptv - ss[js - 1]) <= (ss[js] - s_ptv)
+    js    = np.where(izq_s, js - 1, js)
+
+    valido = np.isfinite(matriz_vel[it, js])
+    return valido
 
 # ============================================================
 # OVERLAY:  PIV base (difuminado) + PTV solo donde hay dato
@@ -269,12 +295,24 @@ def procesar(etapas, reo, conc, zona_key, prefijo, zona_label):
     print(f"    PTV t: [{t_ptv.min():.3f}, {t_ptv.max():.3f}] s, {len(np.unique(t_ptv))} instantes unicos")
     print(f"    PIV s: [{ss[0]:.2f}, {ss[-1]:.2f}] mm   PTV s: [{s_ptv.min():.2f}, {s_ptv.max():.2f}] mm")
 
-    m = (t_ptv >= tiempos_full[0]) & (t_ptv <= tiempos_full[-1])
-    n_fuera = (~m).sum()
-    if n_fuera:
-        print(f"    {n_fuera} obs PTV fuera de la ventana PIV (descartadas)")
-    t_ptv, s_ptv, v_ptv = t_ptv[m], s_ptv[m], v_ptv[m]
-    tid_ptv = tid_ptv[m] if tid_ptv is not None else None
+    # Filtro 1: ventana temporal del PIV.
+    m_t = (t_ptv >= tiempos_full[0]) & (t_ptv <= tiempos_full[-1])
+    n_fuera_t = int((~m_t).sum())
+    if n_fuera_t:
+        print(f"    {n_fuera_t} obs PTV fuera de la ventana temporal PIV (descartadas)")
+    t_ptv, s_ptv, v_ptv = t_ptv[m_t], s_ptv[m_t], v_ptv[m_t]
+    tid_ptv = tid_ptv[m_t] if tid_ptv is not None else None
+
+    # Filtro 2: la celda PIV correspondiente debe tener lectura (no NaN).
+    # Un punto PTV donde el PIV es NaN (sin material allí en ese instante) es
+    # un artefacto de tracking y no se dibuja.
+    if len(t_ptv):
+        m_piv = mascara_ptv_sobre_piv(t_ptv, s_ptv, tiempos_full, ss, matriz_full)
+        n_fuera_piv = int((~m_piv).sum())
+        if n_fuera_piv:
+            print(f"    {n_fuera_piv} obs PTV sobre celdas PIV=NaN (descartadas)")
+        t_ptv, s_ptv, v_ptv = t_ptv[m_piv], s_ptv[m_piv], v_ptv[m_piv]
+        tid_ptv = tid_ptv[m_piv] if tid_ptv is not None else None
     print(f"    PTV dibujado: {len(t_ptv)} obs")
     if len(v_ptv):
         lo, hi = np.nanpercentile(v_ptv, [PCT_LO, PCT_HI])

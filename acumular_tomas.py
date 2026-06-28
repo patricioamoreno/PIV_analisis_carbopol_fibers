@@ -67,6 +67,16 @@ def emparejar_por_codigo(dir_piv, dir_fibras):
     print(f"Emparejadas {len(pares)} tomas: {comunes}")
     return pares
 
+def _meta_toma(nombre):
+    """Extrae (reologia, fibras) del nombre de archivo.
+    Ej: 'm74-toma-1-n-0750-car-02-ptv' -> ('car-02', 750).
+    Devuelve (None, None) si no encuentra el patron."""
+    import re
+    car = re.search(r"car-?(\d+)", os.path.basename(str(nombre)).lower())
+    fib = re.search(r"n-?(\d+)", os.path.basename(str(nombre)).lower())
+    reologia = f"car-{car.group(1)}" if car else None
+    fibras = int(fib.group(1)) if fib else None
+    return reologia, fibras
 
 # ----------------------------------------------------------------------
 # Carga acumulada
@@ -91,6 +101,9 @@ def cargar_varias_tomas(pares, etapas_json=None, min_fibras=5, verbose=True):
             continue
         t = tabla_por_zona(df, min_fibras=min_fibras)
         t.insert(0, "toma", cod)
+        reo, fib = _meta_toma(csv)
+        t.insert(1, "reologia", reo)
+        t.insert(2, "fibras", fib)
         tablas.append(t)
         diag["toma"] = cod
         diags.append(diag)

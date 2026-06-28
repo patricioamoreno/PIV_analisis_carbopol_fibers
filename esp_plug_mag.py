@@ -14,15 +14,25 @@ PIPELINE
   4. Genera figuras: espectrograma velocidad + plug + v_media(t),
      más figuras de Reynolds efectivo e histograma de γ̇.
 
-UMBRALES γ̇ (puramente PIV, Westerweel 1997)
+UMBRALES γ̇ (puramente PIV)
 --------------------------------------------
-  δγ̇ = √2 · (ε_corr · mm_per_px / Δt) / (2 · Δy_PIV)   [s⁻¹]
+  δU  = ε_corr · mm_per_px / Δt                 (Westerweel 1997)
+  δγ̇ = √2 · δU / (2 · Δy_PIV)                   (Sciacchitano & Wieneke 2016)
 
-  Zona      Cam  fps   Δy_PIV    car-02      car-05
-  -------   ---  ---   ------    ------      ------
-  L         4    660   0.748mm   2.917 s⁻¹  2.917 s⁻¹
-  viga175   3    220   1.026mm   0.972 s⁻¹  0.972 s⁻¹
-  viga250   2    220   2.051mm   0.486 s⁻¹  0.972 s⁻¹  ← Δy distinto por PIV_PARAMS
+  El factor √2 proviene de propagar el error de dos vectores adyacentes
+  independientes; el denominador 2·Δy corresponde al esquema de DIFERENCIA
+  CENTRADA, que es exactamente el que usa np.gradient() en calcular_plug().
+  ε_corr = 0.05 px (precisión subpíxel típica del pico de correlación).
+
+  Δy_PIV = W · mm_per_px depende de la ventana W, que cambia con la reología:
+  car-0.2% usa W=32 px y car-0.5% usa W=16 px en las vigas (Cam 1 y 2),
+  por lo que el umbral de car-0.2% es la mitad del de car-0.5%.
+
+  Zona      Cam  fps   Δy(02)    Δy(05)    car-02      car-05
+  -------   ---  ---   ------    ------    ------      ------
+  L         4    660   0.748mm   0.748mm   2.917 s⁻¹  2.917 s⁻¹
+  viga175   1    220   2.000mm   1.000mm   0.486 s⁻¹  0.972 s⁻¹
+  viga250   2    220   2.051mm   1.026mm   0.486 s⁻¹  0.972 s⁻¹
 """
 
 import os
@@ -70,9 +80,11 @@ REOLOGIA_REF = {
 }
 
 # ── Umbrales γ̇ por zona y reología [s⁻¹] ─────────────────────
+# δγ̇ = √2·δU/(2·Δy_PIV), esquema CENTRADO consistente con np.gradient().
+# Δy depende de la ventana W de cada reología (car-0.2%: W=32px, car-0.5%: W=16px).
 UMBRAL_GAMMA = {
     'L':       {'02': 2.917, '05': 2.917},
-    'viga175': {'02': 0.972, '05': 0.972},
+    'viga175': {'02': 0.486, '05': 0.972},
     'viga250': {'02': 0.486, '05': 0.972},
 }
 
