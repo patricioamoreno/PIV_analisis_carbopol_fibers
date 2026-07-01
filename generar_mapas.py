@@ -265,6 +265,36 @@ def fig_mapa(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_viga_L.png"):
     plt.close(fig)
     print("  guardado:", path)
 
+def fig_mapa_etapas(tabla, predictor="V", path=f"{OUTPUT_FIGS}/fig_mapa_etapas.png"):
+    """Dos mapas fisicos lado a lado: el predictor del fluido (por defecto V)
+    promedio por zona en TRANSICION vs CUASI. Muestra DONDE y EN QUE ETAPA el
+    fluido es mas intenso, para conectar la geografia con la causa temporal."""
+    t = tabla[tabla["fiable"]]
+    col_t, col_c = f"{predictor}_transicion", f"{predictor}_cuasi"
+    if col_t not in t or col_c not in t:
+        print(f"  [omitido] fig_mapa_etapas: faltan columnas {col_t}/{col_c}")
+        return
+    med_t = t.groupby("zona")[col_t].mean().to_dict()
+    med_c = t.groupby("zona")[col_c].mean().to_dict()
+    # escala comun para que ambos mapas sean comparables
+    vals = [v for v in list(med_t.values()) + list(med_c.values())
+            if not np.isnan(v)]
+    vmax = max(vals) if vals else 1.0
+ 
+    etiq = {"V": "Velocidad V [mm/s]", "omega": "Vorticidad ω [1/s]",
+            "gamma_dot": "Tasa γ̇ [1/s]"}.get(predictor, predictor)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
+    _dibujar_mapa(ax1, {z: {"_v": med_t.get(z, np.nan)} for z in GEO},
+                  f"{etiq} — TRANSICIÓN", "plasma", etiq, 0, vmax)
+    _dibujar_mapa(ax2, {z: {"_v": med_c.get(z, np.nan)} for z in GEO},
+                  f"{etiq} — CUASI-ESTACIONARIO", "plasma", etiq, 0, vmax)
+    fig.suptitle(f"Campo de fluido por etapa ({etiq})  —  "
+                 "misma escala para comparar transición vs cuasi",
+                 fontsize=14, fontweight="bold")
+    fig.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print("  guardado:", path)
 
 # ----------------------------------------------------------------------
 # FIGURA 5 — comparacion L vs viga (correlaciones por separado)
@@ -272,7 +302,7 @@ def fig_mapa(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_viga_L.png"):
 def fig_comparacion(tabla, path=f"{OUTPUT_FIGS}/fig_comparacion_L_viga.png"):
     corr_viga = correlaciones(tabla, ZONAS_VIGA)
     corr_l = correlaciones(tabla, ZONAS_L)
-
+ 
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.5))
     for ax, (corr, nom, n) in zip(axes, [
             (corr_viga, "VIGA", tabla[tabla.fiable & tabla.zona.isin(ZONAS_VIGA)].shape[0]),
@@ -510,6 +540,7 @@ def main():
     fig_scatter(tabla)
     fig_barras(corr)
     fig_mapa(tabla)
+    fig_mapa_etapas(tabla, predictor="gamma_dot")
     cv, cl = fig_comparacion(tabla)
 
     # resumen comparativo en consola
