@@ -540,7 +540,7 @@ def main():
     fig_scatter(tabla)
     fig_barras(corr)
     fig_mapa(tabla)
-    fig_mapa_etapas(tabla, predictor="gamma_dot")
+    fig_mapa_etapas(tabla, predictor="V")
     cv, cl = fig_comparacion(tabla)
 
     # resumen comparativo en consola
