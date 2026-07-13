@@ -48,7 +48,7 @@ from construir_caches_adveccion import cargar_cache_adveccion, CACHE_ADV_DIR
 # ============================================================
 
 # Carpeta con los caches de adveccion (la que produce el script anterior).
-CACHE_ADV = CACHE_ADV_DIR          # normalmente "cache_adveccion"
+CACHE_ADV = CACHE_ADV_DIR         # normalmente "cache_adveccion"
 
 # Solo considerar la influencia de zonas de la VIGA (el profesor: la orientacion
 # solo importa donde afecta la resistencia). Pon False para incluir la L tambien.

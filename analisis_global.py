@@ -48,7 +48,6 @@ from orientacion_objetivo import (calidad_orientacion, objetivo_de_zona,
 
 RESPUESTAS = ["orden_S", "sigma_iso"]   # foco: alineamiento y dispersion
 
-
 # ----------------------------------------------------------------------
 # Construccion de la tabla por zona
 # ----------------------------------------------------------------------

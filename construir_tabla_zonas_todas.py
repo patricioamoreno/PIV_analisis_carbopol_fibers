@@ -55,7 +55,6 @@ MIN_FIBRAS = 1
 CAR_OBJETIVO = None      # p.ej. "02"
 FIB_OBJETIVO = None      # p.ej. "1500"
 
-
 # ============================================================
 # UTILIDADES (estilo del proyecto)
 # ============================================================
