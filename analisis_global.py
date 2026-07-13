@@ -43,6 +43,8 @@ from sklearn.linear_model import LinearRegression
 from carga_real import PREDICTORES, ETAPAS
 from nucleo import direccion_media_circular, orden_parametro, \
     dispersion_centroides, calcular_vif
+from orientacion_objetivo import (calidad_orientacion, objetivo_de_zona,
+                                  desviacion_objetivo)
 
 RESPUESTAS = ["orden_S", "sigma_iso"]   # foco: alineamiento y dispersion
 
@@ -69,10 +71,16 @@ def tabla_por_zona(df_largo, min_fibras=5):
         S = orden_parametro(g["theta"])
         tm, _ = direccion_media_circular(g["theta"])
         disp = dispersion_centroides(g["x_mm"], g["y_mm"])
+        objetivo = objetivo_de_zona(zona)
+        calidad = calidad_orientacion(g["theta"], objetivo)
+        desv = desviacion_objetivo(g["theta"], objetivo)
         filas.append({"zona": zona, "n_fibras": len(g),
                       "orden_S": S, "theta_med": tm,
                       "sigma_iso": disp["sigma_iso"],
-                      "fiable": len(g) >= min_fibras})
+                      "fiable": len(g) >= min_fibras,
+                      "objetivo": objetivo,
+                      "calidad": calidad,
+                      "desviacion": desv})
     tabla = pd.DataFrame(filas)
 
     pred = (df_largo.drop_duplicates(["zona", "etapa"])
