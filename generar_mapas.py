@@ -204,12 +204,21 @@ def fig_barras(corr, path=f"{OUTPUT_FIGS}/fig_barras_temporal.png"):
 # FIGURA 4 — mapa fisico de la viga + L
 # ----------------------------------------------------------------------
 def _resumen_zona(tabla):
-    """Promedio por zona (sobre tomas) de orden_S y sigma_iso, solo fiables."""
+    """Promedio por zona (sobre tomas) de orden_S, sigma, calidad y desviacion."""
     t = tabla[tabla["fiable"]]
-    return t.groupby("zona").agg(
-        orden_S=("orden_S", "mean"),
-        sigma_iso=("sigma_iso", "mean"),
-        n=("orden_S", "size")).to_dict("index")
+    aggs = {
+        "orden_S": ("orden_S", "mean"),
+        "sigma_iso": ("sigma_iso", "mean"),
+        "n": ("orden_S", "size"),
+    }
+    # columnas de la metrica de objetivo (pueden no existir en CSV viejos)
+    if "calidad_orientacion" in t.columns:
+        aggs["calidad_orientacion"] = ("calidad_orientacion", "mean")
+    if "desviacion_media" in t.columns:
+        aggs["desviacion_media"] = ("desviacion_media", "mean")
+    if "objetivo" in t.columns:
+        aggs["objetivo"] = ("objetivo", "first")
+    return t.groupby("zona").agg(**aggs).to_dict("index")
 
 
 def _dibujar_mapa(ax, valores, titulo, cmap, label, vmin, vmax):
@@ -261,6 +270,127 @@ def fig_mapa(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_viga_L.png"):
     fig.suptitle("Mapa físico del montaje L → Viga  (promedio de 12 tomas)",
                  fontsize=14, fontweight="bold")
     fig.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print("  guardado:", path)
+
+
+def fig_mapa_calidad(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_calidad.png"):
+    """
+    Mapa de CALIDAD de orientacion respecto al ANGULO OBJETIVO de cada columna
+    de viga (col1=135°, col2=0°, col3=45°). A diferencia de orden_S (que solo
+    mide alineamiento entre fibras), esto mide si las fibras estan en el angulo
+    que corresponde para resistir flexion y corte.
+      - Panel izq: calidad [0..1] (verde=en su objetivo, rojo=perpendicular).
+      - Panel der: desviacion media al objetivo [grados] (verde=cerca, rojo=lejos).
+    Las zonas de la L (sin objetivo estructural) salen en gris.
+    """
+    res = _resumen_zona(tabla)
+    if not res or "calidad_orientacion" not in next(iter(res.values())):
+        print("  [omitido] fig_mapa_calidad: la tabla no tiene "
+              "'calidad_orientacion'. Regenera acum_tabla_zona.csv con el "
+              "analisis_global actualizado.")
+        return
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
+
+    # panel 1: calidad 0..1 (RdYlGn: rojo bajo, verde alto)
+    v1 = {z: {"_v": d.get("calidad_orientacion", np.nan)} for z, d in res.items()}
+    _dibujar_mapa(ax1, v1,
+                  "Calidad de orientación vs objetivo\n"
+                  "(verde = fibras en su ángulo ideal, rojo = perpendicular)",
+                  "RdYlGn", "calidad [0-1]", 0.0, 1.0)
+
+    # panel 2: desviacion media en grados (RdYlGn_r: verde bajo, rojo alto)
+    v2 = {z: {"_v": d.get("desviacion_media", np.nan)} for z, d in res.items()}
+    _dibujar_mapa(ax2, v2,
+                  "Desviación media al ángulo objetivo\n"
+                  "(verde = cerca del objetivo, rojo = lejos)",
+                  "RdYlGn_r", "desviación [°]", 0.0, 90.0)
+
+    # anotar el objetivo de cada zona bajo su etiqueta
+    fig.suptitle("Orientación respecto al objetivo estructural por columna\n"
+                 "col1 → 135° · col2 → 0° (plana) · col3 → 45°",
+                 fontsize=13, fontweight="bold")
+    fig.tight_layout(rect=[0, 0, 1, 0.94])
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print("  guardado:", path)
+
+
+# Las 6 zonas TEORICAS de la viga (2 filas x 3 columnas). Si alguna no tiene
+# datos en una combinacion reologia-fibras, esa celda queda en blanco (NaN).
+ZONAS_VIGA_6 = ["Vf1c1", "Vf1c2", "Vf2c1", "Vf2c2", "Vf2c3"]
+
+
+def _tabla_reologia_fibras(tabla, metrica):
+    """
+    Arma la matriz [zona de viga] x [combinacion reologia-fibras] promediando
+    'metrica' sobre las tomas que caen en cada combinacion (solo filas
+    fiables). Devuelve un DataFrame (filas=zona, columnas=car-XX_nnnn).
+    """
+    t = tabla[tabla["fiable"] & tabla["zona"].isin(ZONAS_VIGA_6)].copy()
+    t = t.dropna(subset=["reologia", "fibras"])
+    t["combo"] = t["reologia"] + "_" + t["fibras"].astype(int).astype(str)
+
+    reos = sorted(t["reologia"].unique())
+    fibs = sorted(t["fibras"].dropna().unique())
+    orden_cols = [f"{r}_{int(f)}" for r in reos for f in fibs]
+
+    piv = t.pivot_table(index="zona", columns="combo", values=metrica,
+                        aggfunc="mean")
+    piv = piv.reindex(index=ZONAS_VIGA_6,
+                      columns=[c for c in orden_cols if c in piv.columns])
+    return piv
+
+
+def fig_heatmap_reologia_fibras(tabla, metrica="calidad_orientacion",
+                                cmap="RdYlGn", vmin=0.0, vmax=1.0,
+                                titulo=None,
+                                path=None):
+    """
+    Heatmap 6x6: filas = 6 zonas de la viga, columnas = 6 combinaciones
+    reologia x concentracion de fibras (car-02/car-05 x 750/1500/3000).
+    Reemplaza el mapa fisico cuando se quiere comparar TODAS las
+    combinaciones a la vez, no solo zona a zona.
+    """
+    if metrica not in tabla.columns:
+        print(f"  [omitido] fig_heatmap_reologia_fibras({metrica}): "
+              f"la tabla no tiene esa columna.")
+        return
+    path = path or f"{OUTPUT_FIGS}/fig_heatmap_{metrica}.png"
+    piv = _tabla_reologia_fibras(tabla, metrica)
+    if piv.empty or piv.shape[1] == 0:
+        print(f"  [omitido] fig_heatmap_reologia_fibras({metrica}): "
+              f"sin combinaciones reologia x fibras disponibles.")
+        return
+
+    M = piv.to_numpy()
+    fig, ax = plt.subplots(figsize=(9, 6))
+    im = ax.imshow(M, cmap=cmap, vmin=vmin, vmax=vmax, aspect="auto")
+    ax.set_xticks(range(piv.shape[1]))
+    ax.set_xticklabels([c.replace("_", "\n") for c in piv.columns], fontsize=10)
+    ax.set_yticks(range(piv.shape[0]))
+    ax.set_yticklabels(piv.index, fontsize=11)
+    for i in range(M.shape[0]):
+        for j in range(M.shape[1]):
+            v = M[i, j]
+            if not np.isnan(v):
+                lum = (v - vmin) / (vmax - vmin) if vmax > vmin else 0.5
+                ax.text(j, i, f"{v:.2f}", ha="center", va="center",
+                        fontsize=10, fontweight="bold",
+                        color="white" if 0.35 < lum < 0.8 else "black")
+            else:
+                ax.text(j, i, "—", ha="center", va="center",
+                        fontsize=11, color="#999")
+    etiqueta_metrica = {"calidad_orientacion": "calidad de orientación [0-1]",
+                        "orden_S": "orden-parámetro S [0-1]"}.get(metrica, metrica)
+    ax.set_title(titulo or f"{etiqueta_metrica} — zona de viga × (reología, fibras)",
+                fontsize=12, fontweight="bold")
+    ax.set_xlabel("reología _ concentración de fibras")
+    ax.set_ylabel("zona de viga")
+    fig.colorbar(im, ax=ax, label=etiqueta_metrica, fraction=0.046, pad=0.04)
+    fig.tight_layout()
     fig.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print("  guardado:", path)
@@ -540,6 +670,11 @@ def main():
     fig_scatter(tabla)
     fig_barras(corr)
     fig_mapa(tabla)
+    fig_mapa_calidad(tabla)
+    fig_heatmap_reologia_fibras(tabla, metrica="calidad_orientacion",
+                                cmap="RdYlGn", vmin=0.0, vmax=1.0)
+    fig_heatmap_reologia_fibras(tabla, metrica="orden_S",
+                                cmap="viridis", vmin=0.0, vmax=1.0)
     fig_mapa_etapas(tabla, predictor="V")
     cv, cl = fig_comparacion(tabla)
 
