@@ -34,6 +34,7 @@ import re
 import glob
 import numpy as np
 import pandas as pd
+from win10toast import ToastNotifier
 
 from carga_real import (cargar_todo, PREDICTORES, ETAPAS, _codigo_toma)
 from analisis_global import (tabla_por_zona, capa1_global, capa2_global,
@@ -164,3 +165,5 @@ if __name__ == "__main__":
               "acum_capa2_global.csv, acum_capa4_global.csv")
     else:
         print("No hay tomas emparejadas para analizar.")
+    toaster = ToastNotifier()
+    toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5)
