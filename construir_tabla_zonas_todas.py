@@ -1,26 +1,38 @@
 """
 construir_tabla_zonas_todas.py
 ==============================
-Recorre TODAS las tomas, cruza el fluido PIV (cache_zonas) con la foto final
-de fibras (fibras_ultimo_frame) por zona, y arma la tabla acumulada por
-(toma, zona) con orientacion (orden_S), dispersion y los predictores de fluido
-por etapa. Es el "enfoque de zona final": cada fibra se asocia al fluido de la
-zona donde quedo.
+UNICO script para el enfoque de "zona final": recorre TODAS las tomas, cruza
+el fluido PIV (cache_zonas) con la foto final de fibras (fibras_ultimo_frame)
+por zona, y arma la tabla acumulada por (toma, zona) con orientacion (orden_S,
+calidad_orientacion), dispersion (sigma_iso, indice_uniformidad) y los
+predictores de fluido por etapa.
 
-Reemplaza el flujo manual de run_real.py (una toma con --flags) por un barrido
-automatico de todas las tomas, al estilo de construir_caches_zonas.py:
-  - configuracion arriba
-  - recorre las carpetas/archivos solos
-  - bandera RECALCULO
-  - guarda un CSV acumulado (acum_tabla_zona.csv)
+Fusiona lo que antes eran DOS scripts redundantes (construir_tabla_zonas_todas.py
++ acumular_tomas.py) que hacian exactamente el mismo trabajo -- emparejar
+PIV<->fibras, cargar cada toma, armar tabla_por_zona y concatenar -- con solo
+tres diferencias reales entre ambos:
+  1) acumular_tomas.py ademas guardaba capa1/2/4 en CSV aparte. Eso es
+     REDUNDANTE: generar_mapas.py calcula sus propias correlaciones desde la
+     tabla directamente (funcion correlaciones()), no lee esos CSV. Se dejan
+     disponibles aqui solo como export OPCIONAL (GUARDAR_CAPAS) por si sirven
+     para inspeccion manual rapida, no porque algo mas los necesite.
+  2) acumular_tomas.py importaba win10toast (notificacion de escritorio),
+     dependencia SOLO de Windows que rompe el script en cualquier otro
+     sistema. Se elimino.
+  3) MIN_FIBRAS estaba en 1 en este script, lo que reintroduce el artefacto de
+     "1 fibra = orden_S trivialmente 1" que ya se identifico como problema.
+     Se vuelve a 5 (el estandar del proyecto) por defecto.
 
 Fuentes de datos:
-  - PIV  : cache_zonas/<carpeta>_zonas.npz  (los que hace construir_caches_zonas)
+  - PIV   : cache_zonas/<carpeta>_zonas.npz  (los que hace construir_caches_zonas)
   - Fibras: fibras_ultimo_frame/<...>-ptv.csv  (CSV sueltos, foto final)
   - Etapas: etapas_zonas.json  (t_quasi por toma y zona)
 
 Salida:
-  acum_tabla_zona.csv  (1 fila por toma x zona: fluido + orden_S + sigma + meta)
+  acum_tabla_zona.csv  (1 fila por toma x zona: fluido + orden_S + calidad +
+                        sigma + indice_uniformidad + meta)
+  [opcional, GUARDAR_CAPAS=True]:
+  acum_capa1_global.csv, acum_capa2_global.csv, acum_capa4_global.csv
 
 Uso:
     python construir_tabla_zonas_todas.py
@@ -33,7 +45,8 @@ import numpy as np
 import pandas as pd
 
 from carga_real import cargar_todo, PREDICTORES, ETAPAS
-from analisis_global import tabla_por_zona
+from analisis_global import (tabla_por_zona, capa1_global, capa2_global,
+                             capa4_global)
 
 # ============================================================
 # CONFIGURACION — editar aqui
@@ -48,12 +61,25 @@ SALIDA_CSV = "acum_tabla_zona.csv"
 # True -> reconstruye aunque el CSV ya exista
 RECALCULO = True
 
-# minimo de fibras para que orden_S de una zona sea fiable
-MIN_FIBRAS = 1
+# minimo de fibras para que orden_S/calidad_orientacion de una zona sea
+# fiable. Con 1 fibra, orden_S es trivialmente 1.0 (artefacto) -- no bajar
+# de este valor sin una razon explicita.
+MIN_FIBRAS = 5
 
-# Filtros opcionales (None = todas)
+# Filtros opcionales de carga (None = todas las tomas)
 CAR_OBJETIVO = None      # p.ej. "02"
 FIB_OBJETIVO = None      # p.ej. "1500"
+
+# Export opcional de las Capas 1/2/4 globales a CSV aparte, para inspeccion
+# manual. NO es requerido por generar_mapas.py (que las recalcula solas desde
+# acum_tabla_zona.csv), asi que se puede dejar en False sin perder nada.
+GUARDAR_CAPAS = True
+
+# Filtro estructural: la orientacion de fibras solo es de interes en la VIGA
+# (ver capa1_global/capa2_global, parametro solo_viga). Se mantiene en True
+# para que coincida con la instruccion del profesor por defecto.
+SOLO_VIGA_EN_CAPAS = True
+
 
 # ============================================================
 # UTILIDADES (estilo del proyecto)
@@ -80,7 +106,7 @@ def _meta_toma(nombre):
 def emparejar_piv_fibras():
     """
     Empareja cada .npz de cache_zonas con su CSV de fibras por codigo mNN.
-    Devuelve lista de dicts: {cod, carpeta_piv, npz, csv, reologia, fibras}.
+    Devuelve lista de dicts: {cod, npz, csv, reologia, fibras}.
     """
     npzs = {}
     for f in glob.glob(os.path.join(CACHE_ZONAS, "*.npz")):
@@ -133,7 +159,6 @@ def procesar_todas():
         cod = p["cod"]
         print(f"[{i}/{len(pares)}] {cod}  ({p['reologia']}, {p['fibras']} fibras)")
         try:
-            # cargar_todo cruza el PIV de esta toma con sus fibras por zona
             df, diag = cargar_todo(p["npz"], p["csv"], ETAPAS_JSON,
                                    verbose=False)
             t = tabla_por_zona(df, min_fibras=MIN_FIBRAS)
@@ -158,6 +183,17 @@ def procesar_todas():
     print(f"  {len(acum)} filas (toma x zona), {n_fiab} observaciones fiables")
     print(f"  {acum['toma'].nunique()} tomas, "
           f"reologias={sorted(acum['reologia'].dropna().unique())}")
+
+    if GUARDAR_CAPAS:
+        c1 = capa1_global(acum, solo_viga=SOLO_VIGA_EN_CAPAS)
+        c2 = capa2_global(acum, solo_viga=SOLO_VIGA_EN_CAPAS)
+        c4 = capa4_global(c1)
+        c1.to_csv("acum_capa1_global.csv", index=False)
+        c2.to_csv("acum_capa2_global.csv", index=False)
+        c4.to_csv("acum_capa4_global.csv", index=False)
+        print(f"  (solo_viga={SOLO_VIGA_EN_CAPAS}) Guardados: "
+              f"acum_capa1_global.csv, acum_capa2_global.csv, "
+              f"acum_capa4_global.csv")
     return acum
 
 

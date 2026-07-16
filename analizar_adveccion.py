@@ -52,7 +52,9 @@ CACHE_ADV = CACHE_ADV_DIR         # normalmente "cache_adveccion"
 
 # Solo considerar la influencia de zonas de la VIGA (el profesor: la orientacion
 # solo importa donde afecta la resistencia). Pon False para incluir la L tambien.
-SOLO_VIGA = False
+# DEFAULT=True: la orden del profesor debe ser la conducta por defecto, no una
+# opcion que haya que recordar activar (reunion 10-07: hallazgo de auditoria).
+SOLO_VIGA = True
 
 # minimo de fibras en una zona para calcular correlacion de esa zona
 MIN_FIBRAS_ZONA = 5

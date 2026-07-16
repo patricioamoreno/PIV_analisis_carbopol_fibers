@@ -78,8 +78,20 @@ ZONAS_L = ["Z1", "Z2", "Z3"]
 # ----------------------------------------------------------------------
 # Correlaciones a partir de la tabla (Spearman entre zonas)
 # ----------------------------------------------------------------------
-def correlaciones(tabla, zonas=None):
-    """rho de Spearman predictor(etapa) vs respuesta, sobre las filas fiables."""
+def correlaciones(tabla, zonas="__default_viga__"):
+    """
+    rho de Spearman predictor(etapa) vs respuesta, sobre las filas fiables.
+
+    zonas=None -> usa TODAS las zonas (viga + L). Por defecto (sin pasar el
+    argumento) se filtra a ZONAS_VIGA: la orientacion de fibras solo es de
+    interes estructural en la viga (instruccion del profesor, reunion
+    10-07), asi que fig_heatmap/fig_barras -que llaman correlaciones(tabla)
+    sin argumentos- ya excluyen la L automaticamente. Antes este default
+    era None y la L se colaba en esas dos figuras "principales" -- bug
+    corregido aqui.
+    """
+    if zonas == "__default_viga__":
+        zonas = ZONAS_VIGA
     t = tabla[tabla["fiable"]].copy()
     if zonas is not None:
         t = t[t["zona"].isin(zonas)]
@@ -137,19 +149,34 @@ def fig_heatmap(corr, path=f"{OUTPUT_FIGS}/fig_panorama_heatmap.png"):
 # ----------------------------------------------------------------------
 # FIGURA 2 — scatter V vs orden_S (el hallazgo principal)
 # ----------------------------------------------------------------------
-def fig_scatter(tabla, path=f"{OUTPUT_FIGS}/fig_scatter_V_ordenS.png"):
-    t = tabla[tabla["fiable"]].dropna(subset=["V_transicion", "orden_S"])
+def fig_scatter(tabla, respuesta="orden_S", path=None):
+    """
+    Scatter V(transicion) vs la 'respuesta' elegida.
+    respuesta="orden_S" (default): alineamiento entre fibras, incluye L.
+    respuesta="calidad_orientacion": alineamiento respecto al angulo
+        OBJETIVO de cada columna de viga. Las zonas de la L salen NaN en
+        esta metrica (no tienen objetivo estructural) y por tanto se
+        excluyen solas del grafico via el dropna de abajo -- no hace falta
+        filtrar zona explicitamente.
+    """
+    etiqueta = {"orden_S": "Orden-parámetro de orientación  $S$",
+               "calidad_orientacion": "Calidad de orientación vs objetivo"
+               }.get(respuesta, respuesta)
+    path = path or f"{OUTPUT_FIGS}/fig_scatter_V_{respuesta}.png"
+
+    t = tabla[tabla["fiable"]].dropna(subset=["V_transicion", respuesta])
     x = t["V_transicion"].to_numpy(float)
-    y = t["orden_S"].to_numpy(float)
+    y = t[respuesta].to_numpy(float)
     rho, pv = stats.spearmanr(x, y)
 
-    # color por geometria: viga vs L
+    # color por geometria: viga vs L (si quedan puntos de L, p.ej. con orden_S)
     es_l = t["zona"].isin(ZONAS_L).to_numpy()
     fig, ax = plt.subplots(figsize=(8, 5.5))
     ax.scatter(x[~es_l], y[~es_l], s=70, c="#2c6fbb", edgecolor="white",
                linewidth=0.8, label="Viga", zorder=3)
-    ax.scatter(x[es_l], y[es_l], s=70, c="#d98032", edgecolor="white",
-               linewidth=0.8, label="L (conducto)", zorder=3)
+    if es_l.any():
+        ax.scatter(x[es_l], y[es_l], s=70, c="#d98032", edgecolor="white",
+                   linewidth=0.8, label="L (conducto)", zorder=3)
     # tendencia (ajuste lineal simple, solo visual)
     if len(x) > 2:
         b, a = np.polyfit(x, y, 1)
@@ -157,8 +184,8 @@ def fig_scatter(tabla, path=f"{OUTPUT_FIGS}/fig_scatter_V_ordenS.png"):
         ax.plot(xs, a + b * xs, "--", color="#444", lw=2,
                 label="tendencia", zorder=2)
     ax.set_xlabel("Velocidad en transición  $V$  [mm/s]", fontsize=12)
-    ax.set_ylabel("Orden-parámetro de orientación  $S$", fontsize=12)
-    ax.set_title(f"Velocidad en transición vs alineamiento de fibras\n"
+    ax.set_ylabel(etiqueta, fontsize=12)
+    ax.set_title(f"Velocidad en transición vs {etiqueta.lower()}\n"
                  f"ρ = {rho:+.2f}   (p = {pv:.1e},  n = {len(x)})",
                  fontsize=12, fontweight="bold")
     ax.legend(fontsize=10)
@@ -318,82 +345,95 @@ def fig_mapa_calidad(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_calidad.png"):
     print("  guardado:", path)
 
 
-# Las 6 zonas TEORICAS de la viga (2 filas x 3 columnas). Si alguna no tiene
-# datos en una combinacion reologia-fibras, esa celda queda en blanco (NaN).
-ZONAS_VIGA_6 = ["Vf1c1", "Vf1c2", "Vf2c1", "Vf2c2", "Vf2c3"]
+
+# ----------------------------------------------------------------------
+# Mapas fisicos en cuadricula (forma real de la viga), uno por combinacion
+# reologia x concentracion de fibras -- pedido del profesor en reunion:
+# los heatmaps deben mostrarse con la geometria de la viga, no como grilla
+# abstracta zona-vs-combinacion.
+# ----------------------------------------------------------------------
+ZONAS_VIGA_TODAS = ["Vf1c1", "Vf1c2", "Vf1c3", "Vf2c1", "Vf2c2", "Vf2c3"]
 
 
-def _tabla_reologia_fibras(tabla, metrica):
+def _dibujar_viga_sola(ax, valores, titulo, cmap, norm):
     """
-    Arma la matriz [zona de viga] x [combinacion reologia-fibras] promediando
-    'metrica' sobre las tomas que caen en cada combinacion (solo filas
-    fiables). Devuelve un DataFrame (filas=zona, columnas=car-XX_nnnn).
+    Version compacta de _dibujar_mapa: dibuja SOLO los 6 poligonos de la
+    viga (sin la L, sin flecha de flujo), pensada para usarse dentro de una
+    grilla de pequenos multiplos donde el colorbar es compartido por la
+    figura completa (no uno por subplot).
     """
-    t = tabla[tabla["fiable"] & tabla["zona"].isin(ZONAS_VIGA_6)].copy()
+    cmap_obj = matplotlib.colormaps[cmap]
+    for zona in ZONAS_VIGA_TODAS:
+        g = GEO[zona]
+        val = valores.get(zona, np.nan)
+        color = cmap_obj(norm(val)) if not np.isnan(val) else "#dddddd"
+        ax.add_patch(plt.Polygon(g["poly"], closed=True,
+                                 facecolor=color, edgecolor="#333",
+                                 linewidth=1.2, zorder=2))
+        txt = zona.replace("Vf", "") if np.isnan(val) else \
+            f"{zona.replace('Vf','')}\n{val:.2f}"
+        lum = 0 if np.isnan(val) else norm(val)
+        ax.text(g["cx"], g["cy"], txt, ha="center", va="center",
+                fontsize=8, fontweight="bold",
+                color="white" if 0.35 < lum < 0.8 else "black", zorder=3)
+    ax.set_xlim(140, 460)
+    ax.set_ylim(-85, 10)
+    ax.set_aspect("equal")
+    ax.set_title(titulo, fontsize=10, fontweight="bold")
+    ax.set_xticks([]); ax.set_yticks([])
+
+
+def fig_pequenos_multiplos_viga(tabla, metrica="calidad_orientacion",
+                                cmap="RdYlGn", vmin=0.0, vmax=1.0,
+                                etiqueta=None, path=None):
+    """
+    Cuadricula 2x3 (filas=reologia, columnas=concentracion de fibras) de
+    mapas fisicos CON LA FORMA REAL DE LA VIGA (los 6 poligonos exactos),
+    uno por cada combinacion reologia x fibras, coloreados por 'metrica'.
+
+    Muestra la geometria real de la viga en vez de una grilla abstracta.
+    """
+    if metrica not in tabla.columns:
+        print(f"  [omitido] fig_pequenos_multiplos_viga({metrica}): "
+              f"la tabla no tiene esa columna.")
+        return
+    t = tabla[tabla["fiable"] & tabla["zona"].isin(ZONAS_VIGA_TODAS)].copy()
     t = t.dropna(subset=["reologia", "fibras"])
-    t["combo"] = t["reologia"] + "_" + t["fibras"].astype(int).astype(str)
+    if t.empty:
+        print(f"  [omitido] fig_pequenos_multiplos_viga({metrica}): sin datos.")
+        return
 
     reos = sorted(t["reologia"].unique())
     fibs = sorted(t["fibras"].dropna().unique())
-    orden_cols = [f"{r}_{int(f)}" for r in reos for f in fibs]
+    path = path or f"{OUTPUT_FIGS}/fig_viga_{metrica}.png"
+    etiqueta = etiqueta or {"calidad_orientacion": "calidad de orientación [0-1]",
+                            "orden_S": "orden-parámetro S [0-1]",
+                            "sigma_iso": "dispersión σ [mm]",
+                            "indice_uniformidad": "uniformidad [0-1]"
+                            }.get(metrica, metrica)
 
-    piv = t.pivot_table(index="zona", columns="combo", values=metrica,
-                        aggfunc="mean")
-    piv = piv.reindex(index=ZONAS_VIGA_6,
-                      columns=[c for c in orden_cols if c in piv.columns])
-    return piv
+    fig, axes = plt.subplots(len(reos), len(fibs),
+                             figsize=(4.2 * len(fibs), 4.0 * len(reos)),
+                             squeeze=False)
+    norm = Normalize(vmin=vmin, vmax=vmax)
+    for i, reo in enumerate(reos):
+        for j, fib in enumerate(fibs):
+            sub = t[(t.reologia == reo) & (t.fibras == fib)]
+            valores = sub.groupby("zona")[metrica].mean().to_dict()
+            _dibujar_viga_sola(axes[i][j], valores,
+                               f"{reo} — {int(fib)} fibras", cmap, norm)
 
-
-def fig_heatmap_reologia_fibras(tabla, metrica="calidad_orientacion",
-                                cmap="RdYlGn", vmin=0.0, vmax=1.0,
-                                titulo=None,
-                                path=None):
-    """
-    Heatmap 6x6: filas = 6 zonas de la viga, columnas = 6 combinaciones
-    reologia x concentracion de fibras (car-02/car-05 x 750/1500/3000).
-    Reemplaza el mapa fisico cuando se quiere comparar TODAS las
-    combinaciones a la vez, no solo zona a zona.
-    """
-    if metrica not in tabla.columns:
-        print(f"  [omitido] fig_heatmap_reologia_fibras({metrica}): "
-              f"la tabla no tiene esa columna.")
-        return
-    path = path or f"{OUTPUT_FIGS}/fig_heatmap_{metrica}.png"
-    piv = _tabla_reologia_fibras(tabla, metrica)
-    if piv.empty or piv.shape[1] == 0:
-        print(f"  [omitido] fig_heatmap_reologia_fibras({metrica}): "
-              f"sin combinaciones reologia x fibras disponibles.")
-        return
-
-    M = piv.to_numpy()
-    fig, ax = plt.subplots(figsize=(9, 6))
-    im = ax.imshow(M, cmap=cmap, vmin=vmin, vmax=vmax, aspect="auto")
-    ax.set_xticks(range(piv.shape[1]))
-    ax.set_xticklabels([c.replace("_", "\n") for c in piv.columns], fontsize=10)
-    ax.set_yticks(range(piv.shape[0]))
-    ax.set_yticklabels(piv.index, fontsize=11)
-    for i in range(M.shape[0]):
-        for j in range(M.shape[1]):
-            v = M[i, j]
-            if not np.isnan(v):
-                lum = (v - vmin) / (vmax - vmin) if vmax > vmin else 0.5
-                ax.text(j, i, f"{v:.2f}", ha="center", va="center",
-                        fontsize=10, fontweight="bold",
-                        color="white" if 0.35 < lum < 0.8 else "black")
-            else:
-                ax.text(j, i, "—", ha="center", va="center",
-                        fontsize=11, color="#999")
-    etiqueta_metrica = {"calidad_orientacion": "calidad de orientación [0-1]",
-                        "orden_S": "orden-parámetro S [0-1]"}.get(metrica, metrica)
-    ax.set_title(titulo or f"{etiqueta_metrica} — zona de viga × (reología, fibras)",
-                fontsize=12, fontweight="bold")
-    ax.set_xlabel("reología _ concentración de fibras")
-    ax.set_ylabel("zona de viga")
-    fig.colorbar(im, ax=ax, label=etiqueta_metrica, fraction=0.046, pad=0.04)
-    fig.tight_layout()
+    sm = matplotlib.cm.ScalarMappable(norm=norm,
+                                      cmap=matplotlib.colormaps[cmap])
+    sm.set_array([])
+    fig.colorbar(sm, ax=axes, orientation="vertical", fraction=0.025,
+                pad=0.02, label=etiqueta)
+    fig.suptitle(f"{etiqueta} por zona de viga — cada Carbopol × concentración",
+                fontsize=13, fontweight="bold")
     fig.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print("  guardado:", path)
+
 
 def fig_mapa_etapas(tabla, predictor="V", path=f"{OUTPUT_FIGS}/fig_mapa_etapas.png"):
     """Dos mapas fisicos lado a lado: el predictor del fluido (por defecto V)
@@ -571,16 +611,23 @@ def _rho_grupo(t, col_x="V_transicion", col_y="orden_S"):
     return rho, pv, int(m.sum())
 
 
-def fig_corr_por_grupo(tabla, archivo=f"{OUTPUT_FIGS}/fig_corr_por_grupo.png"):
+def fig_corr_por_grupo(tabla, respuesta="orden_S", archivo=None):
+    """
+    respuesta="orden_S" (default): la version original.
+    respuesta="calidad_orientacion": la version gemela con la metrica
+        respecto al angulo objetivo, para comparar si el hallazgo (paradoja
+        de Simpson car-02 vs car-05) se sostiene con la metrica estructural.
+    """
+    archivo = archivo or f"{OUTPUT_FIGS}/fig_corr_por_grupo_{respuesta}.png"
     tf = tabla[tabla["fiable"]]
     filas = []
-    r, p, n = _rho_grupo(tf)
+    r, p, n = _rho_grupo(tf, col_y=respuesta)
     filas.append(("TODO", "global", r, p, n))
     for reo in sorted(tf["reologia"].dropna().unique()):
-        r, p, n = _rho_grupo(tf[tf.reologia == reo])
+        r, p, n = _rho_grupo(tf[tf.reologia == reo], col_y=respuesta)
         filas.append(("reologia", reo, r, p, n))
     for fib in sorted(tf["fibras"].dropna().unique()):
-        r, p, n = _rho_grupo(tf[tf.fibras == fib])
+        r, p, n = _rho_grupo(tf[tf.fibras == fib], col_y=respuesta)
         filas.append(("fibras", str(int(fib)), r, p, n))
     res = pd.DataFrame(filas, columns=["tipo", "grupo", "rho", "p", "n"])
 
@@ -593,8 +640,8 @@ def fig_corr_por_grupo(tabla, archivo=f"{OUTPUT_FIGS}/fig_corr_por_grupo.png"):
     ax.set_xticks(range(len(res)))
     ax.set_xticklabels(etiquetas, fontsize=9)
     ax.axhline(0, color="black", lw=0.8)
-    ax.set_ylabel("ρ (V transición vs orden_S)", fontsize=11)
-    ax.set_title("La relación flujo→alineamiento, desglosada por factor\n"
+    ax.set_ylabel(f"ρ (V transición vs {respuesta})", fontsize=11)
+    ax.set_title(f"La relación flujo→{respuesta}, desglosada por factor\n"
                  "(* = significativa p<0.05)", fontsize=11, fontweight="bold")
     ax.grid(axis="y", ls=":", alpha=0.5)
     for i, (rho, p) in enumerate(zip(res.rho, res.p)):
@@ -624,6 +671,8 @@ def analisis_por_factores(tabla):
                  "concentración de fibras")
     fig_interaccion(tabla)
     res_corr = fig_corr_por_grupo(tabla)
+    if "calidad_orientacion" in tabla.columns:
+        fig_corr_por_grupo(tabla, respuesta="calidad_orientacion")
 
     tf = tabla[tabla["fiable"]]
     celda = (tf.groupby(["reologia", "fibras"])
@@ -668,13 +717,21 @@ def main():
     print("\nGenerando figuras de zona/correlacion:")
     fig_heatmap(corr)
     fig_scatter(tabla)
+    if "calidad_orientacion" in tabla.columns:
+        fig_scatter(tabla, respuesta="calidad_orientacion")
     fig_barras(corr)
     fig_mapa(tabla)
     fig_mapa_calidad(tabla)
-    fig_heatmap_reologia_fibras(tabla, metrica="calidad_orientacion",
-                                cmap="RdYlGn", vmin=0.0, vmax=1.0)
-    fig_heatmap_reologia_fibras(tabla, metrica="orden_S",
-                                cmap="viridis", vmin=0.0, vmax=1.0)
+    # Heatmaps EN FORMA DE VIGA (pedido del profesor): un panel 2x3 por cada
+    # metrica, con la geometria real de la viga en vez de una grilla abstracta.
+    fig_pequenos_multiplos_viga(tabla, metrica="calidad_orientacion",
+                               cmap="RdYlGn", vmin=0.0, vmax=1.0)
+    fig_pequenos_multiplos_viga(tabla, metrica="orden_S",
+                               cmap="viridis", vmin=0.0, vmax=1.0)
+    fig_pequenos_multiplos_viga(tabla, metrica="sigma_iso",
+                               cmap="YlOrRd", vmin=0.0, vmax=35.0)
+    fig_pequenos_multiplos_viga(tabla, metrica="indice_uniformidad",
+                               cmap="RdYlGn", vmin=0.0, vmax=1.0)
     fig_mapa_etapas(tabla, predictor="V")
     cv, cl = fig_comparacion(tabla)
 

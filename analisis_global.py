@@ -70,16 +70,23 @@ def tabla_por_zona(df_largo, min_fibras=5):
         S = orden_parametro(g["theta"])
         tm, _ = direccion_media_circular(g["theta"])
         disp = dispersion_centroides(g["x_mm"], g["y_mm"])
+        # objetivo_de_zona/calidad_orientacion reciben el NOMBRE de la zona
+        # (ej. 'Vf1c1'), no el angulo objetivo. calidad_orientacion ya agrega
+        # todas las fibras de la zona; desviacion_objetivo es por-fibra, por
+        # eso se promedia con un loop. (Bug corregido: antes se llamaba con
+        # 'objetivo' en vez de 'zona', lo que devolvia NaN siempre.)
         objetivo = objetivo_de_zona(zona)
-        calidad = calidad_orientacion(g["theta"], objetivo)
-        desv = desviacion_objetivo(g["theta"], objetivo)
+        calidad = calidad_orientacion(g["theta"], zona)
+        desv = (np.nanmean([desviacion_objetivo(t, zona) for t in g["theta"]])
+                if objetivo is not None else np.nan)
         filas.append({"zona": zona, "n_fibras": len(g),
                       "orden_S": S, "theta_med": tm,
                       "sigma_iso": disp["sigma_iso"],
+                      "indice_uniformidad": disp["indice_uniformidad"],
                       "fiable": len(g) >= min_fibras,
                       "objetivo": objetivo,
-                      "calidad": calidad,
-                      "desviacion": desv})
+                      "calidad_orientacion": calidad,
+                      "desviacion_media": desv})
     tabla = pd.DataFrame(filas)
 
     pred = (df_largo.drop_duplicates(["zona", "etapa"])
@@ -94,9 +101,19 @@ def tabla_por_zona(df_largo, min_fibras=5):
 # ----------------------------------------------------------------------
 # Capa 1 global: Spearman a traves de zonas
 # ----------------------------------------------------------------------
-def capa1_global(tabla):
+def capa1_global(tabla, solo_viga=True):
+    """
+    solo_viga=True (default): la orientacion de fibras solo se analiza en la
+    VIGA (zonas 'V*'), siguiendo instruccion del profesor (reunion 10-07):
+    la L es solo conducto de entrada, sin funcion estructural, por lo que su
+    orientacion final no es de interes como variable de RESPUESTA. La L sigue
+    disponible como predictor de flujo en otros analisis (p.ej. adveccion),
+    solo se excluye aqui como zona de respuesta.
+    """
     # solo zonas fiables (orden_S robusto). Si no existe 'fiable', usa todas.
     t = tabla[tabla["fiable"]] if "fiable" in tabla else tabla
+    if solo_viga and "zona" in t.columns:
+        t = t[t["zona"].astype(str).str.startswith("V")]
     filas = []
     for resp in RESPUESTAS:
         for p in PREDICTORES:
@@ -122,8 +139,11 @@ def capa1_global(tabla):
 # ----------------------------------------------------------------------
 # Capa 2 global: regresion estandarizada por etapa
 # ----------------------------------------------------------------------
-def capa2_global(tabla):
+def capa2_global(tabla, solo_viga=True):
+    """solo_viga=True (default): ver docstring de capa1_global."""
     t = tabla[tabla["fiable"]] if "fiable" in tabla else tabla
+    if solo_viga and "zona" in t.columns:
+        t = t[t["zona"].astype(str).str.startswith("V")]
     filas = []
     for resp in RESPUESTAS:
         for e in ETAPAS:

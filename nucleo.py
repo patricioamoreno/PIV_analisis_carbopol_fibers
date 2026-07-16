@@ -115,13 +115,18 @@ def features_circular(theta_deg):
 # ----------------------------------------------------------------------
 # DISPERSION DE CENTROIDES POR ZONA
 # ----------------------------------------------------------------------
-def dispersion_centroides(x_mm, y_mm):
+def dispersion_centroides(x_mm, y_mm, bbox=None):
     """
     Mide que tan dispersos estan los centroides de las fibras de una zona.
     Devuelve dict con varias metricas:
-      - sigma_iso : raiz de la suma de varianzas en x e y (RMS de dispersion)
+      - sigma_iso : raiz de la suma de varianzas en x e y (RMS de dispersion,
+                    NO acotado, en mm)
       - sigma_x, sigma_y : desviaciones por eje
       - area_convex_aprox : 4*sigma_x*sigma_y (proxy de area ocupada)
+      - indice_uniformidad : indice de Clark-Evans ACOTADO [0,1]
+                    (1=uniforme perfecto, 0=agrupamiento maximo). Ver
+                    indice_dispersion_acotado.py. Requiere bbox (o cae a la
+                    caja envolvente de los propios puntos si no se entrega).
       - n : numero de fibras
     Robusta a NaN; requiere >=2 fibras para varianza.
     """
@@ -131,12 +136,17 @@ def dispersion_centroides(x_mm, y_mm):
     n = int(m.sum())
     if n < 2:
         return {"sigma_iso": np.nan, "sigma_x": np.nan, "sigma_y": np.nan,
-                "area_aprox": np.nan, "n": n}
+                "area_aprox": np.nan, "indice_uniformidad": np.nan, "n": n}
     sx = np.std(x[m], ddof=1)
     sy = np.std(y[m], ddof=1)
+
+    from indice_dispersion_acotado import indice_dispersion_clark_evans
+    iu = indice_dispersion_clark_evans(x[m], y[m], bbox=bbox)["Iu"]
+
     return {"sigma_iso": float(np.hypot(sx, sy)),
             "sigma_x": float(sx), "sigma_y": float(sy),
-            "area_aprox": float(4 * sx * sy), "n": n}
+            "area_aprox": float(4 * sx * sy),
+            "indice_uniformidad": iu, "n": n}
 
 
 # ----------------------------------------------------------------------
