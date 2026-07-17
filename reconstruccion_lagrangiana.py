@@ -81,6 +81,17 @@ MIN_FRAMES_E1 = 3     # frames minimos totales para considerar el track "estable
 GAP_T_MAX = 0.30      # ventana temporal maxima para enlazar segmentos [s]
 GAP_R_MAX = 8.0       # radio espacial maximo tras prediccion por velocidad [mm]
 
+# Tolerancias relajadas para el enlace de segmentos que CRUZAN la transicion
+# L->viga (salida de la geometria L hacia la entrada de la viga). Es la misma
+# zona que la tesis de referencia (Wolff) documenta como punto donde "la
+# deteccion se interrumpe brevemente", y para la cual recomienda relajar
+# tolerancias de tiempo y posicion -- sin dar un valor numerico concreto
+# ("pequeno radio de busqueda"). Se adopta aqui, por argumento dimensional,
+# el TRIPLE de las tolerancias normales. PENDIENTE de calibrar empiricamente
+# contra datos reales (ver nota en stitch_tracks).
+GAP_T_MAX_TRANSICION_L_VIGA = 3 * GAP_T_MAX   # 0.90 s
+GAP_R_MAX_TRANSICION_L_VIGA = 3 * GAP_R_MAX   # 24.0 mm
+
 # Adveccion (E3)
 METODO_ADVECCION = "rk2"
 SUBMUESTREO = 1
@@ -164,12 +175,41 @@ def _velocidad_track(g):
     return vx, vy
 
 
-def stitch_tracks(ptv_clasificado, gap_t_max=GAP_T_MAX, gap_r_max=GAP_R_MAX):
+def _es_zona_l(zona):
+    """True si la zona pertenece a la geometria L (Z1, Z2 o Z3)."""
+    return str(zona).startswith("Z")
+
+
+def _es_zona_viga(zona):
+    """True si la zona pertenece a la grilla de la viga (Vf*)."""
+    return str(zona).startswith("Vf")
+
+
+def _cruza_transicion_l_viga(zona_a, zona_b):
+    """
+    True si el enlace conecta una zona de la L (Z1-Z3) con una zona de la
+    viga (Vf*), en cualquier orden. Es la transicion que la tesis de
+    referencia documenta como punto de interrupcion de deteccion, y para
+    la cual recomienda tolerancias relajadas (ver GAP_*_TRANSICION_L_VIGA).
+    """
+    return ((_es_zona_l(zona_a) and _es_zona_viga(zona_b)) or
+            (_es_zona_viga(zona_a) and _es_zona_l(zona_b)))
+
+
+def stitch_tracks(ptv_clasificado, gap_t_max=GAP_T_MAX, gap_r_max=GAP_R_MAX,
+                  gap_t_max_transicion=GAP_T_MAX_TRANSICION_L_VIGA,
+                  gap_r_max_transicion=GAP_R_MAX_TRANSICION_L_VIGA):
     """
     Re-enlaza segmentos de track que terminan y otro que empieza cerca en
     espacio (tras predecir la posicion con la velocidad del segmento que
     termina) y tiempo. Simplificacion del E2 del repo de referencia: no se
     chequea continuidad rotacional (omega), solo posicion+tiempo.
+
+    Las tolerancias (gap_t_max, gap_r_max) se relajan a
+    (gap_t_max_transicion, gap_r_max_transicion) UNICAMENTE cuando el
+    candidato cruza la transicion L->viga (Sección "Validación cruzada de
+    la atribución de zona" de la memoria): en cualquier otro punto del
+    dominio se exige la tolerancia normal, mas estricta.
 
     Devuelve el DataFrame con una columna nueva 'track_id_stitched' que
     agrupa los track_id originales que se consideran la misma fibra fisica.
@@ -182,6 +222,7 @@ def stitch_tracks(ptv_clasificado, gap_t_max=GAP_T_MAX, gap_r_max=GAP_R_MAX):
             "tid": tid, "t_ini": g["t"].iloc[0], "t_fin": g["t"].iloc[-1],
             "x_ini": g["x_mm"].iloc[0], "y_ini": g["y_mm"].iloc[0],
             "x_fin": g["x_mm"].iloc[-1], "y_fin": g["y_mm"].iloc[-1],
+            "zona_ini": g["zona"].iloc[0], "zona_fin": g["zona"].iloc[-1],
             "vx": _velocidad_track(g)[0], "vy": _velocidad_track(g)[1],
         })
     seg = pd.DataFrame(segmentos).sort_values("t_ini").reset_index(drop=True)
@@ -199,18 +240,35 @@ def stitch_tracks(ptv_clasificado, gap_t_max=GAP_T_MAX, gap_r_max=GAP_R_MAX):
             padre[ra] = rb
 
     # para cada segmento que TERMINA, buscar el que EMPIEZA mas cerca despues
+    t_max_amplio = max(gap_t_max, gap_t_max_transicion)
     for i, s in seg.iterrows():
+        # Filtro temporal preliminar con la ventana MAS AMPLIA de las dos
+        # posibles: un candidato que cruza la transicion L->viga no debe
+        # descartarse aqui solo porque excede la tolerancia normal, mas
+        # estricta. La tolerancia correcta para cada candidato se aplica
+        # recien mas abajo, una vez conocida su zona de origen.
         candidatos = seg[(seg["t_ini"] > s["t_fin"]) &
-                        (seg["t_ini"] <= s["t_fin"] + gap_t_max)]
+                        (seg["t_ini"] <= s["t_fin"] + t_max_amplio)]
         if candidatos.empty:
             continue
+
         dt_pred = candidatos["t_ini"] - s["t_fin"]
         x_pred = s["x_fin"] + s["vx"] * dt_pred
         y_pred = s["y_fin"] + s["vy"] * dt_pred
         dist = np.hypot(candidatos["x_ini"] - x_pred,
                         candidatos["y_ini"] - y_pred)
-        if (dist <= gap_r_max).any():
-            j = dist.idxmin()
+
+        cruza = candidatos["zona_ini"].apply(
+            lambda z_ini: _cruza_transicion_l_viga(s["zona_fin"], z_ini))
+        t_max_efectivo = np.where(cruza, gap_t_max_transicion, gap_t_max)
+        r_max_efectivo = np.where(cruza, gap_r_max_transicion, gap_r_max)
+
+        dt_cand = (candidatos["t_ini"] - s["t_fin"]).to_numpy()
+        aceptables = (dt_cand <= t_max_efectivo) & (dist.to_numpy() <= r_max_efectivo)
+
+        if aceptables.any():
+            dist_acept = np.where(aceptables, dist.to_numpy(), np.inf)
+            j = candidatos.index[np.argmin(dist_acept)]
             union(s["tid"], seg.loc[j, "tid"])
 
     df["track_id_stitched"] = df["track_id"].map(lambda t: find(t))
@@ -282,8 +340,21 @@ def _interp_uv_rapido(lin, nn, tree, puntos, dist_max=DIST_MAX_NN_MM):
 
     Devuelve (dict campo -> array, mask_valido).
     """
-    val = np.asarray(lin(puntos), dtype=float)
-    nanmask = np.isnan(val).any(axis=1)
+    puntos = np.asarray(puntos, dtype=float)
+
+    # Puntos con coordenada no finita (NaN o inf) no se le pasan NUNCA al
+    # interpolador ni al KDTree: cKDTree.query revienta con ValueError ante
+    # un input no finito. Una coordenada no finita sólo puede provenir de
+    # una fibra que ya se dio por perdida en un paso anterior de la
+    # integración (velocidad NaN -> posición NaN); se marca inválida de
+    # inmediato, sin intentar interpolar ni buscar vecino.
+    finito = np.all(np.isfinite(puntos), axis=1)
+
+    val = np.full((len(puntos), 2), np.nan, dtype=float)
+    if finito.any():
+        val[finito] = np.asarray(lin(puntos[finito]), dtype=float)
+
+    nanmask = finito & np.isnan(val).any(axis=1)
     if nanmask.any():
         cand = puntos[nanmask]
         dist, _ = tree.query(cand, k=1)
@@ -292,7 +363,7 @@ def _interp_uv_rapido(lin, nn, tree, puntos, dist_max=DIST_MAX_NN_MM):
         if cerca.any():
             relleno[cerca] = nn(cand[cerca])
         val[nanmask] = relleno
-    valido = ~np.isnan(val).any(axis=1)
+    valido = finito & ~np.isnan(val).any(axis=1)
     return {"u": val[:, 0], "v": val[:, 1]}, valido
 
 
@@ -392,6 +463,18 @@ def calcular_E3(campo, fib_finales, cortes_etapa, metodo=METODO_ADVECCION,
         print(f"      E3: fibras con trayectoria completa hasta el primer "
               f"frame disponible: {n_vivas}/{F} ({100*n_vivas/F:.0f}%)",
               flush=True)
+        if "zona_final" in fib_finales.columns:
+            zf = fib_finales["zona_final"].astype(str)
+            es_L = zf.str.startswith("Z").to_numpy()
+            es_viga = zf.str.startswith("Vf").to_numpy()
+            for etiqueta, grupo in [("zona final en L (Z1/Z2/Z3)", es_L),
+                                    ("zona final en viga (Vf*)", es_viga)]:
+                F_g = int(grupo.sum())
+                if F_g == 0:
+                    continue
+                n_vivas_g = int((vivo & grupo).sum())
+                print(f"         · {etiqueta}: {n_vivas_g}/{F_g} "
+                      f"({100*n_vivas_g/F_g:.0f}%)", flush=True)
 
     reg_df = pd.DataFrame(registros, columns=["idx", "zona", "regimen"])
 
@@ -454,8 +537,8 @@ def procesar_toma(par):
     ptv_c = clasificar_zona_y_etapa(ptv, ETAPAS_JSON, cod)
 
     t0 = time.time()
-    e1 = calcular_E1(ptv_c)
-    e1 = e1[e1["n_frames"] >= MIN_FRAMES_E1]
+    e1_full = calcular_E1(ptv_c)
+    e1 = e1_full[e1_full["n_frames"] >= MIN_FRAMES_E1]
     print(f"  E1 listo en {_fmt_seg(time.time()-t0)}")
 
     t0 = time.time()
@@ -470,9 +553,21 @@ def procesar_toma(par):
                              if z and z != "fuera")
     cortes = cargar_etapas(ETAPAS_JSON, df_piv=None, zonas=zonas_presentes,
                            toma=cod)
-    fib_finales = (ptv_c.sort_values("frame")
-                   .groupby("track_id").last().reset_index()
-                   [["track_id", "x_mm", "y_mm"]])
+    # Se advecta ÚNICAMENTE el mismo subconjunto de tracks "estables" que ya
+    # usa E1 (n_frames >= MIN_FRAMES_E1), y solo aquellas cuya posición final
+    # cae dentro de una zona real (clasificar_zona_y_etapa no descarta filas:
+    # etiqueta "fuera" pero no elimina nada). Sin ambos filtros, E3 gastaba
+    # tiempo advectando miles de fragmentos de detección que ni siquiera
+    # pertenecen a la población de Análisis II.
+    posiciones_finales = (ptv_c.sort_values("frame")
+                          .groupby("track_id")[["x_mm", "y_mm"]].last())
+    fib_finales = (e1[["track_id", "zona_final"]]
+                  .merge(posiciones_finales, on="track_id", how="left"))
+    n_antes = len(fib_finales)
+    fib_finales = fib_finales[fib_finales["zona_final"].notna() &
+                              (fib_finales["zona_final"] != "fuera")]
+    print(f"  Fibras con posición final dentro de una zona: "
+          f"{len(fib_finales)}/{n_antes}")
 
     t0 = time.time()
     e3 = calcular_E3(campo, fib_finales, cortes)
