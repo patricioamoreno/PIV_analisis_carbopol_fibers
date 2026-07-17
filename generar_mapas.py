@@ -49,6 +49,12 @@ from matplotlib.colors import Normalize
 # ----------------------------------------------------------------------
 OUTPUT_FIGS = "figs_memoria"
 os.makedirs(OUTPUT_FIGS, exist_ok=True)
+DIR_MAPAS_VIGA = f"{OUTPUT_FIGS}/mapas_viga"
+DIR_MAPAS_GENERALES = f"{OUTPUT_FIGS}/mapas_generales"
+DIR_CORRELACION = f"{OUTPUT_FIGS}/correlacion"
+DIR_POR_FACTOR = f"{OUTPUT_FIGS}/por_factor"
+for _d in (DIR_MAPAS_VIGA, DIR_MAPAS_GENERALES, DIR_CORRELACION, DIR_POR_FACTOR):
+    os.makedirs(_d, exist_ok=True)
 PREDICTORES = ["V", "omega", "gamma_dot"]
 ETAPAS = ["transicion", "cuasi"]
 RESPUESTAS = ["orden_S", "sigma_iso"]
@@ -118,7 +124,7 @@ def correlaciones(tabla, zonas="__default_viga__"):
 # ----------------------------------------------------------------------
 # FIGURA 1 — heatmap panorama
 # ----------------------------------------------------------------------
-def fig_heatmap(corr, path=f"{OUTPUT_FIGS}/fig_panorama_heatmap.png"):
+def fig_heatmap(corr, path=f"{DIR_CORRELACION}/fig_panorama_heatmap.png"):
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.2))
     for ax, resp in zip(axes, RESPUESTAS):
         sub = corr[corr.respuesta == resp]
@@ -162,7 +168,7 @@ def fig_scatter(tabla, respuesta="orden_S", path=None):
     etiqueta = {"orden_S": "Orden-parámetro de orientación  $S$",
                "calidad_orientacion": "Calidad de orientación vs objetivo"
                }.get(respuesta, respuesta)
-    path = path or f"{OUTPUT_FIGS}/fig_scatter_V_{respuesta}.png"
+    path = path or f"{DIR_CORRELACION}/fig_scatter_V_{respuesta}.png"
 
     t = tabla[tabla["fiable"]].dropna(subset=["V_transicion", respuesta])
     x = t["V_transicion"].to_numpy(float)
@@ -198,7 +204,7 @@ def fig_scatter(tabla, respuesta="orden_S", path=None):
 # ----------------------------------------------------------------------
 # FIGURA 3 — barras temporales
 # ----------------------------------------------------------------------
-def fig_barras(corr, path=f"{OUTPUT_FIGS}/fig_barras_temporal.png"):
+def fig_barras(corr, path=f"{DIR_CORRELACION}/fig_barras_temporal.png"):
     sub = corr[corr.respuesta == "orden_S"]
     piv = (sub.pivot_table(index="predictor", columns="etapa", values="rho")
               .reindex(index=PREDICTORES, columns=ETAPAS))
@@ -279,7 +285,7 @@ def _dibujar_mapa(ax, valores, titulo, cmap, label, vmin, vmax):
     plt.colorbar(sm, ax=ax, fraction=0.04, pad=0.04, label=label)
 
 
-def fig_mapa(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_viga_L.png"):
+def fig_mapa(tabla, path=f"{DIR_MAPAS_GENERALES}/fig_mapa_viga_L.png"):
     res = _resumen_zona(tabla)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
 
@@ -302,7 +308,7 @@ def fig_mapa(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_viga_L.png"):
     print("  guardado:", path)
 
 
-def fig_mapa_calidad(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_calidad.png"):
+def fig_mapa_calidad(tabla, path=f"{DIR_MAPAS_GENERALES}/fig_mapa_calidad.png"):
     """
     Mapa de CALIDAD de orientacion respecto al ANGULO OBJETIVO de cada columna
     de viga (col1=135°, col2=0°, col3=45°). A diferencia de orden_S (que solo
@@ -405,7 +411,7 @@ def fig_pequenos_multiplos_viga(tabla, metrica="calidad_orientacion",
 
     reos = sorted(t["reologia"].unique())
     fibs = sorted(t["fibras"].dropna().unique())
-    path = path or f"{OUTPUT_FIGS}/fig_viga_{metrica}.png"
+    path = path or f"{DIR_MAPAS_VIGA}/fig_viga_{metrica}.png"
     etiqueta = etiqueta or {"calidad_orientacion": "calidad de orientación [0-1]",
                             "orden_S": "orden-parámetro S [0-1]",
                             "sigma_iso": "dispersión σ [mm]",
@@ -435,7 +441,7 @@ def fig_pequenos_multiplos_viga(tabla, metrica="calidad_orientacion",
     print("  guardado:", path)
 
 
-def fig_mapa_etapas(tabla, predictor="V", path=f"{OUTPUT_FIGS}/fig_mapa_etapas.png"):
+def fig_mapa_etapas(tabla, predictor="V", path=f"{DIR_MAPAS_GENERALES}/fig_mapa_etapas.png"):
     """Dos mapas fisicos lado a lado: el predictor del fluido (por defecto V)
     promedio por zona en TRANSICION vs CUASI. Muestra DONDE y EN QUE ETAPA el
     fluido es mas intenso, para conectar la geografia con la causa temporal."""
@@ -469,7 +475,7 @@ def fig_mapa_etapas(tabla, predictor="V", path=f"{OUTPUT_FIGS}/fig_mapa_etapas.p
 # ----------------------------------------------------------------------
 # FIGURA 5 — comparacion L vs viga (correlaciones por separado)
 # ----------------------------------------------------------------------
-def fig_comparacion(tabla, path=f"{OUTPUT_FIGS}/fig_comparacion_L_viga.png"):
+def fig_comparacion(tabla, path=f"{DIR_CORRELACION}/fig_comparacion_L_viga.png"):
     corr_viga = correlaciones(tabla, ZONAS_VIGA)
     corr_l = correlaciones(tabla, ZONAS_L)
  
@@ -514,7 +520,7 @@ def _resumen_zona_filtrado(tabla, mask):
                                  n=("orden_S", "size")).to_dict("index")
 
 
-def fig_mapa_por_reologia(tabla, path=f"{OUTPUT_FIGS}/fig_mapa_por_reologia.png"):
+def fig_mapa_por_reologia(tabla, path=f"{DIR_MAPAS_GENERALES}/fig_mapa_por_reologia.png"):
     """Un panel de mapa por cada reologia, coloreado por orden_S, para ver si
     el patron espacial de alineamiento cambia entre Carbopol."""
     reologias = sorted(tabla.loc[tabla["fiable"], "reologia"].dropna().unique())
@@ -572,7 +578,7 @@ def fig_boxplots(tabla, grupo, archivo, nombre_grupo):
     print("  guardado:", archivo)
 
 
-def fig_interaccion(tabla, archivo=f"{OUTPUT_FIGS}/fig_interaccion.png"):
+def fig_interaccion(tabla, archivo=f"{DIR_POR_FACTOR}/fig_interaccion.png"):
     tf = tabla[tabla["fiable"]]
     cel = (tf.groupby(["reologia", "fibras"])["orden_S"]
              .agg(["mean", "sem", "size"]).reset_index())
@@ -618,7 +624,7 @@ def fig_corr_por_grupo(tabla, respuesta="orden_S", archivo=None):
         respecto al angulo objetivo, para comparar si el hallazgo (paradoja
         de Simpson car-02 vs car-05) se sostiene con la metrica estructural.
     """
-    archivo = archivo or f"{OUTPUT_FIGS}/fig_corr_por_grupo_{respuesta}.png"
+    archivo = archivo or f"{DIR_CORRELACION}/fig_corr_por_grupo_{respuesta}.png"
     tf = tabla[tabla["fiable"]]
     filas = []
     r, p, n = _rho_grupo(tf, col_y=respuesta)
@@ -666,8 +672,8 @@ def tiene_factores(tabla):
 def analisis_por_factores(tabla):
     """Corre las figuras 6-10 + tabla por celda + resumenes en consola."""
     fig_mapa_por_reologia(tabla)
-    fig_boxplots(tabla, "reologia", f"{OUTPUT_FIGS}/fig_box_reologia.png", "reología")
-    fig_boxplots(tabla, "fibras", f"{OUTPUT_FIGS}/fig_box_fibras.png",
+    fig_boxplots(tabla, "reologia", f"{DIR_POR_FACTOR}/fig_box_reologia.png", "reología")
+    fig_boxplots(tabla, "fibras", f"{DIR_POR_FACTOR}/fig_box_fibras.png",
                  "concentración de fibras")
     fig_interaccion(tabla)
     res_corr = fig_corr_por_grupo(tabla)
@@ -680,7 +686,7 @@ def analisis_por_factores(tabla):
                     orden_S_med=("orden_S", "mean"),
                     orden_S_sd=("orden_S", "std"),
                     sigma_med=("sigma_iso", "mean")).round(3).reset_index())
-    celda.to_csv(f"{OUTPUT_FIGS}/tabla_por_celda.csv", index=False)
+    celda.to_csv(f"{DIR_POR_FACTOR}/tabla_por_celda.csv", index=False)
     print("  guardado: tabla_por_celda.csv")
 
     print("\n=== Alineamiento medio por REOLOGIA ===")
