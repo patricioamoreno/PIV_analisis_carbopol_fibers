@@ -21,6 +21,13 @@ import glob
 import numpy as np
 from detectar_etapas import detectar_etapas, graficar_etapas, natural_sort_key
 
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
+
 # ============================================================
 # CONFIGURACIÓN
 # ============================================================
@@ -53,13 +60,28 @@ OVERRIDES_MANUALES = {
 # UTILIDADES
 # ============================================================
 
+# Caché en memoria (solo dentro de esta corrida del script). El flujo del
+# programa lee cada .npz por lo menos dos veces con el patrón actual: una
+# vez dentro de calcular_indices_base() para las tomas n-0000, y otra vez
+# en el bucle de aplicación, que vuelve a recorrer TODAS las carpetas de la
+# reología (las tomas base incluidas, porque carpetas_base ⊆ carpetas_reo).
+# Sin este caché, cada toma base se lee y descomprime del disco 2 veces por
+# cada una de las 3 zonas procesadas (L, viga175, viga250) = 6 lecturas
+# redundantes por toma base en una corrida completa.
+_CACHE_MEM = {}
+
 def cargar_cache_completo(carpeta, prefijo, cache_dir):
     fname = f"{prefijo}_{carpeta}_completo.npz" if prefijo else f"{carpeta}_completo.npz"
     path  = os.path.join(cache_dir, fname)
+    if path in _CACHE_MEM:
+        return _CACHE_MEM[path]
     if not os.path.exists(path):
+        _CACHE_MEM[path] = (None, None)
         return None, None
     data = np.load(path)
-    return data['matriz'], data['tiempos']
+    resultado = (data['matriz'], data['tiempos'])
+    _CACHE_MEM[path] = resultado
+    return resultado
 
 
 def carpetas_disponibles(cache_dir):
@@ -268,3 +290,10 @@ if __name__ == "__main__":
             print(f"   - {c}")
     else:
         print("\n✅ Sin fallbacks.")
+    
+    if USAR_NOTIFICACION:
+        try:
+            toaster = ToastNotifier()
+            toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5, threaded=False)
+        except Exception as e:
+            print(f"⚠ No se pudo mostrar la notificación de Windows: {e}")

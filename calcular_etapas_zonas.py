@@ -29,7 +29,15 @@ import glob
 import numpy as np
 
 from detectar_etapas import detectar_etapas, graficar_etapas, natural_sort_key
-from construir_caches_zonas import cargar_cache_zonas, _nombre_cache
+from construir_caches_zonas import cargar_cache_zonas as _cargar_cache_zonas_disco
+from construir_caches_zonas import _nombre_cache
+
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
 
 # ============================================================
 # CONFIGURACIÓN
@@ -66,6 +74,28 @@ MIN_PTS_FRAME = 3
 # ============================================================
 # UTILIDADES
 # ============================================================
+
+# Caché en memoria (solo dentro de esta corrida del script). Sin esto, cada
+# .npz de zona se lee y descomprime del disco repetidas veces en la misma
+# ejecución:
+#   1. una vez por carpeta durante la auto-detección de zonas (ZONAS=None),
+#   2. una vez por carpeta base (n-0000) DENTRO de calcular_tiempos_base(),
+#      para CADA una de las zonas que se procesan (hasta 8),
+#   3. una vez por carpeta DENTRO del bucle de aplicación, de nuevo por
+#      cada zona (hasta 8) -- las carpetas base están incluidas aquí también.
+# Para una toma base con las 8 zonas presentes, el mismo archivo se leía
+# hasta 17 veces por corrida completa; para una toma no-base, hasta 9. El
+# contenido del caché (arrays de puntos PIV) no se muta en ningún punto de
+# este script -- solo se indexa y agrega -- así que reutilizar el mismo
+# objeto en memoria es seguro.
+_CACHE_MEM = {}
+
+def cargar_cache_zonas(carpeta, cache_dir=CACHE_DIR):
+    key = (carpeta, cache_dir)
+    if key not in _CACHE_MEM:
+        _CACHE_MEM[key] = _cargar_cache_zonas_disco(carpeta, cache_dir)
+    return _CACHE_MEM[key]
+
 
 def carpetas_disponibles(cache_dir):
     """Lista las carpetas que tienen caché de zonas (*_zonas.npz)."""
@@ -314,6 +344,13 @@ def main():
         json.dump(resultados, f, indent=2, ensure_ascii=False, cls=NumpyEncoder)
 
     print(f"\n✅ Guardado: {OUTPUT_JSON}  ({len(resultados)} entradas)")
+
+    if USAR_NOTIFICACION:
+        try:
+            toaster = ToastNotifier()
+            toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5, threaded=False)
+        except Exception as e:
+            print(f"⚠ No se pudo mostrar la notificación de Windows: {e}")
 
 
 if __name__ == "__main__":
