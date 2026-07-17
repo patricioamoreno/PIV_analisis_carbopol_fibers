@@ -63,7 +63,7 @@ BASE_PATH = Path("../PIV_INTERPOLADO")
 CACHE_DIR = "cache_zonas"
 
 # True → reconstruye aunque el caché ya exista
-RECALCULO = True
+RECALCULO = False
 
 # Vecinos para el ajuste lineal local (γ̇ y vorticidad). Igual que gamma_fields.
 K_VECINOS = 6
@@ -315,7 +315,7 @@ if __name__ == "__main__":
 
     print(f"Carpetas encontradas: {len(carpetas)}\n")
     for carpeta in carpetas:
-        if "m73" in carpeta or "m93-toma-1" in carpeta:
+        if "m93-toma-1" in carpeta:
             print(f"\n{'='*55}\n  {carpeta}  (omitida por filtro)")
             continue
         print(f"\n{'='*55}\n  {carpeta}")
