@@ -1,14 +1,14 @@
 """
-analisis_por_zona.py
-=====================
+analisis.py
+===========
 Compara tomas de una misma mezcla (misma reología y concentración),
-POR ZONA en vez de por polilínea de corte.
+POR ZONA (Z1, Z2, Z3, Vf1c1, ...) en vez de por polilínea de corte.
 
 Motivación: una polilínea resuelve solo un corte 1D del dominio; una zona
 agrega sobre una región de área positiva y es más representativa del
-conjunto del flujo en esa región. Es el análogo directo de analisis.py,
-pero usa cache_zonas/ + etapas_zonas.json en vez de cache_completo/ +
-etapas_polilinea.json.
+conjunto del flujo en esa región. Usa cache_zonas/ + etapas_zonas.json
+(sustituyó a la versión anterior de este mismo script, que operaba sobre
+cache_completo/ + etapas_polilinea.json).
 
 Para cada grupo (reología, concentración):
   - Fig 1: diagnóstico del criterio V3 por zona (velocidad media de la
@@ -18,12 +18,18 @@ Para cada grupo (reología, concentración):
            con cada toma del grupo y una caja BASE (tomas n-0000 de la
            misma reología) para comparar.
   - CSV: tests estadísticos (entre tomas, y cada toma vs base) con p-valor,
-         d de Cohen y diferencia de medianas, por (zona, etapa) -- para
-         decidir qué CELDAS excluir por no ser comparables con el caso
-         base, sin tener que descartar una toma completa.
+         d de Cohen y diferencia de medianas, por (zona, etapa).
+
+Los CSV que genera este script los consume criterio_exclusion.py para
+decidir qué CELDAS (toma, zona, etapa) excluir por no ser comparables con
+el caso base, sin descartar tomas completas. IMPORTANTE: ese criterio usa
+la d de Cohen, NO el p-valor -- con n de decenas de miles de puntos PIV
+por celda, Mann-Whitney declara significativa cualquier diferencia trivial
+(97% de las comparaciones en este dataset). El p-valor se reporta aquí solo
+por completitud; no debe usarse para decidir exclusiones.
 
 Uso:
-    python analisis_por_zona.py
+    python analisis.py
 """
 
 import os
@@ -113,10 +119,24 @@ def recolectar_toma_zona(carpeta, zona, etapa, etapas_zonas, cache_dir=CACHE_DIR
     return v[~np.isnan(v)]
 
 
-def recolectar_base_zona(etapas_zonas, reo, zona, etapa, cache_dir=CACHE_DIR):
+def recolectar_base_zona(etapas_zonas, reo, zona, etapa, cache_dir=CACHE_DIR,
+                         excluir_carpeta=None):
     """Junta valores de todas las tomas n-0000 de una reología, como base
-    de referencia (recorte a percentil 5-95 por toma antes de concatenar,
-    mismo criterio que analisis.py)."""
+    de referencia (recorte a percentil 5-95 por toma antes de concatenar).
+
+    excluir_carpeta: si se pasa, esa carpeta NO se incluye en la base.
+
+    Por que hace falta: las tomas n-0000 SON la base. Al evaluar el grupo
+    n-0000 contra "la base", cada toma quedaria comparandose contra un
+    conjunto que la contiene a ella misma -- auto-comparacion, que sesga la
+    d de Cohen hacia cero (la toma "se parece" a un grupo del que forma
+    parte) y hace el contraste no informativo. Excluyendola, la comparacion
+    pasa a ser leave-one-out: cada toma base contra las OTRAS tomas base,
+    que es el contraste que de verdad mide reproducibilidad.
+
+    Para los grupos con fibras (n-0750/1500/3000) el parametro no cambia
+    nada, porque esas tomas nunca forman parte de la base.
+    """
     todos = []
     for clave in etapas_zonas.keys():
         z = clave.rsplit("_", 1)[1]
@@ -124,6 +144,8 @@ def recolectar_base_zona(etapas_zonas, reo, zona, etapa, cache_dir=CACHE_DIR):
             continue
         carpeta = _carpeta_de_clave(clave, zona)
         if f"car-{reo}" not in carpeta or "n-0000" not in carpeta:
+            continue
+        if excluir_carpeta is not None and carpeta == excluir_carpeta:
             continue
         v = recolectar_toma_zona(carpeta, zona, etapa, etapas_zonas, cache_dir)
         if v is not None and len(v) > 0:
@@ -248,13 +270,36 @@ def graficar_diagnostico_criterio_zona(etapas_zonas, carpetas, zona,
 # ANÁLISIS POR GRUPO
 # ============================================================
 
+def _id_grupo(carpetas):
+    """
+    Identificador del grupo para los nombres de archivo.
+
+    Debe distinguir tomas distintas de la MISMA mezcla: el grupo
+    reo02_conc0000 contiene m71-toma-1, m71-toma-2, m82-toma-1 y m82-toma-2.
+    Colapsar por codigo de mezcla (set de {71, 82}) produciria 'm71+82', que
+    sugiere 2 tomas cuando en realidad son 4, y ademas impide saber desde el
+    nombre del archivo si estan ambas tomas de cada mezcla o solo una.
+
+    Se usa 'mNN-T' por toma (T = numero de toma), unidos por '+'.
+    """
+    partes = []
+    for c in carpetas:
+        m_mez  = re.search(r"m(\d+)", c)
+        m_toma = re.search(r"-toma-(\d+)", c)
+        if m_mez and m_toma:
+            partes.append(f"{m_mez.group(1)}-{m_toma.group(1)}")
+        elif m_mez:
+            partes.append(m_mez.group(1))
+    return "+".join(partes)
+
+
 def analizar_grupo(etapas_zonas, carpetas, zonas, output_path):
     car  = re.search(r"car-(\w+)", carpetas[0]).group(1)
     conc = re.search(r"n-(\d+)",   carpetas[0]).group(1)
     labels_tomas = ["m" + re.search(r"m(\d+)", c).group(1) + "-toma-" +
                     re.search(r"-toma-(\d+)", c).group(1) for c in carpetas]
-    ids   = "+".join(sorted(set(re.search(r"m(\d+)", c).group(1) for c in carpetas)))
-    label = f"m{ids} Car-{car} n-{conc}"
+    ids   = _id_grupo(carpetas)
+    label = f"Car-{car} n-{conc}"
 
     print(f"\n{'='*55}\n  {label}  ({len(carpetas)} tomas, {len(zonas)} zonas)")
 
@@ -268,7 +313,15 @@ def analizar_grupo(etapas_zonas, carpetas, zonas, output_path):
     filas_csv = []
 
     for zona in zonas:
-        vals_base = {
+        # Es un grupo base si sus tomas son n-0000: en ese caso la base debe
+        # recalcularse por toma (leave-one-out), porque la toma evaluada
+        # forma parte del conjunto de referencia. Ver recolectar_base_zona.
+        es_grupo_base = all("n-0000" in c for c in carpetas)
+
+        # Base comun (sin excluir nada): valida para los grupos CON fibras,
+        # cuyas tomas nunca integran la base. Se calcula una sola vez por
+        # zona/etapa para no releer los caches por cada toma.
+        vals_base_comun = {
             "transicion": recolectar_base_zona(etapas_zonas, car, zona, "transicion"),
             "cuasi":      recolectar_base_zona(etapas_zonas, car, zona, "cuasi"),
         }
@@ -278,19 +331,20 @@ def analizar_grupo(etapas_zonas, carpetas, zonas, output_path):
         fig.subplots_adjust(bottom=0.1)
 
         for ax, etapa in zip(axes, ["transicion", "cuasi"]):
-            datos, lbs = [], []
+            datos, lbs, carps = [], [], []
             for i, carpeta in enumerate(carpetas):
                 v = recolectar_toma_zona(carpeta, zona, etapa, etapas_zonas)
                 if v is not None and len(v) > 0:
                     p5, p95 = np.percentile(v, [5, 95])
                     datos.append(v[(v >= p5) & (v <= p95)])
                     lbs.append(labels_tomas[i])
+                    carps.append(carpeta)
 
             if not datos:
                 ax.set_visible(False)
                 continue
 
-            vb = vals_base[etapa]
+            vb = vals_base_comun[etapa]
             all_datos = datos + ([vb] if vb is not None else [])
             all_lbs   = lbs   + (["BASE"] if vb is not None else [])
 
@@ -319,6 +373,8 @@ def analizar_grupo(etapas_zonas, carpetas, zonas, output_path):
                 filas_csv.append({
                     "zona": zona, "etapa": etapa,
                     "comparacion": "entre_tomas", "toma": "todas",
+                    "es_toma_base": es_grupo_base,
+                    "modo_base":    "",
                     "metodo":      metodo_entre,
                     "p_value":     round(p_entre, 6),
                     "resultado":   "SÍ difieren" if p_entre < 0.05 else "NO difieren",
@@ -333,34 +389,50 @@ def analizar_grupo(etapas_zonas, carpetas, zonas, output_path):
             ax.set_title(f"{etapa} — {zona}\n{res_entre}", fontsize=9)
 
             # ── Test cada toma vs base ────────────────────────
-            if vb is not None:
-                for j, (v, lbl) in enumerate(zip(datos, lbs)):
-                    stat, p_vb = stats.mannwhitneyu(v, vb, alternative="two-sided")
-                    d_vb       = cohen_d(v, vb)
-                    delta_vb   = np.median(v) - np.median(vb)
-                    resultado  = "SÍ difiere" if p_vb < 0.05 else "NO difiere"
-                    ax.text(j + 1, -0.07,
-                        f"p={p_vb:.3f}\nd={d_vb:.2f} ({interpretar_d(d_vb)})\nΔ={delta_vb:+.3f}",
-                        ha="center", va="top", fontsize=7, color="navy",
-                        transform=ax.get_xaxis_transform())
-                    filas_csv.append({
-                        "zona": zona, "etapa": etapa,
-                        "comparacion":   "vs_base", "toma": lbl,
-                        "metodo":        "Mann-Whitney",
-                        "p_value":       round(p_vb, 6),
-                        "resultado":     resultado,
-                        "cohen_d":       round(d_vb, 4),
-                        "efecto":        interpretar_d(d_vb),
-                        "delta_mediana": round(float(delta_vb), 4),
-                        "mediana_toma":  round(float(np.median(v)),  4),
-                        "mediana_base":  round(float(np.median(vb)), 4),
-                    })
+            for j, (v, lbl, carp) in enumerate(zip(datos, lbs, carps)):
+                # En un grupo base, cada toma se contrasta contra las OTRAS
+                # tomas base (leave-one-out). En un grupo con fibras, la base
+                # comun ya es independiente de la toma evaluada.
+                if es_grupo_base:
+                    vb_j = recolectar_base_zona(etapas_zonas, car, zona, etapa,
+                                                excluir_carpeta=carp)
+                    modo_base = "leave_one_out"
+                else:
+                    vb_j = vb
+                    modo_base = "base_completa"
+                if vb_j is None or len(vb_j) == 0:
+                    continue
+
+                stat, p_vb = stats.mannwhitneyu(v, vb_j, alternative="two-sided")
+                d_vb       = cohen_d(v, vb_j)
+                delta_vb   = np.median(v) - np.median(vb_j)
+                resultado  = "SÍ difiere" if p_vb < 0.05 else "NO difiere"
+                ax.text(j + 1, -0.07,
+                    f"p={p_vb:.3f}\nd={d_vb:.2f} ({interpretar_d(d_vb)})\nΔ={delta_vb:+.3f}",
+                    ha="center", va="top", fontsize=7, color="navy",
+                    transform=ax.get_xaxis_transform())
+                filas_csv.append({
+                    "zona": zona, "etapa": etapa,
+                    "comparacion":   "vs_base", "toma": lbl,
+                    "es_toma_base":  es_grupo_base,
+                    "modo_base":     modo_base,
+                    "metodo":        "Mann-Whitney",
+                    "p_value":       round(p_vb, 6),
+                    "resultado":     resultado,
+                    "cohen_d":       round(d_vb, 4),
+                    "efecto":        interpretar_d(d_vb),
+                    "delta_mediana": round(float(delta_vb), 4),
+                    "mediana_toma":  round(float(np.median(v)),  4),
+                    "mediana_base":  round(float(np.median(vb_j)), 4),
+                })
 
             ax.set_ylabel("Velocidad (mm/s)")
             ax.grid(True, alpha=0.3, axis="y")
 
+        nota_base = ("BASE = otras tomas n-0000 (leave-one-out)"
+                     if es_grupo_base else "BASE = tomas n-0000")
         fig.suptitle(f"{label} — zona {zona} — {len(carpetas)} tomas\n"
-                    "(whiskers = percentil 5-95)")
+                    f"(whiskers = percentil 5-95; {nota_base})")
         plt.tight_layout()
         plt.savefig(os.path.join(output_path, f"m{ids}_car{car}_bp_{zona}.png"),
                     dpi=200)
