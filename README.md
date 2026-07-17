@@ -181,16 +181,12 @@ Al revisar el repositorio completo se identificaron **tres sistemas paralelos** 
 | Sistema | Scripts | Estado |
 |---|---|---|
 | **A — original** | `construir_caches_adveccion.py`, `analizar_adveccion.py` | Generó salidas ya versionadas (`adv_resumen_zonas.csv`, `adv_influencia_global.csv`, `adv_influencia_por_reologia.csv`). El propio docstring de `reconstruccion_lagrangiana.py` lo describe como el "Método 2 original", superado porque no tiene forma de validarse contra otro método. |
-| **B — reescritura intermedia** | `adveccion_fibras.py`, `run_adveccion.py`, `run_adveccion_todas.py` | Reescritura del Sistema A con interfaz por `argparse` y ejecución batch. **No generó ninguna salida versionada** (no hay `resultados_adveccion/`, `log_adveccion.txt`, ni ningún `adv_*.csv` de este sistema en el repo) — no hay evidencia de que se haya usado para un resultado real. Además, `_interp_frame()` usa `NearestNDInterpolator` **sin límite de distancia**: el mismo bug de extrapolación ilimitada que se corrigió en el Sistema A no se propagó aquí. |
 | **C — vigente** | `reconstruccion_lagrangiana.py`, `trayectoria_comun.py` | Sistema con triple validación cruzada (E1/E2/E3). Generó las salidas más recientes (`atribucion_E1_E2_E3.csv`, `resumen_concordancia.csv`). Es el que el propio código describe como solución al problema de fondo ("no tienen forma de validarse entre sí") de los sistemas A y B. |
 
 ### Recomendación
 
-**Eliminar el Sistema B completo** (`adveccion_fibras.py`, `run_adveccion.py`, `run_adveccion_todas.py`): es una reescritura sin uso registrado, con un bug ya corregido en otro lado, y superada por el Sistema C. No hay razón para conservarlo.
+**El Sistema A queda a tu criterio.** Sí generó resultados reales y versionados — si esos números llegaron a citarse en algún borrador de la memoria, hay que conservarlos con trazabilidad aunque el método ya no sea el vigente. Sugerencia: mover `construir_caches_adveccion.py`, `analizar_adveccion.py` y los `adv_*.csv` que produjeron a una carpeta `legado/` con una nota de una línea explicando por qué se dejó de usar, en vez de borrarlos. Si esos números nunca se usaron fuera de pruebas, entonces sí se pueden eliminar sin más.
 
-**El Sistema A queda a tu criterio.** A diferencia de B, sí generó resultados reales y versionados — si esos números llegaron a citarse en algún borrador de la memoria, hay que conservarlos con trazabilidad aunque el método ya no sea el vigente. Sugerencia: mover `construir_caches_adveccion.py`, `analizar_adveccion.py` y los `adv_*.csv` que produjeron a una carpeta `legado/` con una nota de una línea explicando por qué se dejó de usar, en vez de borrarlos. Si esos números nunca se usaron fuera de pruebas, entonces sí se pueden eliminar sin más.
-
-**`capas.py` también está obsoleto** (ya señalado en una revisión anterior de este README). Usa la fibra-dentro-de-zona como unidad de observación, lo cual está mal planteado: el PIV entrega un escalar por (zona, etapa), de modo que dentro de una zona el predictor es *constante* y no puede correlacionarse fibra a fibra. Nadie lo importa. `run_real.py` usa `analisis_global.py`, que es la versión correcta del mismo análisis. **Recomendado eliminar.**
 
 ---
 
