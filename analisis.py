@@ -385,7 +385,7 @@ if __name__ == "__main__":
     zonas        = zonas_presentes(etapas_zonas)
     grupos       = agrupar_carpetas(etapas_zonas)
 
-    print(f"Zonas detectadas: {zonas}")
+    print(f"Zonas detectadas: {zonas} ")
 
     for (reo, conc), carpetas in sorted(grupos.items()):
         output_path = os.path.join(OUTPUT_PATH, f"reo{reo}_conc{conc}")
