@@ -241,6 +241,8 @@ def stitch_tracks(ptv_clasificado, gap_t_max=GAP_T_MAX, gap_r_max=GAP_R_MAX,
 
     # para cada segmento que TERMINA, buscar el que EMPIEZA mas cerca despues
     t_max_amplio = max(gap_t_max, gap_t_max_transicion)
+    n_enlaces_normales = 0
+    n_enlaces_por_relajacion = 0
     for i, s in seg.iterrows():
         # Filtro temporal preliminar con la ventana MAS AMPLIA de las dos
         # posibles: un candidato que cruza la transicion L->viga no debe
@@ -268,8 +270,21 @@ def stitch_tracks(ptv_clasificado, gap_t_max=GAP_T_MAX, gap_r_max=GAP_R_MAX,
 
         if aceptables.any():
             dist_acept = np.where(aceptables, dist.to_numpy(), np.inf)
-            j = candidatos.index[np.argmin(dist_acept)]
+            pos_elegido = np.argmin(dist_acept)
+            j = candidatos.index[pos_elegido]
             union(s["tid"], seg.loc[j, "tid"])
+
+            dt_elegido = dt_cand[pos_elegido]
+            dist_elegido = dist.to_numpy()[pos_elegido]
+            paso_por_normal = (dt_elegido <= gap_t_max) and (dist_elegido <= gap_r_max)
+            if paso_por_normal:
+                n_enlaces_normales += 1
+            else:
+                n_enlaces_por_relajacion += 1
+
+    print(f"      stitch_tracks: {n_enlaces_normales} enlaces con tolerancia "
+          f"normal, {n_enlaces_por_relajacion} SOLO gracias a la relajación "
+          f"L->viga", flush=True)
 
     df["track_id_stitched"] = df["track_id"].map(lambda t: find(t))
     return df
