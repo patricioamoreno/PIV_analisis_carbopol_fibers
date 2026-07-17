@@ -68,6 +68,29 @@
       ]
     }
   },
+  "m73-toma-2-n-1500-car-02-piv_Vf1c1": {
+    "idx_peak": 57,
+    "idx_quasi": 297,
+    "t_peak": 1.41666675,
+    "t_quasi": 7.71666675,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        57
+      ],
+      "transicion": [
+        57,
+        297
+      ],
+      "cuasi": [
+        297,
+        665
+      ]
+    }
+  },
   "m74-toma-2-n-0750-car-02-piv_Vf1c1": {
     "idx_peak": 57,
     "idx_quasi": 297,
@@ -482,6 +505,29 @@
       ]
     }
   },
+  "m73-toma-2-n-1500-car-02-piv_Vf1c2": {
+    "idx_peak": 348,
+    "idx_quasi": 571,
+    "t_peak": 9.42500025,
+    "t_quasi": 16.8583335,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        348
+      ],
+      "transicion": [
+        348,
+        571
+      ],
+      "cuasi": [
+        571,
+        665
+      ]
+    }
+  },
   "m74-toma-2-n-0750-car-02-piv_Vf1c2": {
     "idx_peak": 348,
     "idx_quasi": 571,
@@ -667,6 +713,29 @@
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Vf2c1": {
+    "idx_peak": 37,
+    "idx_quasi": 257,
+    "t_peak": 0.93333325,
+    "t_quasi": 6.43750025,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        37
+      ],
+      "transicion": [
+        37,
+        257
+      ],
+      "cuasi": [
+        257,
+        665
+      ]
+    }
+  },
+  "m73-toma-2-n-1500-car-02-piv_Vf2c1": {
     "idx_peak": 37,
     "idx_quasi": 257,
     "t_peak": 0.93333325,
@@ -1103,6 +1172,29 @@
       ]
     }
   },
+  "m73-toma-2-n-1500-car-02-piv_Vf2c2": {
+    "idx_peak": 56,
+    "idx_quasi": 286,
+    "t_peak": 1.39166675,
+    "t_quasi": 7.3666665,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        56
+      ],
+      "transicion": [
+        56,
+        286
+      ],
+      "cuasi": [
+        286,
+        665
+      ]
+    }
+  },
   "m74-toma-2-n-0750-car-02-piv_Vf2c2": {
     "idx_peak": 56,
     "idx_quasi": 286,
@@ -1517,6 +1609,29 @@
       ]
     }
   },
+  "m73-toma-2-n-1500-car-02-piv_Vf2c3": {
+    "idx_peak": 156,
+    "idx_quasi": 319,
+    "t_peak": 3.8916667499999997,
+    "t_quasi": 8.475,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        156
+      ],
+      "transicion": [
+        156,
+        319
+      ],
+      "cuasi": [
+        319,
+        665
+      ]
+    }
+  },
   "m74-toma-2-n-0750-car-02-piv_Vf2c3": {
     "idx_peak": 156,
     "idx_quasi": 319,
@@ -1702,6 +1817,29 @@
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Z1": {
+    "idx_peak": 20,
+    "idx_quasi": 220,
+    "t_peak": 0.5,
+    "t_quasi": 5.5083335,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        20
+      ],
+      "transicion": [
+        20,
+        220
+      ],
+      "cuasi": [
+        220,
+        665
+      ]
+    }
+  },
+  "m73-toma-2-n-1500-car-02-piv_Z1": {
     "idx_peak": 20,
     "idx_quasi": 220,
     "t_peak": 0.5,
@@ -2138,6 +2276,29 @@
       ]
     }
   },
+  "m73-toma-2-n-1500-car-02-piv_Z2": {
+    "idx_peak": 24,
+    "idx_quasi": 237,
+    "t_peak": 0.59583325,
+    "t_quasi": 5.9166669999999995,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        24
+      ],
+      "transicion": [
+        24,
+        237
+      ],
+      "cuasi": [
+        237,
+        665
+      ]
+    }
+  },
   "m74-toma-2-n-0750-car-02-piv_Z2": {
     "idx_peak": 24,
     "idx_quasi": 237,
@@ -2530,6 +2691,29 @@
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Z3": {
+    "idx_peak": 44,
+    "idx_quasi": 291,
+    "t_peak": 1.0916665,
+    "t_quasi": 7.525,
+    "n_frames": 665,
+    "modo": "base",
+    "fallback": false,
+    "etapas": {
+      "inicio": [
+        0,
+        44
+      ],
+      "transicion": [
+        44,
+        291
+      ],
+      "cuasi": [
+        291,
+        665
+      ]
+    }
+  },
+  "m73-toma-2-n-1500-car-02-piv_Z3": {
     "idx_peak": 44,
     "idx_quasi": 291,
     "t_peak": 1.0916665,
