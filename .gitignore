@@ -1,0 +1,41 @@
+# Cachés regenerables desde los datos crudos — no versionar
+cache_completo/
+cache_zonas/
+cache_adveccion/
+cache_campos/
+*.npz
+
+# Datos crudos (viven fuera del repo, en ../PIV_INTERPOLADO/)
+PIV_INTERPOLADO/
+
+.claude/
+
+PTV_Results/
+salidas_mapas_geometria_real/
+Semana8/
+datos_esp_ptv/
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+venv/
+.venv/
+env/
+
+# Entornos / editores
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+convo_claude.md
+diag_e3.py
+diagnostico_nan_gamma.py
+fig_adv*.png
+latex.md
+Not.txt
+NOTAS.txt
