@@ -11,7 +11,6 @@ Figuras de zona/correlacion:
   4) fig_mapa_viga_L.png        - mapa fisico de las zonas coloreadas por orden_S
                                   y por dispersion, con geometria real del montaje
   5) fig_comparacion_L_viga.png - correlaciones calculadas POR SEPARADO (L vs viga)
-  6) fig_mapa_por_reologia.png  - mapa fisico de orden_S separado por reologia
 
 Figuras por factor (reologia y concentracion de fibras):
   7) fig_box_reologia.png       - orden_S y sigma por reologia
@@ -509,45 +508,7 @@ def fig_comparacion(tabla, path=f"{DIR_CORRELACION}/fig_comparacion_L_viga.png")
 
 
 # ----------------------------------------------------------------------
-# FIGURA 6 — mapa fisico separado por reologia
-# ----------------------------------------------------------------------
-def _resumen_zona_filtrado(tabla, mask):
-    """orden_S medio por zona, solo filas fiables que cumplen 'mask'."""
-    t = tabla[tabla["fiable"] & mask]
-    if t.empty:
-        return {}
-    return t.groupby("zona").agg(orden_S=("orden_S", "mean"),
-                                 n=("orden_S", "size")).to_dict("index")
-
-
-def fig_mapa_por_reologia(tabla, path=f"{DIR_MAPAS_GENERALES}/fig_mapa_por_reologia.png"):
-    """Un panel de mapa por cada reologia, coloreado por orden_S, para ver si
-    el patron espacial de alineamiento cambia entre Carbopol."""
-    reologias = sorted(tabla.loc[tabla["fiable"], "reologia"].dropna().unique())
-    if not reologias:
-        print("  [omitido] fig_mapa_por_reologia: sin columna reologia util")
-        return
-    n = len(reologias)
-    fig, axes = plt.subplots(1, n, figsize=(8 * n, 7))
-    if n == 1:
-        axes = [axes]
-    for ax, reo in zip(axes, reologias):
-        res = _resumen_zona_filtrado(tabla, tabla["reologia"] == reo)
-        vals = {z: {"_v": d["orden_S"]} for z, d in res.items()}
-        _dibujar_mapa(ax, vals,
-                      f"Orientación (orden S) — {reo}\n(amarillo = alineadas)",
-                      "viridis", "orden S", 0.3, 0.85)
-    fig.suptitle("Mapa de alineamiento por reología  "
-                 "(¿cambia el patrón espacial entre Carbopol?)",
-                 fontsize=14, fontweight="bold")
-    fig.tight_layout(rect=[0, 0, 1, 0.95])
-    fig.savefig(path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-    print("  guardado:", path)
-
-
-# ----------------------------------------------------------------------
-# FIGURAS 7-10 — analisis por reologia y concentracion de fibras
+# FIGURAS 6-9 — analisis por reologia y concentracion de fibras
 # ----------------------------------------------------------------------
 def _box_por(ax, t, grupo, resp, titulo, ylabel):
     grupos = sorted(t[grupo].dropna().unique())
@@ -671,7 +632,6 @@ def tiene_factores(tabla):
 
 def analisis_por_factores(tabla):
     """Corre las figuras 6-10 + tabla por celda + resumenes en consola."""
-    fig_mapa_por_reologia(tabla)
     fig_boxplots(tabla, "reologia", f"{DIR_POR_FACTOR}/fig_box_reologia.png", "reología")
     fig_boxplots(tabla, "fibras", f"{DIR_POR_FACTOR}/fig_box_fibras.png",
                  "concentración de fibras")
@@ -738,6 +698,23 @@ def main():
                                cmap="YlOrRd", vmin=0.0, vmax=35.0)
     fig_pequenos_multiplos_viga(tabla, metrica="indice_uniformidad",
                                cmap="RdYlGn", vmin=0.0, vmax=1.0)
+    # Mismos pequeños multiplos, ahora para los predictores del fluido por
+    # etapa (V, omega, gamma_dot), forma de viga + reologia x fibras.
+    t_viga = tabla[tabla["fiable"] & tabla["zona"].isin(ZONAS_VIGA_TODAS)]
+    for pred, cmap_pred, etiq_pred in [
+            ("V", "plasma", "velocidad V [mm/s]"),
+            ("omega", "plasma", "vorticidad ω [1/s]"),
+            ("gamma_dot", "plasma", "tasa γ̇ [1/s]")]:
+        for etapa in ["transicion", "cuasi"]:
+            col = f"{pred}_{etapa}"
+            if col not in tabla.columns:
+                continue
+            vals = t_viga[col].dropna()
+            vmax_pred = float(vals.max()) if not vals.empty else 1.0
+            fig_pequenos_multiplos_viga(
+                tabla, metrica=col, cmap=cmap_pred,
+                vmin=0.0, vmax=vmax_pred,
+                etiqueta=f"{etiq_pred} — {etapa}")
     fig_mapa_etapas(tabla, predictor="V")
     cv, cl = fig_comparacion(tabla)
 
