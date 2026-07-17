@@ -1,0 +1,19 @@
+zona,etapa,comparacion,toma,metodo,p_value,resultado,cohen_d,efecto,delta_mediana,mediana_toma,mediana_base
+L,transicion,entre_tomas,todas,Mann-Whitney,0.000451,SÍ difieren,0.0029,insignificante,2.539799928665161,,
+L,transicion,vs_base,m73-toma-2,Mann-Whitney,0.0,SÍ difiere,0.1786,insignificante,-10.1652,43.8573,54.0225
+L,transicion,vs_base,m77-toma-2,Mann-Whitney,0.0,SÍ difiere,0.1766,insignificante,-7.6254,46.3971,54.0225
+L,cuasi,entre_tomas,todas,Mann-Whitney,0.0,SÍ difieren,0.4887,débil,0.01850000023841858,,
+L,cuasi,vs_base,m73-toma-2,Mann-Whitney,0.0,SÍ difiere,0.6958,medio,-0.7879,6.6552,7.4431
+L,cuasi,vs_base,m77-toma-2,Mann-Whitney,0.0,SÍ difiere,0.24,débil,-0.8064,6.6367,7.4431
+viga175,transicion,entre_tomas,todas,Mann-Whitney,0.009737,SÍ difieren,0.004,insignificante,1.2592999935150146,,
+viga175,transicion,vs_base,m73-toma-2,Mann-Whitney,0.0,SÍ difiere,0.1798,insignificante,-3.4797,13.049,16.5287
+viga175,transicion,vs_base,m77-toma-2,Mann-Whitney,0.0,SÍ difiere,0.1841,insignificante,-2.2204,14.3083,16.5287
+viga175,cuasi,entre_tomas,todas,Mann-Whitney,5.4e-05,SÍ difieren,0.0182,insignificante,0.02199999988079071,,
+viga175,cuasi,vs_base,m73-toma-2,Mann-Whitney,0.0,SÍ difiere,0.288,débil,-0.9573,1.6228,2.5801
+viga175,cuasi,vs_base,m77-toma-2,Mann-Whitney,0.0,SÍ difiere,0.3038,débil,-0.9793,1.6009,2.5801
+viga250,transicion,entre_tomas,todas,Mann-Whitney,0.0,SÍ difieren,0.1402,insignificante,1.9606000185012817,,
+viga250,transicion,vs_base,m73-toma-2,Mann-Whitney,0.0,SÍ difiere,0.1898,insignificante,-3.0625,11.7789,14.8414
+viga250,transicion,vs_base,m77-toma-2,Mann-Whitney,0.0,SÍ difiere,0.0484,insignificante,-1.1019,13.7395,14.8414
+viga250,cuasi,entre_tomas,todas,Mann-Whitney,0.0,SÍ difieren,0.6114,medio,0.8375999927520752,,
+viga250,cuasi,vs_base,m73-toma-2,Mann-Whitney,0.0,SÍ difiere,0.5788,medio,-1.1744,0.7337,1.908
+viga250,cuasi,vs_base,m77-toma-2,Mann-Whitney,0.576101,NO difiere,0.0642,insignificante,-0.3368,1.5712,1.908

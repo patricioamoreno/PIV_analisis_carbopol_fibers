@@ -1,0 +1,27 @@
+zona,etapa,comparacion,toma,metodo,p_value,resultado,cohen_d,efecto,delta_mediana,mediana_toma,mediana_base
+L,transicion,entre_tomas,todas,Kruskal-Wallis,0.0,SÍ difieren,,n/a,,,
+L,transicion,vs_base,m92-toma-1,Mann-Whitney,0.0,SÍ difiere,0.0658,insignificante,-0.4682,16.3537,16.8219
+L,transicion,vs_base,m92-toma-2,Mann-Whitney,0.0,SÍ difiere,0.0918,insignificante,-0.7872,16.0346,16.8219
+L,transicion,vs_base,m93-toma-1,Mann-Whitney,0.0,SÍ difiere,0.0757,insignificante,-0.6276,16.1943,16.8219
+L,transicion,vs_base,m93-toma-2,Mann-Whitney,0.0,SÍ difiere,0.1818,insignificante,1.773,18.5949,16.8219
+L,cuasi,entre_tomas,todas,Kruskal-Wallis,0.0,SÍ difieren,,n/a,,,
+L,cuasi,vs_base,m92-toma-1,Mann-Whitney,0.0,SÍ difiere,0.0414,insignificante,0.0581,6.6367,6.5786
+L,cuasi,vs_base,m92-toma-2,Mann-Whitney,0.942249,NO difiere,0.0095,insignificante,0.0076,6.5862,6.5786
+L,cuasi,vs_base,m93-toma-1,Mann-Whitney,0.0,SÍ difiere,0.1362,insignificante,-0.2095,6.3691,6.5786
+L,cuasi,vs_base,m93-toma-2,Mann-Whitney,0.505716,NO difiere,0.0132,insignificante,0.0095,6.5881,6.5786
+viga175,transicion,entre_tomas,todas,Kruskal-Wallis,0.0,SÍ difieren,,n/a,,,
+viga175,transicion,vs_base,m92-toma-1,Mann-Whitney,1e-06,SÍ difiere,0.0488,insignificante,0.0979,3.4815,3.3835
+viga175,transicion,vs_base,m92-toma-2,Mann-Whitney,0.199347,NO difiere,0.0141,insignificante,0.021,3.4045,3.3835
+viga175,transicion,vs_base,m93-toma-2,Mann-Whitney,0.000195,SÍ difiere,0.0345,insignificante,-0.1145,3.269,3.3835
+viga175,cuasi,entre_tomas,todas,Kruskal-Wallis,0.0,SÍ difieren,,n/a,,,
+viga175,cuasi,vs_base,m92-toma-1,Mann-Whitney,0.0,SÍ difiere,0.0691,insignificante,0.0421,1.4603,1.4182
+viga175,cuasi,vs_base,m92-toma-2,Mann-Whitney,1e-06,SÍ difiere,0.0253,insignificante,-0.0191,1.3991,1.4182
+viga175,cuasi,vs_base,m93-toma-2,Mann-Whitney,0.0,SÍ difiere,0.0434,insignificante,-0.0296,1.3886,1.4182
+viga250,transicion,entre_tomas,todas,Kruskal-Wallis,0.0,SÍ difieren,,n/a,,,
+viga250,transicion,vs_base,m92-toma-1,Mann-Whitney,0.004282,SÍ difiere,1e-04,insignificante,-0.0079,3.0679,3.0757
+viga250,transicion,vs_base,m92-toma-2,Mann-Whitney,0.0,SÍ difiere,0.3708,débil,0.0544,3.1302,3.0757
+viga250,transicion,vs_base,m93-toma-2,Mann-Whitney,0.0,SÍ difiere,0.3363,débil,-0.0326,3.0432,3.0757
+viga250,cuasi,entre_tomas,todas,Kruskal-Wallis,0.0,SÍ difieren,,n/a,,,
+viga250,cuasi,vs_base,m92-toma-1,Mann-Whitney,0.0,SÍ difiere,0.0669,insignificante,0.0705,1.5567,1.4863
+viga250,cuasi,vs_base,m92-toma-2,Mann-Whitney,0.0,SÍ difiere,0.0507,insignificante,0.0302,1.5164,1.4863
+viga250,cuasi,vs_base,m93-toma-2,Mann-Whitney,0.0,SÍ difiere,0.115,insignificante,-0.0945,1.3917,1.4863
