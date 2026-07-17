@@ -21,6 +21,13 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
+
 # ============================================================
 # CONFIGURACIÓN — editar aquí
 # ============================================================
@@ -50,6 +57,17 @@ X_VIGA        = [175, 250]
 Y_VIGA_MIN    = -75.0
 Y_VIGA_MAX    =  0.0
 N_PUNTOS_VIGA =  75           # antes 80 (≈ 1 punto por Δy_PIV de car-0.5%)
+
+# ── Relleno de huecos internos (zona L) ───────────────────────
+# Máximo nº de puntos NaN CONSECUTIVOS que se permite rellenar por
+# interpolación lineal 1D a lo largo de la polilínea. Un hueco de 1-3 puntos
+# (≲ 2.2 mm sobre la L, con Δs ≈ 0.75 mm) es un fallo local de correlación
+# PIV y su relleno es defendible. Un hueco mayor implica extrapolar sobre una
+# región sin vectores fiables: el perfil resultante sería inventado y
+# contaminaría v_∥(s,t) y sobre todo γ̇ = dv/ds, que amplifica cualquier
+# rampa artificial. Esos tramos se conservan como NaN.
+# Poner 0 desactiva por completo el relleno 1D.
+MAX_HUECO_INTERP = 3
 
 # Zonas a procesar: (prefijo, etiqueta)
 ZONAS = [
@@ -120,7 +138,80 @@ def cargar_y_corregir(fpath):
     return df
 
 
-def interpolar_campo(df_frame, xs, ys, col, dist_max_mm=None):
+def _tramos_nan(nans):
+    """Genera (i_ini, i_fin) de cada racha contigua de True en `nans`.
+
+    i_fin es exclusivo, de modo que la longitud del tramo es i_fin - i_ini.
+    """
+    n   = len(nans)
+    i   = 0
+    while i < n:
+        if not nans[i]:
+            i += 1
+            continue
+        j = i
+        while j < n and nans[j]:
+            j += 1
+        yield i, j
+        i = j
+
+
+def rellenar_huecos_cortos(result, max_hueco=MAX_HUECO_INTERP):
+    """Interpolación lineal 1D SOLO en huecos internos cortos.
+
+    Un tramo de NaN se rellena únicamente si cumple las dos condiciones:
+      (a) es interno — tiene datos válidos a ambos lados (no es un borde,
+          donde interpolar equivaldría a extrapolar); y
+      (b) su longitud es <= max_hueco puntos consecutivos.
+
+    Cualquier tramo más largo se aborta y conserva sus NaN originales. La
+    forma del array NO cambia: siempre se devuelve len(result) puntos, con
+    NaN donde no hay información fiable.
+    """
+    if max_hueco <= 0:
+        return result
+
+    nans = np.isnan(result)
+    if not nans.any() or nans.all():
+        return result
+
+    idx_arr   = np.arange(len(result))
+    validos   = ~nans
+    idx_val   = idx_arr[validos]
+    val_val   = result[validos]
+
+    for i_ini, i_fin in _tramos_nan(nans):
+        # (a) Bordes: sin dato válido a un lado → no se toca (no extrapolar).
+        if i_ini == 0 or i_fin == len(result):
+            continue
+        # (b) Hueco demasiado largo → abortar, conservar NaN.
+        if (i_fin - i_ini) > max_hueco:
+            continue
+        hueco = idx_arr[i_ini:i_fin]
+        result[hueco] = np.interp(hueco, idx_val, val_val)
+
+    return result
+
+
+def contaminados(nan_mask, radio):
+    """Máscara de puntos NO fiables tras suavizar + derivar.
+
+    Un filtro de ventana `w` y una derivada centrada propagan cualquier valor
+    rellenado a sus vecinos. Marcar solo los NaN originales es insuficiente:
+    los puntos válidos contiguos a un hueco ya arrastran el valor inventado.
+    Se dilata la máscara de NaN en `radio` puntos a cada lado. Para
+    uniform_filter1d(size=w) seguido de np.gradient, radio = w//2 + 1.
+    """
+    m = np.asarray(nan_mask, dtype=bool)
+    out = m.copy()
+    for d in range(1, radio + 1):
+        out[d:]  |= m[:-d]      # propaga hacia adelante
+        out[:-d] |= m[d:]       # propaga hacia atrás
+    return out
+
+
+def interpolar_campo(df_frame, xs, ys, col, dist_max_mm=None,
+                     max_hueco=MAX_HUECO_INTERP):
     """IDW con 4 vecinos más cercanos.
 
     SIEMPRE devuelve un array de len(xs): valores interpolados donde hay
@@ -128,6 +219,9 @@ def interpolar_campo(df_frame, xs, ys, col, dist_max_mm=None):
     que el frame (y su timestamp) se conserve aunque el material no llegue
     a esta polilínea — así el eje temporal no se comprime y el
     espectrograma muestra blanco en esos instantes en vez de acortarse.
+
+    El relleno 1D posterior está acotado a huecos internos de como máximo
+    `max_hueco` puntos consecutivos (ver rellenar_huecos_cortos).
     """
     result = np.full(len(xs), np.nan)
 
@@ -149,13 +243,13 @@ def interpolar_campo(df_frame, xs, ys, col, dist_max_mm=None):
         w         = 1.0 / (dist[idx] + 1e-10)
         result[i] = np.sum(w * vals[idx]) / np.sum(w)
 
-    nans = np.isnan(result)
     # Solo rellenamos huecos internos por interpolación 1D cuando NO hay
     # límite de distancia (zona L). Con dist_max (vigas) los NaN son
     # físicos —material ausente— y se respetan.
-    if nans.any() and not nans.all() and dist_max_mm is None:
-        idx_arr = np.arange(len(result))
-        result[nans] = np.interp(idx_arr[nans], idx_arr[~nans], result[~nans])
+    # En la L el relleno está ahora ACOTADO: huecos > max_hueco puntos
+    # consecutivos se dejan como NaN en vez de inventar velocidad.
+    if dist_max_mm is None:
+        result = rellenar_huecos_cortos(result, max_hueco=max_hueco)
     return result
 
 
@@ -250,10 +344,22 @@ def construir_cache(carpeta, prefijo, usar_magnitud=False):
         print(f"  ℹ {n_vacios}/{len(filas)} frames sin material en la línea "
               f"(guardados como NaN, eje temporal completo)", flush=True)
 
+    matriz = np.array(filas, dtype=np.float32)
+
+    # Diagnóstico: fracción de NaN sobre los frames que SÍ tienen material.
+    # Con el relleno acotado esta cifra debe subir respecto a la versión
+    # anterior; ese aumento es exactamente el dato que antes se inventaba.
+    if prefijo == "":
+        con_material = ~np.isnan(matriz).all(axis=1)
+        if con_material.any():
+            frac_nan = float(np.isnan(matriz[con_material]).mean())
+            print(f"  ℹ NaN residual en frames con material: {frac_nan:5.1%} "
+                  f"(huecos > {MAX_HUECO_INTERP} pts no rellenados)", flush=True)
+
     os.makedirs(CACHE_DIR, exist_ok=True)
     np.savez_compressed(
         path,
-        matriz  = np.array(filas,   dtype=np.float32),
+        matriz  = matriz,
         tiempos = np.array(tiempos, dtype=np.float64),
     )
     print(f"  💾 Guardado: {fname}", flush=True)
@@ -277,3 +383,10 @@ if __name__ == "__main__":
             construir_cache(carpeta, prefijo, usar_magnitud=True)
 
     print(f"\n✅ Listo. Cachés en: {CACHE_DIR}")
+
+    if USAR_NOTIFICACION:
+        try:
+            toaster = ToastNotifier()
+            toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5, threaded=False)
+        except Exception as e:
+            print(f"⚠ No se pudo mostrar la notificación de Windows: {e}")

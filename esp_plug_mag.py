@@ -48,8 +48,10 @@ from scipy.ndimage import uniform_filter1d
 
 from construir_caches import (
     cargar_cache_completo,
+    contaminados,
     natural_sort_key,
     nombre_base_carpeta,
+    rellenar_huecos_cortos,
     ss_linea_L,
     ss_viga,
 )
@@ -57,6 +59,13 @@ from construir_caches import (
 import sys
 sys.stdout.reconfigure(line_buffering=True)
 warnings.filterwarnings('ignore')
+
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
 
 # ============================================================
 # CONFIGURACIÓN — editar aquí
@@ -156,13 +165,17 @@ def calcular_plug(matriz_vel, ss, tau0, k, n,
         nan_mask = np.isnan(v)
         v_fill   = v.copy()
         if nan_mask.any():
-            idx_arr = np.arange(N_s)
-            v_fill[nan_mask] = np.interp(
-                idx_arr[nan_mask], idx_arr[~nan_mask], v_fill[~nan_mask])
+            v_fill = rellenar_huecos_cortos(v_fill)
 
-        v_s       = uniform_filter1d(v_fill, size=min(ventana, N_s), mode='nearest')
+        w_suav    = min(ventana, N_s)
+        v_s       = uniform_filter1d(v_fill, size=w_suav, mode='nearest')
         gamma_dot = np.abs(np.gradient(v_s, ss))
         g_signed  = np.gradient(v_s, ss)
+
+        # El suavizado de ventana w_suav más la derivada centrada arrastran
+        # los valores rellenados hasta w_suav//2 + 1 puntos a cada lado de
+        # cada hueco. Todo ese entorno es no fiable, no solo el NaN original.
+        no_fiable = contaminados(nan_mask, radio=w_suav // 2 + 1)
 
         if L_m is not None:
             L_frame = L_m
@@ -172,19 +185,20 @@ def calcular_plug(matriz_vel, ss, tau0, k, n,
                        if valid.sum() > 1 else ss[-1] / 1000)
 
         ratio           = gamma_dot.copy()
-        ratio[nan_mask] = np.nan
+        ratio[no_fiable] = np.nan
         mat_ratio[i, :] = ratio
+        g_signed[no_fiable] = np.nan   # antes se guardaba sin enmascarar
         hist_gamma[i, :] = g_signed
 
         mu_eff = np.where(gamma_dot > 0,
                           (tau0 + k * np.power(gamma_dot, n)) / gamma_dot,
                           np.nan)
-        mu_eff[nan_mask] = np.nan
+        mu_eff[no_fiable] = np.nan
         mat_mueff[i, :]  = mu_eff
 
         v_ms             = np.abs(v_s) / 1000
         re_row           = (RHO * v_ms * L_frame) / mu_eff
-        re_row[nan_mask] = np.nan
+        re_row[no_fiable] = np.nan
         mat_re[i, :]     = re_row
 
     mat_plug = mat_ratio <= umbral_gamma
@@ -655,3 +669,10 @@ if __name__ == "__main__":
                       zona_key=f"viga{x_viga}", timeline=timeline)
 
     print(f"\n✅ Listo. Resultados en: {OUTPUT_DIR}")
+
+    if USAR_NOTIFICACION:
+        try:
+            toaster = ToastNotifier()
+            toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5, threaded=False)
+        except Exception as e:
+            print(f"⚠ No se pudo mostrar la notificación de Windows: {e}")

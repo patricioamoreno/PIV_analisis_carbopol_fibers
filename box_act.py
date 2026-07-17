@@ -21,7 +21,15 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d
 
 from utils_etapas import natural_sort_key, cargar_etapas
-from construir_caches import cargar_cache_completo, nombre_base_carpeta
+from construir_caches import (cargar_cache_completo, nombre_base_carpeta,
+                              rellenar_huecos_cortos, contaminados)
+
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
 
 # ============================================================
 # CONFIGURACIÓN
@@ -109,12 +117,13 @@ def recolectar_desde_cache(reo, conc, zona, etapa, variable='vel', p=True, usar_
                     continue
                 nan_mask = np.isnan(v)
                 if nan_mask.any():
-                    idx = np.arange(len(v))
-                    v   = v.copy()
-                    v[nan_mask] = np.interp(idx[nan_mask], idx[~nan_mask], v[~nan_mask])
+                    v = rellenar_huecos_cortos(v.copy())
                 v_s = uniform_filter1d(v, size=5, mode='nearest')
                 gd  = np.abs(np.gradient(v_s, ss))
-                gd[nan_mask] = np.nan
+                # Se anula γ̇ donde no había dato Y donde el suavizado de
+                # ventana 5 pudo arrastrar valores rellenados: el kernel
+                # contamina los 2 puntos a cada lado de cualquier hueco.
+                gd[contaminados(nan_mask, radio=3)] = np.nan
                 gamma_vals.append(gd[~np.isnan(gd)])
             vals = np.concatenate(gamma_vals) if gamma_vals else np.array([])
 
@@ -317,3 +326,9 @@ if __name__ == "__main__":
                 print(f"✅ {ruta}")
 
     print(f"\n✅ Listo. Figuras en {OUT_BASE}")
+    if USAR_NOTIFICACION:
+        try:
+            toaster = ToastNotifier()
+            toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5, threaded=False)
+        except Exception as e:
+            print(f"⚠ No se pudo mostrar la notificación de Windows: {e}")

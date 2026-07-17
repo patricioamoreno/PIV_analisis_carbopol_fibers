@@ -37,7 +37,14 @@ import time
 import numpy as np
 import pandas as pd
 from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
-from win10toast import ToastNotifier
+from scipy.spatial import cKDTree
+
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
 
 # ============================================================
 # CONFIGURACION — editar aqui
@@ -57,6 +64,20 @@ SUBMUESTREO = 1          # 1 de cada k frames
 N_PASOS = None           # nº max de pasos (None = todos)
 
 PREDICTORES = ["V", "omega", "gamma_dot"]
+
+# ── Límite del relleno por vecino más cercano ─────────────────
+# LinearNDInterpolator devuelve NaN fuera de la envolvente convexa de los
+# vectores PIV del frame — es decir, donde NO hay material medido. Rellenar
+# esos puntos con NearestNDInterpolator SIN límite de distancia equivale a
+# extrapolar: una partícula que sale del material recibiría la velocidad del
+# vector PIV más cercano, esté a 1 mm o a 50 mm. En un integrador temporal ese
+# error no es local: la velocidad inventada actualiza la posición, la posición
+# errónea vuelve a caer fuera, y la trayectoria diverge sin posibilidad de
+# recuperarse.
+# Se acepta el relleno NN solo dentro de DIST_MAX_NN_MM del vector PIV más
+# cercano (hueco de correlación dentro del material). Más allá, la partícula
+# se marca como perdida y su trayectoria se trunca.
+DIST_MAX_NN_MM = 3.0
 
 # ============================================================
 # UTILIDADES
@@ -176,8 +197,10 @@ def _construir_interpoladores(por_frame):
     Construye UNA vez el interpolador de cada frame (triangulacion de Delaunay)
     y lo cachea. griddata retriangulaba en cada llamada; esto lo hace una sola
     vez por frame y acelera el proceso varias veces.
-    Devuelve dict frame -> (LinearNDInterpolator, NearestNDInterpolator) sobre
-    las columnas [u, v, V, omega, gamma_dot] juntas.
+    Devuelve dict frame -> (LinearNDInterpolator, NearestNDInterpolator,
+    cKDTree) sobre las columnas [u, v, V, omega, gamma_dot] juntas. El KDTree
+    permite medir la distancia real al vector PIV más cercano y así acotar el
+    relleno por vecino más cercano (ver DIST_MAX_NN_MM).
     """
     campos = ["u", "v", "V", "omega", "gamma_dot"]
     interp = {}
@@ -187,19 +210,34 @@ def _construir_interpoladores(por_frame):
         # un solo interpolador multi-columna (comparte la triangulacion)
         lin = LinearNDInterpolator(xy, vals)
         nn = NearestNDInterpolator(xy, vals)
-        interp[f] = (lin, nn)
+        tree = cKDTree(xy)
+        interp[f] = (lin, nn, tree)
     return interp, campos
 
 
-def _interp_en(interp_frame, campos, puntos):
-    """Interpola todos los campos a la vez en 'puntos' usando el interpolador
-    ya construido del frame. Rellena huecos con vecino mas cercano."""
-    lin, nn = interp_frame
+def _interp_en(interp_frame, campos, puntos, dist_max=DIST_MAX_NN_MM):
+    """Interpola todos los campos a la vez en 'puntos'.
+
+    Dentro de la envolvente convexa se usa la interpolación lineal. Fuera de
+    ella se admite el relleno por vecino más cercano ÚNICAMENTE si el punto
+    está a menos de `dist_max` mm de un vector PIV real; en caso contrario el
+    punto se devuelve como NaN (partícula fuera del material medido).
+
+    Devuelve (dict campo -> array, mask_valido).
+    """
+    lin, nn, tree = interp_frame
     M = lin(puntos)                       # (P x 5)
     nanrows = np.isnan(M).any(axis=1)
     if nanrows.any():
-        M[nanrows] = nn(puntos[nanrows])
-    return {c: M[:, j] for j, c in enumerate(campos)}
+        cand = puntos[nanrows]
+        dist, _ = tree.query(cand, k=1)
+        cerca = dist <= dist_max
+        relleno = np.full((len(cand), M.shape[1]), np.nan)
+        if cerca.any():
+            relleno[cerca] = nn(cand[cerca])
+        M[nanrows] = relleno
+    valido = ~np.isnan(M).any(axis=1)
+    return {c: M[:, j] for j, c in enumerate(campos)}, valido
 
 
 def _zona_de_puntos(puntos, boxes):
@@ -226,6 +264,11 @@ def _retroceder(campo, fibras_xy, cod=""):
 
     F = len(fibras_xy)
     pos = fibras_xy.astype(float).copy()
+    # Una partícula "viva" es aquella cuya trayectoria sigue dentro del
+    # material medido. Al salir (interpolación no fiable) se marca como
+    # perdida y NO se sigue integrando: arrastrar una posición basada en una
+    # velocidad inventada contaminaría todos los pasos posteriores.
+    vivo = np.ones(F, dtype=bool)
     reg = []
     n = len(orden)
     print(f"    advectando {F} fibras por {n} pasos...", flush=True)
@@ -233,21 +276,34 @@ def _retroceder(campo, fibras_xy, cod=""):
     # aviso cada 5% (o cada paso si hay pocos) para que se note el avance
     intervalo = max(1, n // 20)
     for i, f in enumerate(orden):
-        camp = _interp_en(interp[f], campos, pos)
+        camp, ok = _interp_en(interp[f], campos, pos)
+        # Una partícula que sale del material queda perdida de forma
+        # permanente (no puede "volver a entrar" con datos fiables).
+        vivo &= ok
         zonas = _zona_de_puntos(pos, campo["boxes"])
         for k in range(F):
+            if not vivo[k]:
+                continue
             reg.append((k, int(f), camp["V"][k], camp["omega"][k],
                         camp["gamma_dot"][k], zonas[k]))
+        if not vivo.any():
+            print(f"      ⚠ todas las fibras salieron del material en el "
+                  f"paso {i+1}/{n}; se trunca aquí.", flush=True)
+            break
         if i < n - 1:
             if METODO == "euler":
-                pos[:, 0] -= camp["u"] * dt
-                pos[:, 1] -= camp["v"] * dt
+                pos[vivo, 0] -= camp["u"][vivo] * dt
+                pos[vivo, 1] -= camp["v"][vivo] * dt
             else:
                 xm = pos[:, 0] - 0.5 * camp["u"] * dt
                 ym = pos[:, 1] - 0.5 * camp["v"] * dt
-                mid = _interp_en(interp[f], campos, np.column_stack([xm, ym]))
-                pos[:, 0] -= mid["u"] * dt
-                pos[:, 1] -= mid["v"] * dt
+                mid, ok_mid = _interp_en(interp[f], campos,
+                                         np.column_stack([xm, ym]))
+                # Si el punto medio del RK2 cae fuera, el paso no es fiable:
+                # la partícula se da por perdida en vez de degradar a Euler.
+                vivo &= ok_mid
+                pos[vivo, 0] -= mid["u"][vivo] * dt
+                pos[vivo, 1] -= mid["v"][vivo] * dt
         # progreso: cada 'intervalo' pasos, con tiempo transcurrido y ETA
         if (i + 1) % intervalo == 0 or (i + 1) == n:
             transcurrido = time.time() - t0
@@ -256,6 +312,10 @@ def _retroceder(campo, fibras_xy, cod=""):
             print(f"      {100*(i+1)/n:5.1f}%  paso {i+1}/{n}  "
                   f"transcurrido={_fmt_seg(transcurrido)}  "
                   f"restante≈{_fmt_seg(restante)}", flush=True)
+    n_vivas = int(vivo.sum())
+    print(f"    fibras con trayectoria completa: {n_vivas}/{F} "
+          f"({100*n_vivas/F:.0f}%) — el resto se truncó al salir del material",
+          flush=True)
     cols = ["fibra_id", "frame", "V", "omega", "gamma_dot", "zona"]
     return pd.DataFrame.from_records(reg, columns=cols), dt
 
@@ -350,5 +410,10 @@ if __name__ == "__main__":
     if pares:
         print(f"\n{'='*55}\nTODO TERMINADO en {_fmt_seg(time.time()-t0_total)} "
               f"({len(pares)} tomas)")
-    toaster = ToastNotifier()
-    toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5)
+        
+    if USAR_NOTIFICACION:
+        try:
+            toaster = ToastNotifier()
+            toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5, threaded=False)
+        except Exception as e:
+            print(f"⚠ No se pudo mostrar la notificación de Windows: {e}")

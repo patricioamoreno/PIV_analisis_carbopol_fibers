@@ -48,6 +48,13 @@ from scipy.spatial import cKDTree
 from pathlib import Path
 from definir_zonas import asignar_zona
 
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
+
 # ============================================================
 # CONFIGURACIÓN — editar aquí
 # ============================================================
@@ -60,6 +67,15 @@ RECALCULO = False
 
 # Vecinos para el ajuste lineal local (γ̇ y vorticidad). Igual que gamma_fields.
 K_VECINOS = 6
+
+# Radio máximo [mm] para buscar esos vecinos. Sin este límite, un punto en el
+# borde del material ajusta su gradiente contra vectores arbitrariamente
+# lejanos —eventualmente al otro lado de un vacío— y el γ̇ resultante no
+# describe ninguna vecindad física real. Con Δy_PIV entre 0,75 y 2,05 mm según
+# cámara y reología (Tabla 3.4), 5 mm cubre holgadamente los 6 vecinos legítimos
+# en el caso más grueso sin admitir saltos a través de regiones sin material.
+# Los puntos sin vecindad suficiente dentro del radio quedan con γ̇ = ω = NaN.
+DIST_MAX_KNN_MM = 5.0
 
 # Filtros opcionales de carpetas (None = todas)
 CAR_OBJETIVO = None     # p.ej. "02"
@@ -110,7 +126,7 @@ def cargar_y_corregir(fpath):
 # GRADIENTES POR KNN  →  γ̇  y  vorticidad  (de gamma_fields.py, extendido)
 # ============================================================
 
-def calcular_gradientes(df, k=K_VECINOS):
+def calcular_gradientes(df, k=K_VECINOS, dist_max=DIST_MAX_KNN_MM):
     x = df['x'].values; y = df['y'].values
     u = df['u'].values; v = df['v'].values
     n = len(x)
@@ -121,9 +137,19 @@ def calcular_gradientes(df, k=K_VECINOS):
 
     tree = cKDTree(np.column_stack([x, y]))
     for i in range(n):
-        _, idxs = tree.query([x[i], y[i]], k=min(k + 1, n))
+        # distance_upper_bound acota el ajuste a la vecindad FÍSICA real: un
+        # punto en el borde del material no debe ajustar su gradiente contra
+        # vectores situados al otro lado de un vacío. Los vecinos fuera del
+        # radio se devuelven con índice == n y distancia infinita.
+        dd, idxs = tree.query([x[i], y[i]], k=min(k + 1, n),
+                              distance_upper_bound=dist_max)
+        dd   = np.atleast_1d(dd)[1:]
         idxs = np.atleast_1d(idxs)[1:]
+        val  = np.isfinite(dd) & (idxs < n)
+        idxs = idxs[val]
         if len(idxs) < 3:
+            # Vecindad insuficiente dentro del radio → γ̇ y ω quedan NaN.
+            # Preferible a un ajuste sobre una base geométrica inventada.
             continue
         dx = x[idxs] - x[i]; dy = y[idxs] - y[i]
         A  = np.column_stack([np.ones(len(idxs)), dx, dy])
@@ -293,3 +319,10 @@ if __name__ == "__main__":
         construir_cache(carpeta)
 
     print(f"\n✅ Listo. Cachés en: {CACHE_DIR}")
+
+    if USAR_NOTIFICACION:
+        try:
+            toaster = ToastNotifier()
+            toaster.show_toast("VSCode", "¡Tu código de Python terminó exitosamente!", duration=5, threaded=False)
+        except Exception as e:
+            print(f"⚠ No se pudo mostrar la notificación de Windows: {e}")
