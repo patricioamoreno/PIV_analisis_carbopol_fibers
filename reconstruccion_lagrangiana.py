@@ -50,7 +50,14 @@ import time
 import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata, LinearNDInterpolator, NearestNDInterpolator
-from win10toast import ToastNotifier
+from scipy.spatial import cKDTree
+
+try:
+    from win10toast import ToastNotifier
+    USAR_NOTIFICACION = True
+except ImportError:
+    USAR_NOTIFICACION = False
+    print("⚠ win10toast no está instalado. Las notificaciones están desactivadas.")
 
 from trayectoria_comun import (cargar_ptv_completo, clasificar_zona_y_etapa,
                                zona_modal, resumen_fragmentacion)
@@ -77,6 +84,15 @@ GAP_R_MAX = 8.0       # radio espacial maximo tras prediccion por velocidad [mm]
 # Adveccion (E3)
 METODO_ADVECCION = "rk2"
 SUBMUESTREO = 1
+
+# Límite del relleno por vecino más cercano en E3. LinearNDInterpolator
+# devuelve NaN fuera de la envolvente convexa del PIV del frame (donde NO hay
+# material medido). Rellenar sin límite con NearestNDInterpolator equivale a
+# extrapolar arbitrariamente lejos, y en un integrador ese error se compone:
+# la posición se actualiza con una velocidad inventada y no hay forma de
+# recuperar la trayectoria después. Ver la misma discusión y el mismo fix en
+# construir_caches_adveccion.py (DIST_MAX_NN_MM).
+DIST_MAX_NN_MM = 3.0
 
 
 # ============================================================
@@ -244,21 +260,40 @@ def _construir_interpoladores(sub):
     cientos de frames y varias tomas, esto es el cuello de botella principal
     del tiempo de ejecucion. Ahora: 1 triangulacion por frame, reutilizada
     para todas las evaluaciones de ese frame.
+
+    Se construye también un cKDTree sobre los mismos puntos: permite acotar
+    el respaldo por vecino más cercano a DIST_MAX_NN_MM (ver _interp_uv_rapido).
     """
     xy = sub[["x", "y"]].to_numpy()
     uv = sub[["u", "v"]].to_numpy()
     lin = LinearNDInterpolator(xy, uv)
     nn = NearestNDInterpolator(xy, uv)   # respaldo fuera del casco convexo
-    return lin, nn
+    tree = cKDTree(xy)
+    return lin, nn, tree
 
 
-def _interp_uv_rapido(lin, nn, puntos):
-    """Evalua los interpoladores YA CONSTRUIDOS (ver _construir_interpoladores)."""
+def _interp_uv_rapido(lin, nn, tree, puntos, dist_max=DIST_MAX_NN_MM):
+    """Evalua los interpoladores YA CONSTRUIDOS (ver _construir_interpoladores).
+
+    Fuera de la envolvente convexa se admite el respaldo por vecino más
+    cercano SOLO si el punto está a menos de `dist_max` mm de un vector PIV
+    real. Más allá, el valor queda NaN: es una posición fuera del material
+    medido, no un hueco de correlación a rellenar.
+
+    Devuelve (dict campo -> array, mask_valido).
+    """
     val = np.asarray(lin(puntos), dtype=float)
     nanmask = np.isnan(val).any(axis=1)
     if nanmask.any():
-        val[nanmask] = nn(puntos[nanmask])
-    return {"u": val[:, 0], "v": val[:, 1]}
+        cand = puntos[nanmask]
+        dist, _ = tree.query(cand, k=1)
+        cerca = dist <= dist_max
+        relleno = np.full((len(cand), val.shape[1]), np.nan)
+        if cerca.any():
+            relleno[cerca] = nn(cand[cerca])
+        val[nanmask] = relleno
+    valido = ~np.isnan(val).any(axis=1)
+    return {"u": val[:, 0], "v": val[:, 1]}, valido
 
 
 def _fmt_seg(s):
@@ -294,6 +329,13 @@ def calcular_E3(campo, fib_finales, cortes_etapa, metodo=METODO_ADVECCION,
     n = len(frames)
     intervalo = max(1, n // 20)   # progreso cada ~5%
 
+    # Una fibra "viva" es aquella cuya trayectoria retrocedida sigue dentro
+    # del material medido. Al salir (interpolación no fiable más allá de
+    # DIST_MAX_NN_MM) se marca perdida y deja de aportar registros: seguir
+    # integrando con una velocidad extrapolada arbitrariamente lejos
+    # contaminaría el resto de su historia hacia atrás.
+    vivo = np.ones(F, dtype=bool)
+
     registros = []
     t0 = time.time()
     for i, f in enumerate(frames):
@@ -302,11 +344,12 @@ def calcular_E3(campo, fib_finales, cortes_etapa, metodo=METODO_ADVECCION,
         if len(sub) < 4:
             continue
 
-        lin, nn = _construir_interpoladores(sub)   # 1 triangulacion, no 2-4
-        uv = _interp_uv_rapido(lin, nn, pos)
+        lin, nn, tree = _construir_interpoladores(sub)   # 1 triangulacion, no 2-4
+        uv, ok = _interp_uv_rapido(lin, nn, tree, pos)
+        vivo &= ok
         zonas = asignar_zona(pos[:, 0], pos[:, 1])
 
-        validos = (zonas != None) & (zonas != "fuera")  # noqa: E711
+        validos = vivo & (zonas != None) & (zonas != "fuera")  # noqa: E711
         idx_validos = np.nonzero(validos)[0]
         for k in idx_validos:
             z = zonas[k]
@@ -315,16 +358,27 @@ def calcular_E3(campo, fib_finales, cortes_etapa, metodo=METODO_ADVECCION,
                       else "cuasi" if corte is not None else "n/a")
             registros.append((k, z, regimen))
 
+        if not vivo.any():
+            if verbose:
+                print(f"      ⚠ todas las fibras salieron del material en "
+                      f"el frame {i+1}/{n}; se trunca E3 aquí.", flush=True)
+            break
+
         if i < n - 1:
             if metodo == "euler":
-                pos[:, 0] -= uv["u"] * dt
-                pos[:, 1] -= uv["v"] * dt
+                pos[vivo, 0] -= uv["u"][vivo] * dt
+                pos[vivo, 1] -= uv["v"][vivo] * dt
             else:
                 xm = pos[:, 0] - 0.5 * uv["u"] * dt
                 ym = pos[:, 1] - 0.5 * uv["v"] * dt
-                mid = _interp_uv_rapido(lin, nn, np.column_stack([xm, ym]))
-                pos[:, 0] -= mid["u"] * dt
-                pos[:, 1] -= mid["v"] * dt
+                mid, ok_mid = _interp_uv_rapido(lin, nn, tree,
+                                                np.column_stack([xm, ym]))
+                # Punto medio del RK2 fuera del radio de confianza -> el paso
+                # no es fiable; la fibra se da por perdida en vez de degradar
+                # a Euler silenciosamente.
+                vivo &= ok_mid
+                pos[vivo, 0] -= mid["u"][vivo] * dt
+                pos[vivo, 1] -= mid["v"][vivo] * dt
 
         if verbose and ((i + 1) % intervalo == 0 or (i + 1) == n):
             transcurrido = time.time() - t0
@@ -332,6 +386,12 @@ def calcular_E3(campo, fib_finales, cortes_etapa, metodo=METODO_ADVECCION,
             print(f"      E3 {100*(i+1)/n:5.1f}%  frame {i+1}/{n}  "
                   f"transcurrido={_fmt_seg(transcurrido)}  "
                   f"restante≈{_fmt_seg(restante)}", flush=True)
+
+    if verbose:
+        n_vivas = int(vivo.sum())
+        print(f"      E3: fibras con trayectoria completa hasta el primer "
+              f"frame disponible: {n_vivas}/{F} ({100*n_vivas/F:.0f}%)",
+              flush=True)
 
     reg_df = pd.DataFrame(registros, columns=["idx", "zona", "regimen"])
 
