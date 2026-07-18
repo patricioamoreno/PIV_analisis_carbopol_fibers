@@ -82,6 +82,28 @@ GUARDAR_CAPAS = True
 # para que coincida con la instruccion del profesor por defecto.
 SOLO_VIGA_EN_CAPAS = True
 
+# Filtro estructural de la TABLA de orientacion (no solo de las capas).
+# La orientacion se mide UNICAMENTE en el ultimo frame de fibras, y la salida
+# de la L ya se caracteriza con la polilinea 1D (v_par, gamma_dot sobre la
+# linea de corte). Por tanto las zonas L (Z1/Z2/Z3) son redundantes como
+# unidad de observacion de ORIENTACION: no aportan respuesta nueva y solo
+# meten ruido (pocas fibras, NaN, mezclan universos de conteo distintos en
+# los promedios por factor). Con SOLO_VIGA_EN_TABLA=True, acum_tabla_zona.csv
+# contiene solo filas de viga (Vf*), de modo que TODO el analisis posterior
+# (verificacion_estratificada, generar_mapas, capas) opera sobre el mismo
+# universo sin depender de que cada consumidor recuerde filtrar.
+#
+# IMPORTANTE: esto NO borra las zonas L de los cachES de fluido ni del
+# criterio de exclusion (analisis.py sigue viendo las 8 zonas). Solo saca la L
+# de la tabla de RESPUESTA de fibras, que es el unico lugar donde no aporta.
+# Las zonas L y la polilinea de salida siguen disponibles como contexto y
+# validacion del campo aguas arriba.
+SOLO_VIGA_EN_TABLA = True
+
+# Prefijo(s) que identifican las zonas de viga. definir_zonas.py nombra las
+# celdas de viga como 'Vf<fila>c<col>'; la L usa 'Z1/Z2/Z3'.
+PREFIJO_VIGA = "Vf"
+
 # Exclusion de celdas (toma, zona, etapa) no comparables con el caso base.
 # El criterio y su justificacion estan en criterio_exclusion.py -- en resumen:
 # se marca como NaN el predictor de fluido de una celda cuando su d de Cohen
@@ -196,8 +218,21 @@ def procesar_todas():
 
     acum = pd.concat(tablas, ignore_index=True)
 
+    # ── Filtro estructural a VIGA ────────────────────────────────────
+    # Se aplica ANTES de guardar cualquier version, para que tanto la tabla
+    # con exclusiones como la de sensibilidad compartan el mismo universo de
+    # observaciones (solo viga). Ver la nota de SOLO_VIGA_EN_TABLA arriba.
+    if SOLO_VIGA_EN_TABLA and "zona" in acum.columns:
+        n_todas = len(acum)
+        es_viga = acum["zona"].astype(str).str.startswith(PREFIJO_VIGA)
+        n_L = int((~es_viga).sum())
+        acum = acum[es_viga].reset_index(drop=True)
+        print(f"\n[solo_viga] Tabla restringida a zonas de viga "
+              f"('{PREFIJO_VIGA}*'): {len(acum)}/{n_todas} filas "
+              f"({n_L} filas L descartadas de la tabla de orientacion).")
+
     # ── Version SIN exclusiones (chequeo de sensibilidad) ────────────
-    # Se guarda antes de tocar nada, para poder correr las Capas con y sin
+    # Se guarda antes de tocar nada mas, para poder correr las Capas con y sin
     # el criterio y comprobar si la conclusion depende del umbral elegido.
     if GUARDAR_VERSION_SIN_EXCLUIR:
         acum.to_csv(SALIDA_CSV_SIN_EXCLUIR, index=False)

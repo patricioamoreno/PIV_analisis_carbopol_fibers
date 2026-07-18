@@ -674,6 +674,26 @@ def analisis_por_factores(tabla):
 def main():
     csv = sys.argv[1] if len(sys.argv) > 1 else "acum_tabla_zona.csv"
     tabla = pd.read_csv(csv)
+
+    # Universo UNICO: la orientacion solo se analiza en la viga. Si el CSV
+    # todavia trae zonas L (tabla antigua), se filtran aqui para que TODAS las
+    # funciones de este script -- correlaciones, promedios por factor, mapas --
+    # operen sobre el mismo conjunto. Con la tabla nueva (SOLO_VIGA_EN_TABLA)
+    # esto no descarta nada; con una tabla vieja, evita la inconsistencia de
+    # universos (promedios sobre 8 zonas vs correlaciones sobre viga).
+    # tabla_completa conserva TODAS las zonas: la unica figura que la usa es
+    # la comparacion L-vs-viga (fig_comparacion), cuyo proposito es justamente
+    # contrastar ambos universos. Todo lo demas usa 'tabla' (solo viga).
+    tabla_completa = tabla.copy()
+    if "zona" in tabla.columns:
+        es_viga = tabla["zona"].astype(str).str.startswith("Vf")
+        n_L = int((~es_viga).sum())
+        if n_L:
+            print(f"[solo_viga] {n_L} filas de zonas L excluidas del analisis "
+                  f"de orientacion (se conservan solo para la comparacion "
+                  f"L-vs-viga).")
+            tabla = tabla[es_viga].reset_index(drop=True)
+
     print(f"Leido {csv}: {len(tabla)} filas, "
           f"{tabla['fiable'].sum()} fiables, "
           f"{tabla['zona'].nunique()} zonas, "
@@ -716,7 +736,7 @@ def main():
                 vmin=0.0, vmax=vmax_pred,
                 etiqueta=f"{etiq_pred} — {etapa}")
     fig_mapa_etapas(tabla, predictor="V")
-    cv, cl = fig_comparacion(tabla)
+    cv, cl = fig_comparacion(tabla_completa)
 
     # resumen comparativo en consola
     print("\n--- Comparacion L vs viga (orden_S, V en transicion) ---")
