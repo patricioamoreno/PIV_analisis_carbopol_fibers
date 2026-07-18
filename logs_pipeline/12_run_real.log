@@ -1,0 +1,46 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe run_real.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+
+================================================================================
+1) CARGA DE DATOS REALES
+================================================================================
+[aviso] 19 .npz en la carpeta; uso el primero: m70-toma-2-n-3000-car-02-piv_zonas.npz. Para varias tomas usa cargar_varias_tomas().
+[aviso] 19 .npz en la carpeta; uso el primero: m70-toma-2-n-3000-car-02-piv_zonas.npz. Para varias tomas usa cargar_varias_tomas().
+Traceback (most recent call last):
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\run_real.py", line 189, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\run_real.py", line 56, in main
+    df, diag = cargar_todo(args.piv, args.fibras, args.etapas, verbose=True)
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\carga_real.py", line 379, in cargar_todo
+    df_fib = cargar_fibras(path_fibras_csv)
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\carga_real.py", line 315, in cargar_fibras
+    df = pd.read_csv(path_csv)
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        f,
+        ^^
+    ...<6 lines>...
+        storage_options=self.options.get("storage_options", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+        handle,
+    ...<3 lines>...
+        newline="",
+    )
+PermissionError: [Errno 13] Permission denied: 'fibras_ultimo_frame'
+
+----- return code: 1 -----

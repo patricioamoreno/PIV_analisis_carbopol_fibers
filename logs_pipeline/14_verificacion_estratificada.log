@@ -1,0 +1,126 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe verificacion_estratificada.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+
+========================================================================
+DISEÑO
+========================================================================
+reologia  fibras
+car-02    750       16
+          1500      16
+          3000      16
+car-05    750       12
+          1500      12
+          3000      12
+
+Zonas de viga fiables: N = 47
+
+========================================================================
+1. POR QUÉ HAY QUE ESTRATIFICAR
+========================================================================
+  car-02: V_tr mediana=  11.34  orden_S medio=0.523
+  car-05: V_tr mediana=   3.07  orden_S medio=0.297
+  Mann-Whitney V_transicion    p=nan
+  Mann-Whitney orden_S         p=0.000071
+
+  Las reologías ocupan rangos disjuntos -> agregarlas induce Simpson.
+
+========================================================================
+2. SPEARMAN: agregado vs estratificado
+========================================================================
+predictor                         car-02            car-05          AGREGADO
+V_cuasi                        +nan(nan)         +nan(nan)         +nan(nan)
+V_transicion                   +nan(nan)         +nan(nan)         +nan(nan)
+omega_cuasi                    +nan(nan)         +nan(nan)         +nan(nan)
+omega_transicion               +nan(nan)         +nan(nan)         +nan(nan)
+gamma_dot_cuasi                +nan(nan)         +nan(nan)         +nan(nan)
+gamma_dot_transicion           +nan(nan)         +nan(nan)         +nan(nan)
+
+  V_transicion:  agregado +0.566 (p<0.001)  pero  -0.429 / +0.117 por reología
+  omega_cuasi:   agregado -0.528 (p=0.001)  pero  +0.074 / +0.057 por reología
+  -> ARTEFACTOS DE AGREGACIÓN. No reportar como hallazgos.
+
+========================================================================
+3. LO QUE SÍ SOBREVIVE: mismo signo en ambas reologías
+========================================================================
+
+omega_transicion:
+  car-02: N=29  rho=+nan (p=nan)   parcial|n_fibras=+nan (p=nan)
+  car-05: N=18  rho=+nan (p=nan)   parcial|n_fibras=+nan (p=nan)
+  Fisher combinado: p=nan
+
+gamma_dot_transicion:
+  car-02: N=29  rho=+nan (p=nan)   parcial|n_fibras=+nan (p=nan)
+  car-05: N=18  rho=+nan (p=nan)   parcial|n_fibras=+nan (p=nan)
+  Fisher combinado: p=nan
+
+========================================================================
+INTERPRETACIÓN
+========================================================================
+  omega_transicion se asocia NEGATIVAMENTE con orden_S en ambas reologías.
+
+  Más vorticidad durante la transición -> MENOS alineamiento final.
+
+  Consistente con Jeffery (1922): la parte antisimétrica del gradiente de
+  velocidad (vorticidad) hace rotar la fibra en órbitas periódicas, lo que
+  impide que se estabilice en una orientación preferente. La parte simétrica
+  (deformación) es la que alinea.
+
+  El efecto está replicado en dos fluidos con reologías distintas, tiene el
+  signo que la teoría predice, y persiste al controlar por n_fibras.
+
+========================================================================
+4. LO QUE NO SE SOSTIENE
+========================================================================
+  VIF (colinealidad):
+Traceback (most recent call last):
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\verificacion_estratificada.py", line 113, in <module>
+    r2 = LinearRegression().fit(X[:, otros], X[:, j]).score(X[:, otros], X[:, j])
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\base.py", line 1403, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\linear_model\_base.py", line 681, in fit
+    X, y = validate_data(
+           ~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<5 lines>...
+        force_writeable=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 3055, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 1327, in check_X_y
+    X = check_array(
+        X,
+    ...<12 lines>...
+        input_name="X",
+    )
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 1087, in check_array
+    _assert_all_finite(
+    ~~~~~~~~~~~~~~~~~~^
+        array,
+        ^^^^^^
+    ...<2 lines>...
+        allow_nan=ensure_all_finite == "allow-nan",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 137, in _assert_all_finite
+    _assert_all_finite_element_wise(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        X,
+        ^^
+    ...<4 lines>...
+        input_name=input_name,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 186, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+LinearRegression does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+
+----- return code: 1 -----

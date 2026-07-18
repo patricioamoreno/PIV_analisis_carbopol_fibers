@@ -1,0 +1,354 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe box_piv_ptv.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+
+=======================================================
+Carbopol 02 n-0750  zona L
+=======================================================
+  inicio: ventana [0.00, 1.15] s  PIV n=4,060  PTV n=864
+  transicion: ventana [1.17, 7.43] s  PIV n=20,908  PTV n=2,442
+  cuasi: ventana [7.47, 19.97] s  PIV n=32,486  PTV n=2,340
+
+✅ Boxplots/Boxplots_PIV_PTV\L\box_piv_ptv_car02_n0750_L.png
+
+=======================================================
+Carbopol 05 n-0750  zona L
+=======================================================
+  inicio: ventana [0.00, 8.13] s  PIV n=25,056  PTV n=2,326
+  transicion: ventana [8.17, 16.03] s  PIV n=20,476  PTV n=486
+  cuasi: ventana [16.07, 39.97] s  PIV n=62,034  PTV n=811
+
+✅ Boxplots/Boxplots_PIV_PTV\L\box_piv_ptv_car05_n0750_L.png
+
+=======================================================
+Carbopol 02 n-1500  zona L
+=======================================================
+  inicio: ventana [0.00, 1.15] s  PIV n=4,060  PTV n=398
+  transicion: ventana [1.17, 7.43] s  PIV n=20,908  PTV n=2,778
+  cuasi: ventana [7.47, 19.97] s  PIV n=32,486  PTV n=3,405
+
+✅ Boxplots/Boxplots_PIV_PTV\L\box_piv_ptv_car02_n1500_L.png
+
+=======================================================
+Carbopol 05 n-1500  zona L
+=======================================================
+  inicio: ventana [0.00, 8.13] s  PIV n=25,056  PTV n=2,659
+  transicion: ventana [8.17, 16.03] s  PIV n=20,476  PTV n=900
+  cuasi: ventana [16.07, 39.97] s  PIV n=62,034  PTV n=1,170
+
+✅ Boxplots/Boxplots_PIV_PTV\L\box_piv_ptv_car05_n1500_L.png
+
+=======================================================
+Carbopol 02 n-3000  zona L
+=======================================================
+  inicio: ventana [0.00, 1.15] s  PIV n=4,060  PTV n=484
+  transicion: ventana [1.17, 7.43] s  PIV n=20,908  PTV n=2,731
+  cuasi: ventana [7.47, 19.97] s  PIV n=32,486  PTV n=3,274
+
+✅ Boxplots/Boxplots_PIV_PTV\L\box_piv_ptv_car02_n3000_L.png
+
+=======================================================
+Carbopol 05 n-3000  zona L
+=======================================================
+  inicio: ventana [0.00, 8.13] s  PIV n=25,056  PTV n=2,329
+  transicion: ventana [8.17, 16.03] s  PIV n=20,476  PTV n=944
+  cuasi: ventana [16.07, 39.97] s  PIV n=62,034  PTV n=1,017
+
+✅ Boxplots/Boxplots_PIV_PTV\L\box_piv_ptv_car05_n3000_L.png
+
+=======================================================
+Carbopol 02 n-0750  zona viga175
+=======================================================
+  inicio: ventana [0.00, 1.05] s  PIV n=1,623  PTV n=620
+  transicion: ventana [1.07, 6.03] s  PIV n=19,815  PTV n=25,972
+  cuasi: ventana [6.05, 19.97] s  PIV n=45,111  PTV n=19,175
+
+✅ Boxplots/Boxplots_PIV_PTV\viga175\box_piv_ptv_car02_n0750_viga175.png
+
+=======================================================
+Carbopol 05 n-0750  zona viga175
+=======================================================
+  inicio: ventana [0.00, 9.90] s  PIV n=13,345  PTV n=2,459
+  transicion: ventana [9.93, 17.07] s  PIV n=20,027  PTV n=5,425
+  cuasi: ventana [17.10, 39.97] s  PIV n=73,908  PTV n=11,539
+
+✅ Boxplots/Boxplots_PIV_PTV\viga175\box_piv_ptv_car05_n0750_viga175.png
+
+=======================================================
+Carbopol 02 n-1500  zona viga175
+=======================================================
+  inicio: ventana [0.00, 1.05] s  PIV n=1,550  PTV n=144
+  transicion: ventana [1.07, 6.03] s  PIV n=20,508  PTV n=21,009
+  cuasi: ventana [6.05, 19.97] s  PIV n=43,551  PTV n=21,504
+
+✅ Boxplots/Boxplots_PIV_PTV\viga175\box_piv_ptv_car02_n1500_viga175.png
+
+=======================================================
+Carbopol 05 n-1500  zona viga175
+=======================================================
+  inicio: ventana [0.00, 9.90] s  PIV n=12,583  PTV n=2,003
+  transicion: ventana [9.93, 17.07] s  PIV n=19,641  PTV n=4,407
+  cuasi: ventana [17.10, 39.97] s  PIV n=73,715  PTV n=12,565
+
+✅ Boxplots/Boxplots_PIV_PTV\viga175\box_piv_ptv_car05_n1500_viga175.png
+
+=======================================================
+Carbopol 02 n-3000  zona viga175
+=======================================================
+  inicio: ventana [0.00, 1.05] s  PIV n=1,674  PTV n=41
+  transicion: ventana [1.07, 6.03] s  PIV n=20,561  PTV n=12,230
+  cuasi: ventana [6.05, 19.97] s  PIV n=46,134  PTV n=15,477
+
+✅ Boxplots/Boxplots_PIV_PTV\viga175\box_piv_ptv_car02_n3000_viga175.png
+
+=======================================================
+Carbopol 05 n-3000  zona viga175
+=======================================================
+  inicio: ventana [0.00, 9.90] s  PIV n=14,881  PTV n=1,335
+  transicion: ventana [9.93, 17.07] s  PIV n=21,146  PTV n=3,124
+  cuasi: ventana [17.10, 39.97] s  PIV n=77,276  PTV n=8,690
+
+✅ Boxplots/Boxplots_PIV_PTV\viga175\box_piv_ptv_car05_n3000_viga175.png
+
+=======================================================
+Carbopol 02 n-0750  zona viga250
+=======================================================
+  inicio: ventana [0.00, 1.70] s  PIV n=1,822  PTV n=685
+  transicion: ventana [1.73, 7.60] s  PIV n=15,608  PTV n=16,459
+  cuasi: ventana [7.63, 19.97] s  PIV n=32,988  PTV n=11,101
+
+✅ Boxplots/Boxplots_PIV_PTV\viga250\box_piv_ptv_car02_n0750_viga250.png
+
+=======================================================
+Carbopol 05 n-0750  zona viga250
+=======================================================
+  inicio: ventana [0.00, 21.40] s  PIV n=11,590  PTV n=1,063
+  transicion: ventana [21.43, 22.40] s  PIV n=1,418  PTV n=247
+  cuasi: ventana [22.43, 39.97] s  PIV n=29,221  PTV n=5,438
+
+✅ Boxplots/Boxplots_PIV_PTV\viga250\box_piv_ptv_car05_n0750_viga250.png
+
+=======================================================
+Carbopol 02 n-1500  zona viga250
+=======================================================
+  inicio: ventana [0.00, 1.70] s  PIV n=1,568  PTV n=552
+  transicion: ventana [1.73, 7.60] s  PIV n=16,247  PTV n=18,343
+  cuasi: ventana [7.63, 19.97] s  PIV n=31,717  PTV n=14,207
+
+✅ Boxplots/Boxplots_PIV_PTV\viga250\box_piv_ptv_car02_n1500_viga250.png
+
+=======================================================
+Carbopol 05 n-1500  zona viga250
+=======================================================
+  inicio: ventana [0.00, 21.40] s  PIV n=11,503  PTV n=690
+  transicion: ventana [21.43, 22.40] s  PIV n=1,400  PTV n=91
+  cuasi: ventana [22.43, 39.97] s  PIV n=29,312  PTV n=4,136
+
+✅ Boxplots/Boxplots_PIV_PTV\viga250\box_piv_ptv_car05_n1500_viga250.png
+
+=======================================================
+Carbopol 02 n-3000  zona viga250
+=======================================================
+  inicio: ventana [0.00, 1.70] s  PIV n=1,886  PTV n=394
+  transicion: ventana [1.73, 7.60] s  PIV n=17,501  PTV n=16,189
+  cuasi: ventana [7.63, 19.97] s  PIV n=32,637  PTV n=12,703
+
+✅ Boxplots/Boxplots_PIV_PTV\viga250\box_piv_ptv_car02_n3000_viga250.png
+
+=======================================================
+Carbopol 05 n-3000  zona viga250
+=======================================================
+  inicio: ventana [0.00, 21.40] s  PIV n=13,995  PTV n=829
+  transicion: ventana [21.43, 22.40] s  PIV n=1,567  PTV n=98
+  cuasi: ventana [22.43, 39.97] s  PIV n=31,573  PTV n=2,638
+
+✅ Boxplots/Boxplots_PIV_PTV\viga250\box_piv_ptv_car05_n3000_viga250.png
+
+
+############################################################
+RESUMEN — mediana |V| por muestra
+############################################################
+
+Carbopol 0.2%  n-0750  zona L
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV      201.60 mm/s       4,060
+  inicio      PTV      215.92 mm/s         864
+  transicion  PIV       45.49 mm/s      20,908
+  transicion  PTV       73.77 mm/s       2,442
+  cuasi       PIV        6.49 mm/s      32,486
+  cuasi       PTV        7.38 mm/s       2,340
+
+Carbopol 0.5%  n-0750  zona L
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       31.03 mm/s      25,056
+  inicio      PTV       22.12 mm/s       2,326
+  transicion  PIV       15.73 mm/s      20,476
+  transicion  PTV       11.16 mm/s         486
+  cuasi       PIV        6.26 mm/s      62,034
+  cuasi       PTV        4.70 mm/s         811
+
+Carbopol 0.2%  n-1500  zona L
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV      229.55 mm/s       4,060
+  inicio      PTV      228.50 mm/s         398
+  transicion  PIV       45.07 mm/s      20,908
+  transicion  PTV       93.50 mm/s       2,778
+  cuasi       PIV        6.65 mm/s      32,486
+  cuasi       PTV        7.83 mm/s       3,405
+
+Carbopol 0.5%  n-1500  zona L
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       32.13 mm/s      25,056
+  inicio      PTV       23.07 mm/s       2,659
+  transicion  PIV       15.28 mm/s      20,476
+  transicion  PTV       12.98 mm/s         900
+  cuasi       PIV        6.11 mm/s      62,034
+  cuasi       PTV        4.55 mm/s       1,170
+
+Carbopol 0.2%  n-3000  zona L
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV      207.89 mm/s       4,060
+  inicio      PTV      146.46 mm/s         484
+  transicion  PIV       46.52 mm/s      20,908
+  transicion  PTV       73.79 mm/s       2,731
+  cuasi       PIV        6.45 mm/s      32,486
+  cuasi       PTV        9.55 mm/s       3,274
+
+Carbopol 0.5%  n-3000  zona L
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       36.81 mm/s      25,056
+  inicio      PTV       24.01 mm/s       2,329
+  transicion  PIV       16.55 mm/s      20,476
+  transicion  PTV       12.50 mm/s         944
+  cuasi       PIV        6.00 mm/s      62,034
+  cuasi       PTV        5.68 mm/s       1,017
+
+Carbopol 0.2%  n-0750  zona viga175
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       82.75 mm/s       1,623
+  inicio      PTV      105.28 mm/s         620
+  transicion  PIV       17.42 mm/s      19,815
+  transicion  PTV       37.50 mm/s      25,972
+  cuasi       PIV        2.57 mm/s      45,111
+  cuasi       PTV        5.04 mm/s      19,175
+
+Carbopol 0.5%  n-0750  zona viga175
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV        6.10 mm/s      13,345
+  inicio      PTV        9.50 mm/s       2,459
+  transicion  PIV        3.91 mm/s      20,027
+  transicion  PTV        8.16 mm/s       5,425
+  cuasi       PIV        1.57 mm/s      73,908
+  cuasi       PTV        3.18 mm/s      11,539
+
+Carbopol 0.2%  n-1500  zona viga175
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       81.40 mm/s       1,550
+  inicio      PTV      133.24 mm/s         144
+  transicion  PIV       16.18 mm/s      20,508
+  transicion  PTV       47.04 mm/s      21,009
+  cuasi       PIV        2.02 mm/s      43,551
+  cuasi       PTV        6.90 mm/s      21,504
+
+Carbopol 0.5%  n-1500  zona viga175
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV        6.19 mm/s      12,583
+  inicio      PTV        9.89 mm/s       2,003
+  transicion  PIV        3.82 mm/s      19,641
+  transicion  PTV        9.20 mm/s       4,407
+  cuasi       PIV        1.54 mm/s      73,715
+  cuasi       PTV        4.52 mm/s      12,565
+
+Carbopol 0.2%  n-3000  zona viga175
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       65.21 mm/s       1,674
+  inicio      PTV      125.24 mm/s          41
+  transicion  PIV       16.26 mm/s      20,561
+  transicion  PTV       47.77 mm/s      12,230
+  cuasi       PIV        1.28 mm/s      46,134
+  cuasi       PTV       11.21 mm/s      15,477
+
+Carbopol 0.5%  n-3000  zona viga175
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV        7.02 mm/s      14,881
+  inicio      PTV       10.76 mm/s       1,335
+  transicion  PIV        4.04 mm/s      21,146
+  transicion  PTV        9.47 mm/s       3,124
+  cuasi       PIV        1.49 mm/s      77,276
+  cuasi       PTV        4.91 mm/s       8,690
+
+Carbopol 0.2%  n-0750  zona viga250
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       59.03 mm/s       1,822
+  inicio      PTV       73.29 mm/s         685
+  transicion  PIV       12.76 mm/s      15,608
+  transicion  PTV       34.65 mm/s      16,459
+  cuasi       PIV        1.51 mm/s      32,988
+  cuasi       PTV        4.68 mm/s      11,101
+
+Carbopol 0.5%  n-0750  zona viga250
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV        3.31 mm/s      11,590
+  inicio      PTV        5.46 mm/s       1,063
+  transicion  PIV        3.02 mm/s       1,418
+  transicion  PTV        3.38 mm/s         247
+  cuasi       PIV        1.45 mm/s      29,221
+  cuasi       PTV        3.42 mm/s       5,438
+
+Carbopol 0.2%  n-1500  zona viga250
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       56.55 mm/s       1,568
+  inicio      PTV       89.10 mm/s         552
+  transicion  PIV       12.45 mm/s      16,247
+  transicion  PTV       49.19 mm/s      18,343
+  cuasi       PIV        1.04 mm/s      31,717
+  cuasi       PTV        6.88 mm/s      14,207
+
+Carbopol 0.5%  n-1500  zona viga250
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV        3.36 mm/s      11,503
+  inicio      PTV        6.26 mm/s         690
+  transicion  PIV        2.98 mm/s       1,400
+  transicion  PTV        4.51 mm/s          91
+  cuasi       PIV        1.43 mm/s      29,312
+  cuasi       PTV        4.22 mm/s       4,136
+
+Carbopol 0.2%  n-3000  zona viga250
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV       59.16 mm/s       1,886
+  inicio      PTV      109.91 mm/s         394
+  transicion  PIV       12.09 mm/s      17,501
+  transicion  PTV       44.22 mm/s      16,189
+  cuasi       PIV        1.20 mm/s      32,637
+  cuasi       PTV       10.49 mm/s      12,703
+
+Carbopol 0.5%  n-3000  zona viga250
+  Etapa       Metodo   Mediana |V|           n
+  ----------- ------ -------------  ----------
+  inicio      PIV        3.50 mm/s      13,995
+  inicio      PTV        5.54 mm/s         829
+  transicion  PIV        3.05 mm/s       1,567
+  transicion  PTV        5.37 mm/s          98
+  cuasi       PIV        1.37 mm/s      31,573
+  cuasi       PTV        4.02 mm/s       2,638
+
+----- return code: 0 -----

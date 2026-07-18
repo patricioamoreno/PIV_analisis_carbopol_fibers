@@ -1,0 +1,128 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe calcular_etapas_polilinea.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+C:\Users\elisa\Desktop\PIV MEMORIA\calcular_etapas_polilinea.py:120: RuntimeWarning: Mean of empty slice
+  v_media  = np.nanmean(mat_full, axis=1)
+C:\Users\elisa\Desktop\PIV MEMORIA\calcular_etapas_polilinea.py:208: RuntimeWarning: Mean of empty slice
+  v_media  = np.nanmean(mat_full, axis=1)
+WNDPROC return value cannot be converted to LRESULT
+TypeError: WPARAM is simple, so must be an int object (got NoneType)
+Carpetas encontradas: 20
+
+
+=======================================================
+  ZONA: L
+=======================================================
+
+  Calculando base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_L]  peak=1.23s  cuasi=7.60s  frames_cuasi=372  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_L]  peak=1.23s  cuasi=7.47s  frames_cuasi=376  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_L]  peak=1.13s  cuasi=7.47s  frames_cuasi=376  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_L]  peak=1.13s  cuasi=7.37s  frames_cuasi=379  fallback=False
+  m70-toma-2-n-3000-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m71-toma-1-n-0000-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m71-toma-2-n-0000-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m73-toma-2-n-1500-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m74-toma-2-n-0750-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m75-toma-2-n-0750-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m77-toma-2-n-1500-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m80-toma-2-n-3000-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m82-toma-1-n-0000-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+  m82-toma-2-n-0000-car-02-piv_L  peak=1.17s  cuasi=7.47s  [base]
+
+  Calculando base car-05 (4 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_L]  peak=7.73s  cuasi=16.13s  frames_cuasi=716  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_L]  peak=8.50s  cuasi=14.13s  frames_cuasi=776  fallback=False
+  [m93-toma-1-n-0000-car-05-piv_L]  peak=7.60s  cuasi=10.13s  frames_cuasi=896  fallback=False
+  [m93-toma-2-n-0000-car-05-piv_L]  peak=8.90s  cuasi=23.93s  frames_cuasi=482  fallback=False
+  m83-toma-2-n-3000-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m86-toma-2-n-0750-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m87-toma-2-n-0750-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m91-toma-2-n-3000-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m92-toma-1-n-0000-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m92-toma-2-n-0000-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m93-toma-1-n-0000-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m93-toma-2-n-0000-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m94-toma-2-n-1500-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+  m95-toma-2-n-1500-car-05-piv_L  peak=8.17s  cuasi=16.07s  [base]
+
+=======================================================
+  ZONA: viga175
+=======================================================
+
+  Calculando base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_viga175]  peak=1.15s  cuasi=5.77s  frames_cuasi=434  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_viga175]  peak=1.15s  cuasi=6.47s  frames_cuasi=406  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_viga175]  peak=1.07s  cuasi=5.97s  frames_cuasi=426  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_viga175]  peak=0.97s  cuasi=5.97s  frames_cuasi=426  fallback=False
+  m70-toma-2-n-3000-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m71-toma-1-n-0000-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m71-toma-2-n-0000-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m73-toma-2-n-1500-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m74-toma-2-n-0750-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m75-toma-2-n-0750-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m77-toma-2-n-1500-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m80-toma-2-n-3000-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m82-toma-1-n-0000-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+  m82-toma-2-n-0000-car-02-piv_viga175  peak=1.07s  cuasi=6.05s  [base]
+
+  Calculando base car-05 (4 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_viga175]  peak=8.30s  cuasi=27.80s  frames_cuasi=366  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_viga175]  peak=12.60s  cuasi=13.60s  frames_cuasi=792  fallback=False
+    ⚠ Excluida de base: m93-toma-1-n-0000-car-05-piv
+  [m93-toma-2-n-0000-car-05-piv_viga175]  peak=8.90s  cuasi=9.90s  frames_cuasi=903  fallback=False
+  m83-toma-2-n-3000-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  m86-toma-2-n-0750-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  m87-toma-2-n-0750-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  m91-toma-2-n-3000-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  m92-toma-1-n-0000-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  m92-toma-2-n-0000-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  ⚠ Excluida de resultados: m93-toma-1-n-0000-car-05-piv_viga175
+  m93-toma-2-n-0000-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  m94-toma-2-n-1500-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+  m95-toma-2-n-1500-car-05-piv_viga175  peak=9.93s  cuasi=17.10s  [base]
+
+=======================================================
+  ZONA: viga250
+=======================================================
+
+  Calculando base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_viga250]  peak=1.63s  cuasi=7.70s  frames_cuasi=369  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_viga250]  peak=1.65s  cuasi=7.37s  frames_cuasi=379  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_viga250]  peak=1.95s  cuasi=7.77s  frames_cuasi=367  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_viga250]  peak=1.65s  cuasi=7.67s  frames_cuasi=370  fallback=False
+  m70-toma-2-n-3000-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m71-toma-1-n-0000-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m71-toma-2-n-0000-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m73-toma-2-n-1500-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m74-toma-2-n-0750-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m75-toma-2-n-0750-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m77-toma-2-n-1500-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m80-toma-2-n-3000-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m82-toma-1-n-0000-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+  m82-toma-2-n-0000-car-02-piv_viga250  peak=1.73s  cuasi=7.63s  [base]
+
+  Calculando base car-05 (4 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_viga250]  peak=25.00s  cuasi=26.00s  frames_cuasi=420  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_viga250]  peak=22.77s  cuasi=23.77s  frames_cuasi=487  fallback=False
+    ⚠ Excluida de base: m93-toma-1-n-0000-car-05-piv
+  [m93-toma-2-n-0000-car-05-piv_viga250]  peak=16.57s  cuasi=17.57s  frames_cuasi=673  fallback=False
+  m83-toma-2-n-3000-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  m86-toma-2-n-0750-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  m87-toma-2-n-0750-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  m91-toma-2-n-3000-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  m92-toma-1-n-0000-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  m92-toma-2-n-0000-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  ⚠ Excluida de resultados: m93-toma-1-n-0000-car-05-piv_viga250
+  m93-toma-2-n-0000-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  m94-toma-2-n-1500-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+  m95-toma-2-n-1500-car-05-piv_viga250  peak=21.43s  cuasi=22.43s  [base]
+
+✅ Guardado: etapas_polilinea.json
+   58 entradas
+
+✅ Sin fallbacks.
+
+----- return code: 0 -----

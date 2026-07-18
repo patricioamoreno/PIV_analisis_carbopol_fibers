@@ -1,0 +1,66 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe exportar_fibras_ultimo_frame.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+======================================================================
+EXPORTAR FIBRAS FINALES DE CADA ENSAYO (ventana de últimos frames)
+======================================================================
+
+Ventana temporal: últimos 10 frames por ensayo
+Raíz de búsqueda:  C:\Users\elisa\Desktop\PIV MEMORIA\PTV_Results
+Ensayos detectados: 12
+Carpeta de salida: C:\Users\elisa\Desktop\PIV MEMORIA\fibras_ultimo_frame
+
+  ✓ m70-toma-1-n-3000-car-02-ptv
+      t_último = 20.605 s  |  frames usados = 10  |  n_fibras = 682  (solo último frame: 113, rescatadas: +569)
+      x ∈ [57.5, 398.7] mm  |  y ∈ [-77.9, 101.1] mm
+  ✓ m73-toma-1-n-1500-car-02-ptv
+      t_último = 21.395 s  |  frames usados = 10  |  n_fibras = 684  (solo último frame: 156, rescatadas: +528)
+      x ∈ [71.1, 398.0] mm  |  y ∈ [-79.5, 123.7] mm
+  ✓ m74-toma-1-n-0750-car-02-ptv
+      t_último = 20.323 s  |  frames usados = 10  |  n_fibras = 491  (solo último frame: 194, rescatadas: +297)
+      x ∈ [45.9, 398.4] mm  |  y ∈ [-79.7, 111.2] mm
+  ✓ m75-toma-1-n-0750-car-02-ptv
+      t_último = 20.314 s  |  frames usados = 10  |  n_fibras = 506  (solo último frame: 192, rescatadas: +314)
+      x ∈ [48.9, 396.8] mm  |  y ∈ [-76.0, 128.0] mm
+  ✓ m77-toma-1-n-1500-car-02-ptv
+      t_último = 20.327 s  |  frames usados = 10  |  n_fibras = 676  (solo último frame: 217, rescatadas: +459)
+      x ∈ [46.1, 398.3] mm  |  y ∈ [-77.1, 125.6] mm
+  ✓ m80-toma-1-n-3000-car-02-ptv
+      t_último = 20.614 s  |  frames usados = 10  |  n_fibras = 677  (solo último frame: 121, rescatadas: +556)
+      x ∈ [43.3, 396.6] mm  |  y ∈ [-73.3, 138.0] mm
+  ✓ m83-toma-1-n-3000-car-05-ptv
+      t_último = 41.259 s  |  frames usados = 10  |  n_fibras = 914  (solo último frame: 233, rescatadas: +681)
+      x ∈ [46.8, 367.6] mm  |  y ∈ [-74.1, 127.3] mm
+  ✓ m86-toma-1-n-0750-car-05-ptv
+      t_último = 41.023 s  |  frames usados = 10  |  n_fibras = 432  (solo último frame: 220, rescatadas: +212)
+      x ∈ [49.4, 364.9] mm  |  y ∈ [-70.7, 131.9] mm
+  ✓ m87-toma-1-n-0750-car-05-ptv
+      t_último = 40.995 s  |  frames usados = 10  |  n_fibras = 427  (solo último frame: 215, rescatadas: +212)
+      x ∈ [48.2, 356.7] mm  |  y ∈ [-73.6, 131.1] mm
+  ✓ m91-toma-1-n-3000-car-05-ptv
+      t_último = 40.695 s  |  frames usados = 10  |  n_fibras = 720  (solo último frame: 209, rescatadas: +511)
+      x ∈ [47.2, 359.4] mm  |  y ∈ [-73.3, 134.4] mm
+  ✓ m94-toma-1-n-1500-car-05-ptv
+      t_último = 40.723 s  |  frames usados = 10  |  n_fibras = 733  (solo último frame: 229, rescatadas: +504)
+      x ∈ [45.9, 297.6] mm  |  y ∈ [-78.3, 128.1] mm
+  ✓ m95-toma-1-n-1500-car-05-ptv
+      t_último = 41.041 s  |  frames usados = 10  |  n_fibras = 855  (solo último frame: 280, rescatadas: +575)
+      x ∈ [50.0, 356.4] mm  |  y ∈ [-74.3, 119.7] mm
+
+  ✓ _resumen.csv (12 ensayos)
+
+======================================================================
+✓ 12 ensayos exportados  |  5418 fibras rescatadas en total
+
+Archivos en: C:\Users\elisa\Desktop\PIV MEMORIA\fibras_ultimo_frame
+
+Notas:
+  • Ventana: últimos 10 frames. Ajustable con 'python exportar_fibras_ultimo_frame.py N' o N_FRAMES_VENTANA.
+  • A cada fibra (track_id) se le asocia su aparición MÁS RECIENTE
+    dentro de la ventana: es su estado final observado, sin promediar.
+  • Se aplica la corrección y *= -1 (sistema físico, no cámara)
+  • angle_deg respeta la convención del detector (desde la horizontal)
+  • Las fibras possible_duplicate=True se omiten
+  • n_rescatadas = fibras que el método de un solo frame perdía
+
+----- return code: 0 -----

@@ -1,0 +1,266 @@
+
+
+==============================================================================
+CORRIDA INICIADA: 2026-07-17 20:23:18
+Repositorio: C:\Users\elisa\Desktop\PIV MEMORIA
+Pasos planificados: 15
+==============================================================================
+
+[2026-07-17 20:23:20] PASO 01 — exportar_fibras_ultimo_frame.py  (0. Fibras último fotograma)
+Estado: ERROR
+Salida esperada: fibras_ultimo_frame/
+Log completo: C:\Users\elisa\Desktop\PIV MEMORIA\logs_pipeline\01_exportar_fibras_ultimo_frame.log
+Detalle:
+Traceback (most recent call last):
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\exportar_fibras_ultimo_frame.py", line 425, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\exportar_fibras_ultimo_frame.py", line 379, in main
+    print(f"  \u2713 {nombre_ensayo}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 2: character maps to <undefined>
+----------------------------------------------------------------------
+
+[2026-07-17 20:23:21] PASO 02 — construir_caches.py  (1. Cachés — polilíneas)
+Estado: ERROR
+Salida esperada: cache_completo/
+Log completo: C:\Users\elisa\Desktop\PIV MEMORIA\logs_pipeline\02_construir_caches.log
+Detalle:
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+Traceback (most recent call last):
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\construir_caches.py", line 381, in <module>
+    construir_cache(carpeta, prefijo, usar_magnitud=False)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\construir_caches.py", line 317, in construir_cache
+    print(f"  \U0001f528 {zona_str}/{carpeta}  ({len(files)} frames) [{modo_str}]", flush=True)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f528' in position 2: character maps to <undefined>
+----------------------------------------------------------------------
+
+[2026-07-17 20:23:23] PASO 03 — construir_caches_zonas.py  (1. Cachés — zonas)
+Estado: ERROR
+Salida esperada: cache_zonas/
+Log completo: C:\Users\elisa\Desktop\PIV MEMORIA\logs_pipeline\03_construir_caches_zonas.log
+Detalle:
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+Traceback (most recent call last):
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\construir_caches_zonas.py", line 322, in <module>
+    construir_cache(carpeta)
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\construir_caches_zonas.py", line 229, in construir_cache
+    print(f"  \u2713 Ya existe: {fname}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 2: character maps to <undefined>
+----------------------------------------------------------------------
+
+[2026-07-17 20:23:36] PASO 04 — calcular_etapas_polilinea.py  (2. Etapas — polilínea)
+Estado: ERROR
+Salida esperada: etapas_polilinea.json
+Log completo: C:\Users\elisa\Desktop\PIV MEMORIA\logs_pipeline\04_calcular_etapas_polilinea.log
+Detalle:
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+C:\Users\elisa\Desktop\PIV MEMORIA\calcular_etapas_polilinea.py:120: RuntimeWarning: Mean of empty slice
+  v_media  = np.nanmean(mat_full, axis=1)
+C:\Users\elisa\Desktop\PIV MEMORIA\calcular_etapas_polilinea.py:208: RuntimeWarning: Mean of empty slice
+  v_media  = np.nanmean(mat_full, axis=1)
+Traceback (most recent call last):
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\calcular_etapas_polilinea.py", line 187, in <module>
+    t_peak_base, t_quasi_base = calcular_indices_base(
+                                ~~~~~~~~~~~~~~~~~~~~~^
+        carpetas_base, prefijo, zona_key, CACHE_DIR)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\calcular_etapas_polilinea.py", line 107, in calcular_indices_base
+    print(f"    \u26a0 Excluida de base: {carpeta}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u26a0' in position 4: character maps to <undefined>
+----------------------------------------------------------------------
+
+
+==============================================================================
+CORRIDA INICIADA: 2026-07-17 20:25:54
+Repositorio: C:\Users\elisa\Desktop\PIV MEMORIA
+Pasos planificados: 15
+==============================================================================
+
+
+==============================================================================
+CORRIDA INICIADA: 2026-07-17 20:29:35
+Repositorio: C:\Users\elisa\Desktop\PIV MEMORIA
+Pasos planificados: 15
+==============================================================================
+
+[2026-07-18 00:26:50] PASO 12 — run_real.py  (3c. Análisis II — capas 1/2/4)
+Estado: ERROR
+Salida esperada: acum_capa{1,2,4}_global.csv
+Log completo: C:\Users\elisa\Desktop\PIV MEMORIA\logs_pipeline\12_run_real.log
+Detalle:
+================================================================================
+1) CARGA DE DATOS REALES
+================================================================================
+[aviso] 19 .npz en la carpeta; uso el primero: m70-toma-2-n-3000-car-02-piv_zonas.npz. Para varias tomas usa cargar_varias_tomas().
+[aviso] 19 .npz en la carpeta; uso el primero: m70-toma-2-n-3000-car-02-piv_zonas.npz. Para varias tomas usa cargar_varias_tomas().
+Traceback (most recent call last):
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\run_real.py", line 189, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\run_real.py", line 56, in main
+    df, diag = cargar_todo(args.piv, args.fibras, args.etapas, verbose=True)
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\carga_real.py", line 379, in cargar_todo
+    df_fib = cargar_fibras(path_fibras_csv)
+  File "C:\Users\elisa\Desktop\PIV MEMORIA\carga_real.py", line 315, in cargar_fibras
+    df = pd.read_csv(path_csv)
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        f,
+        ^^
+    ...<6 lines>...
+        storage_options=self.options.get("storage_options", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+        handle,
+    ...<3 lines>...
+        newline="",
+    )
+PermissionError: [Errno 13] Permission denied: 'fibras_ultimo_frame'
+----------------------------------------------------------------------
+
+[2026-07-18 00:26:59] PASO 14 — verificacion_estratificada.py  (3c. Chequeo manual estratificado (opcional, no forma parte del flujo automatizado))
+Estado: ERROR
+Salida esperada: (impresión en consola)
+Log completo: C:\Users\elisa\Desktop\PIV MEMORIA\logs_pipeline\14_verificacion_estratificada.log
+Detalle:
+========================================================================
+DISEÑO
+========================================================================
+reologia  fibras
+car-02    750       16
+          1500      16
+          3000      16
+car-05    750       12
+          1500      12
+          3000      12
+
+Zonas de viga fiables: N = 47
+
+========================================================================
+1. POR QUÉ HAY QUE ESTRATIFICAR
+========================================================================
+  car-02: V_tr mediana=  11.34  orden_S medio=0.523
+  car-05: V_tr mediana=   3.07  orden_S medio=0.297
+  Mann-Whitney V_transicion    p=nan
+  Mann-Whitney orden_S         p=0.000071
+
+  Las reologías ocupan rangos disjuntos -> agregarlas induce Simpson.
+
+========================================================================
+2. SPEARMAN: agregado vs estratificado
+========================================================================
+predictor                         car-02            car-05          AGREGADO
+V_cuasi                        +nan(nan)         +nan(nan)         +nan(nan)
+V_transicion                   +nan(nan)         +nan(nan)         +nan(nan)
+omega_cuasi                    +nan(nan)         +nan(nan)         +nan(nan)
+omega_transicion               +nan(nan)         +nan(nan)         +nan(nan)
+gamma_dot_cuasi                +nan(nan)         +nan(nan)         +nan(nan)
+gamma_dot_transicion           +nan(nan)         +nan(nan)         +nan(nan)
+
+  V_transicion:  agregado +0.566 (p<0.001)  pero  -0.429 / +0.117 por reología
+  omega_cuasi:   agregado -0.528 (p=0.001)  pero  +0.074 / +0.057 por reología
+  -> ARTEFACTOS DE AGREGACIÓN. No reportar como hallazgos.
+
+========================================================================
+3. LO QUE SÍ SOBREVIVE: mismo signo en ambas reologías
+========================================================================
+
+omega_transicion:
+  car-02: N=29  rho=+nan (p=nan)   parcial|n_fibras=+nan (p=nan)
+
+[... recortado, ver log completo en logs/ ...]
+
+   ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 3055, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 1327, in check_X_y
+    X = check_array(
+        X,
+    ...<12 lines>...
+        input_name="X",
+    )
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 1087, in check_array
+    _assert_all_finite(
+    ~~~~~~~~~~~~~~~~~~^
+        array,
+        ^^^^^^
+    ...<2 lines>...
+        allow_nan=ensure_all_finite == "allow-nan",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 137, in _assert_all_finite
+    _assert_all_finite_element_wise(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        X,
+        ^^
+    ...<4 lines>...
+        input_name=input_name,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\sklearn\utils\validation.py", line 186, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+LinearRegression does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+----------------------------------------------------------------------
+
+==============================================================================
+RESUMEN — corrida terminada 2026-07-18 01:29:39 (duración total: 300.1 min)
+==============================================================================
+OK                     : 13/15
+Fallidos (obligatorios): 1
+Fallidos (opcionales)  : 1
+
+  ✓ 01. exportar_fibras_ultimo_frame.py        OK                         16.5s
+  ✓ 02. construir_caches.py                    OK                       2674.4s
+  ✓ 03. construir_caches_zonas.py              OK                       9463.0s
+  ✓ 04. calcular_etapas_polilinea.py           OK                         27.2s
+  ✓ 05. calcular_etapas_zonas.py               OK                        446.2s
+  ✓ 06. box_act.py                             OK                         38.7s
+  ✓ 07. esp_plug_mag.py                        OK                         60.1s
+  ✓ 08. box_piv_ptv.py                         OK                          7.2s
+  ✓ 09. esp_overlay_piv_ptv.py                 OK                         15.2s
+  ✓ 10. analisis.py                            OK                       1417.7s
+  ✓ 11. construir_tabla_zonas_todas.py         OK                         63.1s
+  ✗ 12. run_real.py                            ERROR                       5.6s
+  ✓ 13. generar_mapas.py                       OK                          6.7s
+  ✗ 14. verificacion_estratificada.py          ERROR                       2.1s
+  ✓ 15. reconstruccion_lagrangiana.py          OK                       3760.1s
+==============================================================================

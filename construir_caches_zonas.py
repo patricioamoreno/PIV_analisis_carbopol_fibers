@@ -63,7 +63,7 @@ BASE_PATH = Path("../PIV_INTERPOLADO")
 CACHE_DIR = "cache_zonas"
 
 # True → reconstruye aunque el caché ya exista
-RECALCULO = False
+RECALCULO = True
 
 # Vecinos para el ajuste lineal local (γ̇ y vorticidad). Igual que gamma_fields.
 K_VECINOS = 6

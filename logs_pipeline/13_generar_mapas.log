@@ -1,0 +1,64 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe generar_mapas.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+Leido acum_tabla_zona.csv: 84 filas, 80 fiables, 8 zonas, 12 tomas
+
+Generando figuras de zona/correlacion:
+  guardado: figs_memoria/correlacion/fig_panorama_heatmap.png
+  guardado: figs_memoria/correlacion/fig_scatter_V_orden_S.png
+  guardado: figs_memoria/correlacion/fig_scatter_V_calidad_orientacion.png
+  guardado: figs_memoria/correlacion/fig_barras_temporal.png
+  guardado: figs_memoria/mapas_generales/fig_mapa_viga_L.png
+  guardado: figs_memoria/mapas_generales/fig_mapa_calidad.png
+  guardado: figs_memoria/mapas_viga/fig_viga_calidad_orientacion.png
+  guardado: figs_memoria/mapas_viga/fig_viga_orden_S.png
+  guardado: figs_memoria/mapas_viga/fig_viga_sigma_iso.png
+  guardado: figs_memoria/mapas_viga/fig_viga_indice_uniformidad.png
+  guardado: figs_memoria/mapas_viga/fig_viga_V_transicion.png
+  guardado: figs_memoria/mapas_viga/fig_viga_V_cuasi.png
+  guardado: figs_memoria/mapas_viga/fig_viga_omega_transicion.png
+  guardado: figs_memoria/mapas_viga/fig_viga_omega_cuasi.png
+  guardado: figs_memoria/mapas_viga/fig_viga_gamma_dot_transicion.png
+  guardado: figs_memoria/mapas_viga/fig_viga_gamma_dot_cuasi.png
+  guardado: figs_memoria/mapas_generales/fig_mapa_etapas.png
+  guardado: figs_memoria/correlacion/fig_comparacion_L_viga.png
+
+--- Comparacion L vs viga (orden_S, V en transicion) ---
+  VIGA : rho=+0.30  p=0.063  n=39
+  L    : rho=+0.53  p=0.004  n=27
+
+Generando figuras por reologia y fibras:
+  guardado: figs_memoria/por_factor/fig_box_reologia.png
+  guardado: figs_memoria/por_factor/fig_box_fibras.png
+  guardado: figs_memoria/por_factor/fig_interaccion.png
+  guardado: figs_memoria/correlacion/fig_corr_por_grupo_orden_S.png
+  guardado: figs_memoria/correlacion/fig_corr_por_grupo_calidad_orientacion.png
+  guardado: tabla_por_celda.csv
+
+=== Alineamiento medio por REOLOGIA ===
+           mean    std  size
+reologia                    
+car-02    0.547  0.170    44
+car-05    0.394  0.192    36
+
+=== Alineamiento medio por FIBRAS ===
+         mean    std  size
+fibras                    
+750     0.516  0.175    26
+1500    0.444  0.209    28
+3000    0.477  0.198    26
+
+=== rho(V transicion -> orden_S) por grupo ===
+    tipo  grupo      rho        p  n
+    TODO global 0.542511 0.000003 66
+reologia car-02 0.199477 0.211157 41
+reologia car-05 0.526923 0.006803 25
+  fibras    750 0.580040 0.003716 23
+  fibras   1500 0.366234 0.102504 21
+  fibras   3000 0.571993 0.005412 22
+
+Test car-02 vs car-05 (orden_S): medias 0.547 vs 0.394, p=0.000
+
+Listo.
+
+----- return code: 0 -----
