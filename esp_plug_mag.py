@@ -40,6 +40,7 @@ import re
 import json
 import warnings
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.gridspec import GridSpec
@@ -448,6 +449,70 @@ def graficar_fraccion_plug(f_plug, tiempos_full, tiempos_list, ss,
 
 
 # ============================================================
+# CUANTIFICACIÓN DE LA ESTABILIZACIÓN (para Resultados y Análisis)
+# ============================================================
+
+def tiempo_estabilizacion(f_plug, t_ref, tiempos_list=None,
+                          umbral_frac=0.5, persistencia_s=1.5):
+    """
+    Extrae el instante a partir del cual la zona entra en régimen de plug de
+    forma SOSTENIDA. Este es el dato que justifica usar el último frame de
+    fibras como orientación final: una vez que la zona está en plug (γ̇ bajo,
+    sin deformación interna), las fibras dejan de reorientarse.
+
+    Criterio: fracción media de plug en s = nanmean(f_plug, axis=1). Se busca
+    el primer instante t* tal que la fracción supera 'umbral_frac' y se
+    MANTIENE por encima durante al menos 'persistencia_s' segundos. La
+    persistencia (1.5 s por defecto) evita que un pico transitorio de plug
+    dispare el criterio: solo cuenta si el régimen se sostiene. Si nunca se
+    sostiene, t_estab = NaN.
+
+    Devuelve un dict con:
+      frac_final     : fracción de plug promediada sobre el último 10% del tiempo
+      frac_max       : fracción de plug máxima alcanzada
+      t_estab        : primer instante de plug sostenido [s] (NaN si no ocurre)
+      t_estab_rel    : t_estab / t_final  (fracción del llenado; NaN si no ocurre)
+      t_final        : duración total de la grilla [s]
+      cruza_transicion: True si t_estab cae en 'inicio'/'transicion' (antes del
+                        cuasi-estacionario), lo que indicaría que el plug se
+                        establece temprano.
+    """
+    serie = np.nanmean(f_plug, axis=1)          # fracción media de plug en t
+    t = np.asarray(t_ref, dtype=float)
+    t_final = float(t[-1] - t[0])
+
+    frac_max = float(np.nanmax(serie)) if np.isfinite(serie).any() else np.nan
+    # promedio sobre el último 10% de la grilla temporal
+    n_cola = max(1, len(t) // 10)
+    frac_final = float(np.nanmean(serie[-n_cola:]))
+
+    # paso temporal medio -> nº de muestras que cubren 'persistencia_s'
+    paso = np.median(np.diff(t)) if len(t) > 1 else 0.0
+    n_pers = max(1, int(round(persistencia_s / paso))) if paso > 0 else 1
+
+    t_estab = np.nan
+    for i in range(len(serie) - n_pers + 1):
+        ventana = serie[i:i + n_pers]
+        if np.all(ventana >= umbral_frac):     # sostenido por >= persistencia_s
+            t_estab = float(t[i] - t[0])
+            break
+
+    t_estab_rel = t_estab / t_final if (t_final > 0 and np.isfinite(t_estab)) \
+        else np.nan
+
+    # ¿el plug se establece antes del cuasi-estacionario? tiempos_list son las
+    # fronteras de etapa (fin de inicio, fin de transición) como arrays.
+    cruza_transicion = np.nan
+    if tiempos_list is not None and len(tiempos_list) >= 2 and np.isfinite(t_estab):
+        fin_transicion = float(tiempos_list[1][-1])
+        cruza_transicion = bool(t_estab <= fin_transicion)
+
+    return {"frac_final": frac_final, "frac_max": frac_max,
+            "t_estab": t_estab, "t_estab_rel": t_estab_rel,
+            "t_final": t_final, "cruza_transicion": cruza_transicion}
+
+
+# ============================================================
 # PIPELINE POR ZONA
 # ============================================================
 
@@ -490,11 +555,9 @@ def interpolar_a_grilla(mat, t_toma, t_ref):
 
 
 def procesar_zona(etapas, grupos, ss, prefijo, zona_label,
-                  output_suffix, L_m=0.02, zona_key='L', timeline=None):
+                  output_suffix, L_m=0.02, zona_key='L', timeline=None,
+                  filas_estab=None):
     dir_plug      = os.path.join(OUTPUT_DIR, "PLUG");       os.makedirs(dir_plug,      exist_ok=True)
-    dir_reynolds  = os.path.join(OUTPUT_DIR, "REYNOLDS");   os.makedirs(dir_reynolds,  exist_ok=True)
-    dir_hist      = os.path.join(OUTPUT_DIR, "HIST_GAMMA"); os.makedirs(dir_hist,      exist_ok=True)
-    dir_frac      = os.path.join(OUTPUT_DIR, "FRAC_PLUG");  os.makedirs(dir_frac,      exist_ok=True)
     dir_cache_plug = os.path.join(OUTPUT_DIR, "cache_plug"); os.makedirs(dir_cache_plug, exist_ok=True)
 
     for (reo, conc), carpetas in sorted(grupos.items()):
@@ -613,23 +676,36 @@ def procesar_zona(etapas, grupos, ss, prefijo, zona_label,
         )
         print(f"    💾 Caché plug guardado: plug_{output_suffix}_{nombre_grupo}.npz")
 
-        # Figuras
+        # Figuras — solo el espectrograma de PLUG (los de Reynolds, histograma
+        # de γ̇ y fracción de plug se retiraron por decisión de presentación).
+        # El cálculo de f_plug se conserva porque de él se extrae el tiempo de
+        # estabilización, que es un resultado cuantitativo de la memoria.
         graficar(
             matriz_full, mat_plug, mat_ratio, tiempos_full, tiempos_list,
             ss, nombre_grupo, zona_label, reo_ref, output_path,
             umbral_gamma=umbral_zona, tomas_vivas=tomas_vivas, n_tomas=n_tomas
         )
-        graficar_reynolds(
-            mat_re, mat_mueff, tiempos_full, tiempos_list,
-            ss, nombre_grupo, zona_label, output_path
-        )
-        graficar_histograma_gamma(
-            hist_gamma, umbral_zona, nombre_grupo, zona_label, output_path
-        )
-        graficar_fraccion_plug(
-            f_plug, tiempos_full, tiempos_list, ss,
-            nombre_grupo, zona_label, n_tomas, output_path
-        )
+
+        # ── Estabilización del plug (dato para Resultados/Análisis) ──────
+        est = tiempo_estabilizacion(f_plug, tiempos_full, tiempos_list)
+        te = est["t_estab"]
+        te_txt = f"{te:.1f}s ({est['t_estab_rel']*100:.0f}% del llenado)" \
+            if np.isfinite(te) else "no se sostiene"
+        print(f"    Estabilización plug: frac_final={est['frac_final']*100:.0f}%"
+              f"  frac_max={est['frac_max']*100:.0f}%  t_estab={te_txt}",
+              flush=True)
+        if filas_estab is not None:
+            filas_estab.append({
+                "zona": zona_key, "reologia": f"car-{reo}", "conc": conc,
+                "n_tomas": n_tomas,
+                "frac_plug_final_pct": round(est["frac_final"] * 100, 1),
+                "frac_plug_max_pct": round(est["frac_max"] * 100, 1),
+                "t_estab_s": round(te, 2) if np.isfinite(te) else np.nan,
+                "t_estab_rel": round(est["t_estab_rel"], 3)
+                if np.isfinite(est["t_estab_rel"]) else np.nan,
+                "t_final_s": round(est["t_final"], 2),
+                "plug_antes_de_cuasi": est["cruza_transicion"],
+            })
 
 
 # ============================================================
@@ -654,10 +730,15 @@ if __name__ == "__main__":
     grupos = agrupar_carpetas(etapas)
     print(f"✅ {len(grupos)} grupo(s) encontrados\n")
 
+    # Acumulador de la cuantificación de estabilización del plug. Una fila por
+    # (zona, reologia, conc); se vuelca a CSV al final para citar en la memoria.
+    filas_estab = []
+
     # Zona L
     procesar_zona(etapas, grupos, ss_linea_L(),
                   prefijo="", zona_label="Salida de la L  (canal cerrado)",
-                  output_suffix="L", L_m=0.02, zona_key='L', timeline=timeline)
+                  output_suffix="L", L_m=0.02, zona_key='L', timeline=timeline,
+                  filas_estab=filas_estab)
 
     # Vigas
     for x_viga in [175, 250]:
@@ -666,7 +747,16 @@ if __name__ == "__main__":
                       zona_label=f"Viga  x={x_viga} mm  (canal abierto)",
                       output_suffix=f"viga{x_viga}",
                       L_m=None,
-                      zona_key=f"viga{x_viga}", timeline=timeline)
+                      zona_key=f"viga{x_viga}", timeline=timeline,
+                      filas_estab=filas_estab)
+
+    # Volcar la cuantificación de estabilización
+    if filas_estab:
+        df_estab = pd.DataFrame(filas_estab)
+        csv_estab = os.path.join(OUTPUT_DIR, "estabilizacion_plug.csv")
+        df_estab.to_csv(csv_estab, index=False)
+        print(f"\n✅ Estabilización del plug guardada: {csv_estab}")
+        print(df_estab.to_string(index=False))
 
     print(f"\n✅ Listo. Resultados en: {OUTPUT_DIR}")
 
