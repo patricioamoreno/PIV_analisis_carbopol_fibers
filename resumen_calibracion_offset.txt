@@ -4,10 +4,10 @@ CALIBRACIÓN DE DESFASE TEMPORAL PIV-PTV
 Rango explorado: [-3.0, 3.0] s, paso 0.05 s
 Condiciones calibradas: 18
 
-dt óptimo: mediana=-0.725s  IQR=[-2.888, -0.338]  rango=[-3.000, +2.600]
-Mejora de RMS con dt óptimo: mediana=8%  (vs. dt=0, mismo binning que diferencia_piv_ptv.csv)
+dt óptimo: mediana=-2.750s  IQR=[-2.950, -0.150]  rango=[-3.000, +3.000]
+Mejora de RMS con dt óptimo: mediana=14%  (vs. dt=0, mismo binning que diferencia_piv_ptv.csv)
 
-⚠ 2 condición(es) con óptimo en el borde del rango explorado: el verdadero dt* podría estar fuera de [-3.0,3.0]s. Ampliar el rango antes de concluir.
+⚠ 7 condición(es) con óptimo en el borde del rango explorado: el verdadero dt* podría estar fuera de [-3.0,3.0]s. Ampliar el rango antes de concluir.
 
 --- Lectura ---
 El desfase óptimo NO reduce el RMS de forma sustancial: la discrepancia

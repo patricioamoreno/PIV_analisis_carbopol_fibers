@@ -44,7 +44,7 @@ import numpy as np
 import pandas as pd
 
 from esp_overlay_piv_ptv import (
-    ETAPAS_JSON, REOS, CONCS, ZONAS, PTV_DIR,
+    ETAPAS_JSON, REOS, CONCS, ZONAS, PTV_DIR, PCT_LO, PCT_HI,
     ruta_ptv, cargar_ptv, construir_campo_promedio, ss_linea_L, ss_viga,
 )
 
@@ -109,6 +109,24 @@ def calibrar_condicion(etapas, reo, conc, zona_key, prefijo):
         ss = np.linspace(ss[0], ss[-1], matriz_full.shape[1])
 
     t_ptv, s_ptv, v_ptv, _ = cargar_ptv(ptv_path)
+    if len(t_ptv) < 10:
+        return None
+
+    # Recorte de outliers, IDÉNTICO al que aplica procesar() en
+    # esp_overlay_piv_ptv.py antes de calcular diferencia_piv_ptv.csv (dt=0).
+    # Sin este paso, errores puntuales de tracking PTV (saltos de ID,
+    # oclusiones) producen velocidades espurias de varios órdenes de magnitud
+    # que dominan el RMS y lo vuelven no comparable con el ya reportado.
+    # Se recorta v_ptv por percentil ANTES del barrido de dt porque es una
+    # propiedad de la magnitud de la velocidad, independiente del desfase
+    # temporal que se está probando.
+    if len(v_ptv):
+        lo, hi = np.nanpercentile(v_ptv, [PCT_LO, PCT_HI])
+        m_pct = (v_ptv >= lo) & (v_ptv <= hi)
+        t_ptv, s_ptv, v_ptv = t_ptv[m_pct], s_ptv[m_pct], v_ptv[m_pct]
+    lo_piv, hi_piv = np.nanpercentile(matriz_full, [PCT_LO, PCT_HI])
+    matriz_full = np.clip(matriz_full, lo_piv, hi_piv)
+
     if len(t_ptv) < 10:
         return None
 
