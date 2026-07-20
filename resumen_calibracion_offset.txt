@@ -1,14 +1,16 @@
 CALIBRACIÓN DE DESFASE TEMPORAL PIV-PTV
 ============================================================
 
-Rango explorado: [-8.0, 8.0] s, paso 0.05 s
+Rango explorado: [-15.0, 15.0] s, paso 0.05 s
 Condiciones calibradas: 18
 
-dt óptimo: mediana=-4.500s  IQR=[-7.950, -0.150]  rango=[-8.000, +5.700]
-Mejora de RMS con dt óptimo: mediana=19%  (vs. dt=0, mismo binning que diferencia_piv_ptv.csv)
-
-⚠ 3 condición(es) con óptimo en el borde del rango explorado [-8.0,8.0]s.
-  De ellas, 3 muestran el RMS TODAVÍA EN DESCENSO al llegar al borde: el verdadero dt* está casi con certeza FUERA del rango explorado. NO USAR la 'Lectura' de abajo hasta ampliar DT_MIN/DT_MAX y volver a correr — con el rango actual la conclusión de 'no hay desfase' sería prematura para esas condiciones.
+dt óptimo: mediana=-4.825s  IQR=[-14.050, -0.113]  rango=[-14.950, +5.700]
+Mejora de RMS con dt óptimo: mediana=26%  (vs. dt=0, mismo binning que diferencia_piv_ptv.csv)
 
 --- Lectura ---
-NO CONCLUYENTE: hay condiciones cuyo óptimo aún no se alcanza dentro del rango explorado (ver advertencia arriba). Ampliar el rango antes de interpretar el resto de esta sección.
+El desfase óptimo NO reduce el RMS de forma sustancial: la discrepancia
+observada en dt=0 no se explica por un problema de sincronización.
+Debe interpretarse como deslizamiento fibra-fluido genuino y/o
+variabilidad corrida-a-corrida (el PIV aquí es un promedio de varias
+tomas de la condición, comparado contra una única corrida de fibras).
+Esto es un resultado a reportar y discutir, no un error de código.

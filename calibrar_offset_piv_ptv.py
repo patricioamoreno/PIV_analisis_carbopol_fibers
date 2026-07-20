@@ -51,13 +51,13 @@ from esp_overlay_piv_ptv import (
 # Rango de desfase a explorar. La corrida inicial con +/-3s mostro que la
 # mayoria de los optimos se acumulan CERCA del borde (no dispersos al azar),
 # lo que indica que el verdadero minimo esta fuera de ese rango. Se amplia a
-# +/-8s: dado que PTV (fibras) y PIV son corridas SEPARADAS del mismo
+# +/-15s: dado que PTV (fibras) y PIV son corridas SEPARADAS del mismo
 # material (no una adquisicion simultanea con disparo compartido), un
 # desalineamiento de varios segundos en la definicion de t=0 entre corridas
 # es fisicamente plausible -- muy distinto de un desfase de sincronizacion
 # de hardware entre camaras (que seria de fracciones de frame). Si el nuevo
 # barrido vuelve a acumularse en el borde, ampliar de nuevo antes de concluir.
-DT_MIN, DT_MAX, DT_PASO = -8.0, 8.0, 0.05
+DT_MIN, DT_MAX, DT_PASO = -15.0, 15.0, 0.05
 
 OUT_CSV = "calibracion_offset_piv_ptv.csv"
 OUT_RESUMEN = "resumen_calibracion_offset.txt"
