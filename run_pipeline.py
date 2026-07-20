@@ -58,14 +58,14 @@ STEPS = [
          optional=False),
 
     # --- 1. Cachés base (independientes entre sí) ---
-    dict(script="construir_caches.py",
-         etapa="1. Cachés — polilíneas",
-         salida="cache_completo/",
-         optional=False),
-    dict(script="construir_caches_zonas.py",
-         etapa="1. Cachés — zonas",
-         salida="cache_zonas/",
-         optional=False),
+    # dict(script="construir_caches.py",
+    #      etapa="1. Cachés — polilíneas",
+    #      salida="cache_completo/",
+    #      optional=False),
+    # dict(script="construir_caches_zonas.py",
+    #      etapa="1. Cachés — zonas",
+    #      salida="cache_zonas/",
+    #      optional=False),
 
     # --- 2. Segmentación de etapas (criterio V3) ---
     dict(script="calcular_etapas_polilinea.py",
@@ -101,16 +101,31 @@ STEPS = [
          salida="Analisis_COMPARATIVA_zonas/",
          optional=False),
 
+    dict(script="resumen_reproducibilidad.py",
+         etapa="3b'. Reproducibilidad entre mezclas y consistencia PTV/PIV",
+         salida="reproducibilidad_entre_mezclas.csv + consistencia_ptv_piv.csv "
+                "+ resumen_validacion.txt",
+         optional=False,
+         depende_de="etapas_zonas.json + cache_zonas/ (mismo insumo que analisis.py)"),
+
     # --- 3c. Análisis II — zonas ---
     dict(script="construir_tabla_zonas_todas.py",
          etapa="3c. Análisis II — tabla acumulada de zonas",
-         salida="acum_tabla_zona.csv (+ sin_excluir)",
+         salida="acum_tabla_zona.csv (+ sin_excluir) + acum_capa{1,2,4}_global.csv",
          optional=False,
          depende_de="Analisis_COMPARATIVA_zonas/ (paso 3b)"),
-    dict(script="run_real.py",
-         etapa="3c. Análisis II — capas 1/2/4",
-         salida="acum_capa{1,2,4}_global.csv",
-         optional=False),
+    # NOTA: run_real.py se RETIRÓ del flujo automatizado. Era redundante:
+    #   - construir_tabla_zonas_todas.py (paso anterior) ya genera las capas
+    #     1/2/4 sobre TODAS las tomas (acum_capa{1,2,4}_global.csv) cuando
+    #     GUARDAR_CAPAS=True, que es el default.
+    #   - run_real.py procesa UNA SOLA toma (la primera del glob) y guarda
+    #     real_capa*.csv, que ningún otro script lee. Además su default
+    #     --fibras apuntaba a la CARPETA fibras_ultimo_frame/ y se la pasaba a
+    #     pd.read_csv, provocando PermissionError.
+    # Sigue disponible como herramienta de inspección MANUAL de una toma:
+    #   python run_real.py --piv cache_zonas/<toma>.npz \
+    #                      --fibras fibras_ultimo_frame/<toma>.csv \
+    #                      --etapas etapas_zonas.json
     dict(script="generar_mapas.py",
          etapa="3c. Análisis II — mapas y figuras",
          salida="figs_memoria/",

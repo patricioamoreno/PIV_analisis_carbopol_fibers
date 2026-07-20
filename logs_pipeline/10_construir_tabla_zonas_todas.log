@@ -1,0 +1,75 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe construir_tabla_zonas_todas.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\Desktop\PIV MEMORIA\criterio_exclusion.py:151: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  m_base = vb["es_toma_base"].fillna(False).astype(bool)
+C:\Users\elisa\Desktop\PIV MEMORIA\criterio_exclusion.py:151: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  m_base = vb["es_toma_base"].fillna(False).astype(bool)
+[aviso] PIV sin fibras: ['m71', 'm82', 'm92', 'm93']
+Tomas emparejadas: 12
+
+[1/12] m70  (car-02, 3000 fibras)
+        8 zonas (6 fiables)
+[2/12] m73  (car-02, 1500 fibras)
+        8 zonas (8 fiables)
+[3/12] m74  (car-02, 750 fibras)
+        8 zonas (7 fiables)
+[4/12] m75  (car-02, 750 fibras)
+        8 zonas (7 fiables)
+[5/12] m77  (car-02, 1500 fibras)
+        8 zonas (8 fiables)
+[6/12] m80  (car-02, 3000 fibras)
+        8 zonas (8 fiables)
+[7/12] m83  (car-05, 3000 fibras)
+        6 zonas (6 fiables)
+[8/12] m86  (car-05, 750 fibras)
+        6 zonas (6 fiables)
+[9/12] m87  (car-05, 750 fibras)
+        6 zonas (6 fiables)
+[10/12] m91  (car-05, 3000 fibras)
+        6 zonas (6 fiables)
+[11/12] m94  (car-05, 1500 fibras)
+        6 zonas (6 fiables)
+[12/12] m95  (car-05, 1500 fibras)
+        6 zonas (6 fiables)
+
+[solo_viga] Tabla restringida a zonas de viga ('Vf*'): 48/84 filas (36 filas L descartadas de la tabla de orientacion).
+
+[sensibilidad] Guardado sin exclusiones: acum_tabla_zona_sin_excluir.csv
+
+-------------------------------------------------------
+[criterio_exclusion] 100 filas de tomas base (n-0000) ignoradas: no entran en la tabla acumulada
+[criterio_exclusion] d >= 0.5: 67/436 celdas marcadas (15.4%)
+[criterio_exclusion] 19 celdas (toma,zona,etapa) marcadas como NaN
+
+=======================================================
+Guardado: acum_tabla_zona.csv
+  48 filas (toma x zona), 47 observaciones fiables
+  12 tomas, reologias=['car-02', 'car-05']
+  transicion  : 8/48 filas sin predictor (17%)
+  cuasi       : 11/48 filas sin predictor (23%)
+  (solo_viga=True) Guardados: acum_capa1_global.csv, acum_capa2_global.csv, acum_capa4_global.csv
+
+==============================================================
+ASIMETRIA DE EXCLUSIONES ENTRE ETAPAS
+==============================================================
+
+d de Cohen por etapa (vs base):
+            count   mean  median    max
+etapa                                  
+cuasi         218  0.322   0.261  1.224
+transicion    218  0.235   0.174  0.937
+
+Celdas excluidas por umbral y etapa:
+etapa     cuasi  transicion
+umbral_d                   
+0.2        61.0        44.0
+0.5        17.9        12.8
+0.8         4.6         1.8
+
+(porcentaje de celdas excluidas; cuasi > transicion en todos los
+ umbrales -> reportar la Capa 4 con y sin exclusiones)
+==============================================================
+
+
+----- return code: 0 -----

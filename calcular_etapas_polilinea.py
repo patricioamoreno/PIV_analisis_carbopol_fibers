@@ -18,6 +18,7 @@ import os
 import re
 import json
 import glob
+import warnings
 import numpy as np
 from detectar_etapas import detectar_etapas, graficar_etapas, natural_sort_key
 
@@ -117,7 +118,14 @@ def calcular_indices_base(carpetas, prefijo, zona_key, cache_dir):
         t_full   = t_full[idx_sort]
         mat_full = mat_full[idx_sort]
         t_full   = t_full - t_full[0]
-        v_media  = np.nanmean(mat_full, axis=1)
+        # Antes de que el frente de avance llegue a esta polilinea, ningun
+        # punto del corte tiene vector PIV valido: la fila completa de
+        # mat_full es NaN para ese frame. np.nanmean() avisa "Mean of empty
+        # slice" -- correctamente devuelve NaN, no hay dato que promediar.
+        # Se silencia solo ese mensaje puntual, sin alterar el resultado.
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message="Mean of empty slice")
+            v_media = np.nanmean(mat_full, axis=1)
         n        = len(t_full)
 
         # Si tiene override manual, usarlo directamente
@@ -205,7 +213,12 @@ if __name__ == "__main__":
                 mat_full = mat_full[idx_sort]
                 t_full   = t_full[idx_sort]
                 t_full   = t_full - t_full[0]        # ← normalizar a t=0
-                v_media  = np.nanmean(mat_full, axis=1)
+                # Mismo caso benigno que en la recoleccion de base: frames
+                # anteriores a la llegada del frente de avance no tienen
+                # ningun vector PIV valido a lo largo de la polilinea.
+                with warnings.catch_warnings():
+                    warnings.filterwarnings("ignore", message="Mean of empty slice")
+                    v_media = np.nanmean(mat_full, axis=1)
                 n        = len(t_full)
                 nombre   = f"{carpeta}_{zona_key}"
                 # Excluir m93 completamente en zonas de viga

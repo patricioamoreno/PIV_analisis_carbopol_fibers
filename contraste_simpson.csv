@@ -1,0 +1,7 @@
+predictor,rho_car02,n_car02,rho_car05,n_car05,rho_agregado,p_agregado,n_agregado,posible_simpson
+V_cuasi,-0.4791,24,-0.044,13,-0.4431,0.006,37,False
+V_transicion,-0.2383,26,-0.011,13,0.3004,0.0631,39,True
+omega_cuasi,0.3539,24,-0.0769,13,-0.2686,0.1079,37,True
+omega_transicion,-0.3832,26,-0.2308,13,0.069,0.6763,39,True
+gamma_dot_cuasi,0.3243,24,-0.1319,13,-0.2933,0.0781,37,True
+gamma_dot_transicion,-0.3846,26,-0.2418,13,0.0018,0.9912,39,True

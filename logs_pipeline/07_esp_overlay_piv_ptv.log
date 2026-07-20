@@ -1,0 +1,258 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe esp_overlay_piv_ptv.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+
+=== car-02_n-0750  |  zona L ===
+  car-02_n-0750: 2 toma(s) → campo medio (665, 48)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.327, 20.323] s, 1623 instantes unicos
+    PIV s: [0.00, 20.78] mm   PTV s: [0.91, 20.70] mm
+    62 obs PTV fuera de la ventana temporal PIV (descartadas)
+    PTV dibujado: 6293 obs
+    PTV tras recorte P5-P95: 5663 obs
+  OK -> overlay_car-02_n-0750_L.png
+  OK -> diferencia_car-02_n-0750_L.png
+
+=== car-02_n-0750  |  zona viga175 ===
+  car-02_n-0750: 2 toma(s) → campo medio (665, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.327, 20.323] s, 1790 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.00, 63.47] mm
+    515 obs PTV fuera de la ventana temporal PIV (descartadas)
+    192 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 50758 obs
+    PTV tras recorte P5-P95: 45682 obs
+  OK -> overlay_car-02_n-0750_viga175.png
+  OK -> diferencia_car-02_n-0750_viga175.png
+
+=== car-02_n-0750  |  zona viga250 ===
+  car-02_n-0750: 2 toma(s) → campo medio (665, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.955, 20.323] s, 1658 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.00, 42.26] mm
+    330 obs PTV fuera de la ventana temporal PIV (descartadas)
+    102 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 31452 obs
+    PTV tras recorte P5-P95: 28306 obs
+  OK -> overlay_car-02_n-0750_viga250.png
+  OK -> diferencia_car-02_n-0750_viga250.png
+
+=== car-02_n-1500  |  zona L ===
+  car-02_n-1500: 2 toma(s) → campo medio (665, 48)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.341, 21.391] s, 1445 instantes unicos
+    PIV s: [0.00, 20.78] mm   PTV s: [1.12, 20.78] mm
+    109 obs PTV fuera de la ventana temporal PIV (descartadas)
+    PTV dibujado: 7335 obs
+    PTV tras recorte P5-P95: 6601 obs
+  OK -> overlay_car-02_n-1500_L.png
+  OK -> diferencia_car-02_n-1500_L.png
+
+=== car-02_n-1500  |  zona viga175 ===
+  car-02_n-1500: 2 toma(s) → campo medio (665, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.505, 21.391] s, 1522 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.01, 68.34] mm
+    1460 obs PTV fuera de la ventana temporal PIV (descartadas)
+    17 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 47457 obs
+    PTV tras recorte P5-P95: 42712 obs
+  OK -> overlay_car-02_n-1500_viga175.png
+  OK -> diferencia_car-02_n-1500_viga175.png
+
+=== car-02_n-1500  |  zona viga250 ===
+  car-02_n-1500: 2 toma(s) → campo medio (665, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.482, 21.391] s, 1481 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.00, 44.92] mm
+    1151 obs PTV fuera de la ventana temporal PIV (descartadas)
+    34 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 36849 obs
+    PTV tras recorte P5-P95: 33163 obs
+  OK -> overlay_car-02_n-1500_viga250.png
+  OK -> diferencia_car-02_n-1500_viga250.png
+
+=== car-02_n-3000  |  zona L ===
+  car-02_n-3000: 2 toma(s) → campo medio (665, 48)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.614, 20.609] s, 1688 instantes unicos
+    PIV s: [0.00, 20.78] mm   PTV s: [0.92, 20.78] mm
+    286 obs PTV fuera de la ventana temporal PIV (descartadas)
+    PTV dibujado: 7231 obs
+    PTV tras recorte P5-P95: 6507 obs
+  OK -> overlay_car-02_n-3000_L.png
+  OK -> diferencia_car-02_n-3000_L.png
+
+=== car-02_n-3000  |  zona viga175 ===
+  car-02_n-3000: 2 toma(s) → campo medio (665, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.736, 20.609] s, 1731 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.00, 66.38] mm
+    725 obs PTV fuera de la ventana temporal PIV (descartadas)
+    90 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 30771 obs
+    PTV tras recorte P5-P95: 27693 obs
+  OK -> overlay_car-02_n-3000_viga175.png
+  OK -> diferencia_car-02_n-3000_viga175.png
+
+=== car-02_n-3000  |  zona viga250 ===
+  car-02_n-3000: 2 toma(s) → campo medio (665, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 19.967] s, 665 instantes
+    PTV t: [0.614, 20.609] s, 1712 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.01, 45.10] mm
+    649 obs PTV fuera de la ventana temporal PIV (descartadas)
+    75 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 32561 obs
+    PTV tras recorte P5-P95: 29305 obs
+  OK -> overlay_car-02_n-3000_viga250.png
+  OK -> diferencia_car-02_n-3000_viga250.png
+
+=== car-05_n-0750  |  zona L ===
+  car-05_n-0750: 2 toma(s) → campo medio (1245, 48)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [1.036, 40.995] s, 1340 instantes unicos
+    PIV s: [0.00, 20.78] mm   PTV s: [1.21, 20.77] mm
+    9 obs PTV fuera de la ventana temporal PIV (descartadas)
+    PTV dibujado: 4034 obs
+    PTV tras recorte P5-P95: 3630 obs
+  OK -> overlay_car-05_n-0750_L.png
+  OK -> diferencia_car-05_n-0750_L.png
+
+=== car-05_n-0750  |  zona viga175 ===
+  car-05_n-0750: 2 toma(s) → campo medio (1245, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [1.100, 41.023] s, 1345 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.01, 64.56] mm
+    678 obs PTV fuera de la ventana temporal PIV (descartadas)
+    80 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 21544 obs
+    PTV tras recorte P5-P95: 19388 obs
+  OK -> overlay_car-05_n-0750_viga175.png
+  OK -> diferencia_car-05_n-0750_viga175.png
+
+=== car-05_n-0750  |  zona viga250 ===
+  car-05_n-0750: 2 toma(s) → campo medio (1245, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [9.559, 41.023] s, 797 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.02, 36.96] mm
+    394 obs PTV fuera de la ventana temporal PIV (descartadas)
+    27 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 7473 obs
+    PTV tras recorte P5-P95: 6725 obs
+  OK -> overlay_car-05_n-0750_viga250.png
+  OK -> diferencia_car-05_n-0750_viga250.png
+
+=== car-05_n-1500  |  zona L ===
+  car-05_n-1500: 2 toma(s) → campo medio (1245, 48)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [0.764, 41.041] s, 1463 instantes unicos
+    PIV s: [0.00, 20.78] mm   PTV s: [1.01, 20.73] mm
+    50 obs PTV fuera de la ventana temporal PIV (descartadas)
+    PTV dibujado: 5264 obs
+    PTV tras recorte P5-P95: 4736 obs
+  OK -> overlay_car-05_n-1500_L.png
+  OK -> diferencia_car-05_n-1500_L.png
+
+=== car-05_n-1500  |  zona viga175 ===
+  car-05_n-1500: 2 toma(s) → campo medio (1245, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [0.764, 41.041] s, 1369 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.01, 61.62] mm
+    716 obs PTV fuera de la ventana temporal PIV (descartadas)
+    219 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 20907 obs
+    PTV tras recorte P5-P95: 18816 obs
+  OK -> overlay_car-05_n-1500_viga175.png
+  OK -> diferencia_car-05_n-1500_viga175.png
+
+=== car-05_n-1500  |  zona viga250 ===
+  car-05_n-1500: 2 toma(s) → campo medio (1245, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [11.486, 41.041] s, 801 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.00, 38.89] mm
+    255 obs PTV fuera de la ventana temporal PIV (descartadas)
+    1 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 5481 obs
+    PTV tras recorte P5-P95: 4933 obs
+  OK -> overlay_car-05_n-1500_viga250.png
+  OK -> diferencia_car-05_n-1500_viga250.png
+
+=== car-05_n-3000  |  zona L ===
+  car-05_n-3000: 2 toma(s) → campo medio (1245, 48)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [0.736, 41.259] s, 1625 instantes unicos
+    PIV s: [0.00, 20.78] mm   PTV s: [0.85, 20.74] mm
+    32 obs PTV fuera de la ventana temporal PIV (descartadas)
+    PTV dibujado: 4780 obs
+    PTV tras recorte P5-P95: 4302 obs
+  OK -> overlay_car-05_n-3000_L.png
+  OK -> diferencia_car-05_n-3000_L.png
+
+=== car-05_n-3000  |  zona viga175 ===
+  car-05_n-3000: 2 toma(s) → campo medio (1245, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [1.209, 41.259] s, 1328 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.01, 63.81] mm
+    517 obs PTV fuera de la ventana temporal PIV (descartadas)
+    94 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 14547 obs
+    PTV tras recorte P5-P95: 13091 obs
+  OK -> overlay_car-05_n-3000_viga175.png
+  OK -> diferencia_car-05_n-3000_viga175.png
+
+=== car-05_n-3000  |  zona viga250 ===
+  car-05_n-3000: 2 toma(s) → campo medio (1245, 75)
+  [Verificacion de ejes]
+    PIV t: [0.000, 39.967] s, 1245 instantes
+    PTV t: [0.745, 41.259] s, 1002 instantes unicos
+    PIV s: [0.00, 75.00] mm   PTV s: [0.04, 47.97] mm
+    150 obs PTV fuera de la ventana temporal PIV (descartadas)
+    440 obs PTV sobre celdas PIV=NaN (descartadas)
+    PTV dibujado: 3528 obs
+    PTV tras recorte P5-P95: 3175 obs
+  OK -> overlay_car-05_n-3000_viga250.png
+  OK -> diferencia_car-05_n-3000_viga250.png
+
+✅ Métricas de diferencia PIV-PTV guardadas: Esp_PIV-PTV/Overlay\diferencia_piv_ptv.csv
+reologia concentracion    zona  nombre_grupo  n_celdas_comparadas  n_celdas_totales  cobertura_pct  rms_mm_s  sesgo_mm_s  mediana_abs_diff_mm_s  p95_abs_diff_mm_s
+  car-02          0750       L car-02_n-0750                 3497             31920          10.96   41.6060      0.7266                 6.8596            97.5087
+  car-02          0750 viga175 car-02_n-0750                18141             49875          36.37   20.7884    -10.0430                 4.8887            49.1902
+  car-02          0750 viga250 car-02_n-0750                11395             49875          22.85   19.0050     -9.1966                 4.4528            43.1373
+  car-02          1500       L car-02_n-1500                 4296             31920          13.46   36.4480     -5.1630                 4.9629            85.9023
+  car-02          1500 viga175 car-02_n-1500                18282             49875          36.66   27.2400    -15.9149                 7.7342            65.9011
+  car-02          1500 viga250 car-02_n-1500                12787             49875          25.64   30.8978    -18.5279                 9.0945            73.0012
+  car-02          3000       L car-02_n-3000                 4272             31920          13.38   42.6087     -2.3319                 8.2261           106.0181
+  car-02          3000 viga175 car-02_n-3000                14789             49875          29.65   36.6982    -23.6491                12.8995            83.8961
+  car-02          3000 viga250 car-02_n-3000                12495             49875          25.05   37.0392    -23.9231                13.5587            85.7468
+  car-05          0750       L car-05_n-0750                 2415             59760           4.04   12.7782      6.9263                 6.6172            27.5357
+  car-05          0750 viga175 car-05_n-0750                14895             93375          15.95    4.2178     -2.7789                 2.1617             9.1556
+  car-05          0750 viga250 car-05_n-0750                 4377             93375           4.69    3.4385     -2.4558                 1.9173             7.2770
+  car-05          1500       L car-05_n-1500                 3345             59760           5.60   12.6921      6.0984                 5.7599            28.4699
+  car-05          1500 viga175 car-05_n-1500                13437             93375          14.39    5.6471     -4.1403                 3.4783            11.6726
+  car-05          1500 viga250 car-05_n-1500                 3241             93375           3.47    4.8964     -3.6493                 2.8683             9.9607
+  car-05          3000       L car-05_n-3000                 3171             59760           5.31   14.7235      8.6195                 7.2495            32.1726
+  car-05          3000 viga175 car-05_n-3000                10868             93375          11.64    6.0932     -4.4459                 3.6883            12.7785
+  car-05          3000 viga250 car-05_n-3000                 2545             93375           2.73    4.6198     -3.3619                 2.6251             9.7283
+
+Listo. Resultados en: Esp_PIV-PTV/Overlay
+
+----- return code: 0 -----

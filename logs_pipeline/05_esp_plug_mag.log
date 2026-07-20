@@ -1,0 +1,293 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe esp_plug_mag.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+✅ Timeline cargado: car-02 (0→20.0s), car-05 (0→40.0s)
+✅ 8 grupo(s) encontrados
+
+
+  → car-02_n-0000
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m71-toma-1-n-0000-car-02-piv L: interpolada a 665 puntos
+    m71-toma-2-n-0000-car-02-piv L: interpolada a 665 puntos
+    m82-toma-1-n-0000-car-02-piv L: interpolada a 665 puntos
+    m82-toma-2-n-0000-car-02-piv L: interpolada a 665 puntos
+    Promediando 4 toma(s) sobre grilla fija (0→20.0s, cola mín 4 toma/s)
+    Plug global (campo medio): 74.9%
+    💾 Caché plug guardado: plug_L_car-02_n-0000.npz
+    ✅ plug_L_car-02_n-0000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=3.8s (19% del llenado)
+
+  → car-02_n-0750
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m74-toma-2-n-0750-car-02-piv L: interpolada a 665 puntos
+    m75-toma-2-n-0750-car-02-piv L: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 2 toma/s)
+    Plug global (campo medio): 73.9%
+    💾 Caché plug guardado: plug_L_car-02_n-0750.npz
+    ✅ plug_L_car-02_n-0750.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=4.8s (24% del llenado)
+
+  → car-02_n-1500
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m73-toma-2-n-1500-car-02-piv L: interpolada a 665 puntos
+    m77-toma-2-n-1500-car-02-piv L: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 2 toma/s)
+    Plug global (campo medio): 73.9%
+    💾 Caché plug guardado: plug_L_car-02_n-1500.npz
+    ✅ plug_L_car-02_n-1500.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=4.4s (22% del llenado)
+
+  → car-02_n-3000
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m70-toma-2-n-3000-car-02-piv L: interpolada a 665 puntos
+    m80-toma-2-n-3000-car-02-piv L: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 2 toma/s)
+    Plug global (campo medio): 74.3%
+    💾 Caché plug guardado: plug_L_car-02_n-3000.npz
+    ✅ plug_L_car-02_n-3000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=4.6s (23% del llenado)
+
+  → car-05_n-0000
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m92-toma-1-n-0000-car-05-piv L: interpolada a 1245 puntos
+    m92-toma-2-n-0000-car-05-piv L: interpolada a 1245 puntos
+    m93-toma-1-n-0000-car-05-piv L: interpolada a 1245 puntos
+    m93-toma-2-n-0000-car-05-piv L: interpolada a 1245 puntos
+    Promediando 4 toma(s) sobre grilla fija (0→40.0s, cola mín 4 toma/s)
+    Plug global (campo medio): 88.6%
+    💾 Caché plug guardado: plug_L_car-05_n-0000.npz
+    ✅ plug_L_car-05_n-0000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=1.2s (3% del llenado)
+
+  → car-05_n-0750
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m86-toma-2-n-0750-car-05-piv L: interpolada a 1245 puntos
+    m87-toma-2-n-0750-car-05-piv L: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 2 toma/s)
+    Plug global (campo medio): 87.3%
+    💾 Caché plug guardado: plug_L_car-05_n-0750.npz
+    ✅ plug_L_car-05_n-0750.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=4.7s (12% del llenado)
+
+  → car-05_n-1500
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m94-toma-2-n-1500-car-05-piv L: interpolada a 1245 puntos
+    m95-toma-2-n-1500-car-05-piv L: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 2 toma/s)
+    Plug global (campo medio): 88.4%
+    💾 Caché plug guardado: plug_L_car-05_n-1500.npz
+    ✅ plug_L_car-05_n-1500.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=3.3s (8% del llenado)
+
+  → car-05_n-3000
+    umbral γ̇=2.92 s⁻¹  ventana_suav=7
+    m83-toma-2-n-3000-car-05-piv L: interpolada a 1245 puntos
+    m91-toma-2-n-3000-car-05-piv L: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 2 toma/s)
+    Plug global (campo medio): 87.4%
+    💾 Caché plug guardado: plug_L_car-05_n-3000.npz
+    ✅ plug_L_car-05_n-3000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=3.2s (8% del llenado)
+
+  → car-02_n-0000
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m71-toma-1-n-0000-car-02-piv viga175: interpolada a 665 puntos
+    m71-toma-2-n-0000-car-02-piv viga175: interpolada a 665 puntos
+    m82-toma-1-n-0000-car-02-piv viga175: interpolada a 665 puntos
+    m82-toma-2-n-0000-car-02-piv viga175: interpolada a 665 puntos
+    Promediando 4 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 74.7%
+    💾 Caché plug guardado: plug_viga175_car-02_n-0000.npz
+    ✅ plug_viga175_car-02_n-0000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=4.2s (21% del llenado)
+
+  → car-02_n-0750
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m74-toma-2-n-0750-car-02-piv viga175: interpolada a 665 puntos
+    m75-toma-2-n-0750-car-02-piv viga175: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 74.6%
+    💾 Caché plug guardado: plug_viga175_car-02_n-0750.npz
+    ✅ plug_viga175_car-02_n-0750.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=5.5s (28% del llenado)
+
+  → car-02_n-1500
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m73-toma-2-n-1500-car-02-piv viga175: interpolada a 665 puntos
+    m77-toma-2-n-1500-car-02-piv viga175: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 74.0%
+    💾 Caché plug guardado: plug_viga175_car-02_n-1500.npz
+    ✅ plug_viga175_car-02_n-1500.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=5.1s (25% del llenado)
+
+  → car-02_n-3000
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m70-toma-2-n-3000-car-02-piv viga175: interpolada a 665 puntos
+    m80-toma-2-n-3000-car-02-piv viga175: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 76.3%
+    💾 Caché plug guardado: plug_viga175_car-02_n-3000.npz
+    ✅ plug_viga175_car-02_n-3000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=4.9s (24% del llenado)
+
+  → car-05_n-0000
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m92-toma-1-n-0000-car-05-piv viga175: interpolada a 1245 puntos
+    m92-toma-2-n-0000-car-05-piv viga175: interpolada a 1245 puntos
+    ⚠ Sin etapas en JSON: m93-toma-1-n-0000-car-05-piv_viga175
+    m93-toma-2-n-0000-car-05-piv viga175: interpolada a 1245 puntos
+    Promediando 3 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 96.2%
+    💾 Caché plug guardado: plug_viga175_car-05_n-0000.npz
+    ✅ plug_viga175_car-05_n-0000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=2.2s (5% del llenado)
+
+  → car-05_n-0750
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m86-toma-2-n-0750-car-05-piv viga175: interpolada a 1245 puntos
+    m87-toma-2-n-0750-car-05-piv viga175: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 95.5%
+    💾 Caché plug guardado: plug_viga175_car-05_n-0750.npz
+    ✅ plug_viga175_car-05_n-0750.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=2.5s (6% del llenado)
+
+  → car-05_n-1500
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m94-toma-2-n-1500-car-05-piv viga175: interpolada a 1245 puntos
+    m95-toma-2-n-1500-car-05-piv viga175: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 95.5%
+    💾 Caché plug guardado: plug_viga175_car-05_n-1500.npz
+    ✅ plug_viga175_car-05_n-1500.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=3.1s (8% del llenado)
+
+  → car-05_n-3000
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m83-toma-2-n-3000-car-05-piv viga175: interpolada a 1245 puntos
+    m91-toma-2-n-3000-car-05-piv viga175: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 95.4%
+    💾 Caché plug guardado: plug_viga175_car-05_n-3000.npz
+    ✅ plug_viga175_car-05_n-3000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=1.8s (4% del llenado)
+
+  → car-02_n-0000
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m71-toma-1-n-0000-car-02-piv viga250: interpolada a 665 puntos
+    m71-toma-2-n-0000-car-02-piv viga250: interpolada a 665 puntos
+    m82-toma-1-n-0000-car-02-piv viga250: interpolada a 665 puntos
+    m82-toma-2-n-0000-car-02-piv viga250: interpolada a 665 puntos
+    Promediando 4 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 90.5%
+    💾 Caché plug guardado: plug_viga250_car-02_n-0000.npz
+    ✅ plug_viga250_car-02_n-0000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=2.9s (15% del llenado)
+
+  → car-02_n-0750
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m74-toma-2-n-0750-car-02-piv viga250: interpolada a 665 puntos
+    m75-toma-2-n-0750-car-02-piv viga250: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 91.0%
+    💾 Caché plug guardado: plug_viga250_car-02_n-0750.npz
+    ✅ plug_viga250_car-02_n-0750.png
+    Estabilización plug: frac_final=99%  frac_max=100%  t_estab=4.1s (21% del llenado)
+
+  → car-02_n-1500
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m73-toma-2-n-1500-car-02-piv viga250: interpolada a 665 puntos
+    m77-toma-2-n-1500-car-02-piv viga250: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 89.1%
+    💾 Caché plug guardado: plug_viga250_car-02_n-1500.npz
+    ✅ plug_viga250_car-02_n-1500.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=4.0s (20% del llenado)
+
+  → car-02_n-3000
+    umbral γ̇=0.49 s⁻¹  ventana_suav=1
+    m70-toma-2-n-3000-car-02-piv viga250: interpolada a 665 puntos
+    m80-toma-2-n-3000-car-02-piv viga250: interpolada a 665 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→20.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 88.8%
+    💾 Caché plug guardado: plug_viga250_car-02_n-3000.npz
+    ✅ plug_viga250_car-02_n-3000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=2.9s (15% del llenado)
+
+  → car-05_n-0000
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m92-toma-1-n-0000-car-05-piv viga250: interpolada a 1245 puntos
+    m92-toma-2-n-0000-car-05-piv viga250: interpolada a 1245 puntos
+    ⚠ Sin etapas en JSON: m93-toma-1-n-0000-car-05-piv_viga250
+    m93-toma-2-n-0000-car-05-piv viga250: interpolada a 1245 puntos
+    Promediando 3 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 99.6%
+    💾 Caché plug guardado: plug_viga250_car-05_n-0000.npz
+    ✅ plug_viga250_car-05_n-0000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=9.9s (25% del llenado)
+
+  → car-05_n-0750
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m86-toma-2-n-0750-car-05-piv viga250: interpolada a 1245 puntos
+    m87-toma-2-n-0750-car-05-piv viga250: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 99.6%
+    💾 Caché plug guardado: plug_viga250_car-05_n-0750.npz
+    ✅ plug_viga250_car-05_n-0750.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=10.7s (27% del llenado)
+
+  → car-05_n-1500
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m94-toma-2-n-1500-car-05-piv viga250: interpolada a 1245 puntos
+    m95-toma-2-n-1500-car-05-piv viga250: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 99.5%
+    💾 Caché plug guardado: plug_viga250_car-05_n-1500.npz
+    ✅ plug_viga250_car-05_n-1500.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=8.2s (20% del llenado)
+
+  → car-05_n-3000
+    umbral γ̇=0.97 s⁻¹  ventana_suav=1
+    m83-toma-2-n-3000-car-05-piv viga250: interpolada a 1245 puntos
+    m91-toma-2-n-3000-car-05-piv viga250: interpolada a 1245 puntos
+    Promediando 2 toma(s) sobre grilla fija (0→40.0s, cola mín 0 toma/s)
+    Plug global (campo medio): 99.5%
+    💾 Caché plug guardado: plug_viga250_car-05_n-3000.npz
+    ✅ plug_viga250_car-05_n-3000.png
+    Estabilización plug: frac_final=100%  frac_max=100%  t_estab=9.5s (24% del llenado)
+
+✅ Estabilización del plug guardada: espectrogramas_plug\estabilizacion_plug.csv
+   zona reologia conc  n_tomas  frac_plug_final_pct  frac_plug_max_pct  t_estab_s  t_estab_rel  t_final_s  plug_antes_de_cuasi
+      L   car-02 0000        4                100.0              100.0       3.80        0.190      19.97                 True
+      L   car-02 0750        2                100.0              100.0       4.83        0.242      19.97                 True
+      L   car-02 1500        2                100.0              100.0       4.43        0.222      19.97                 True
+      L   car-02 3000        2                100.0              100.0       4.60        0.230      19.97                 True
+      L   car-05 0000        4                100.0              100.0       1.20        0.030      39.97                 True
+      L   car-05 0750        2                100.0              100.0       4.67        0.117      39.97                 True
+      L   car-05 1500        2                100.0              100.0       3.27        0.082      39.97                 True
+      L   car-05 3000        2                100.0              100.0       3.17        0.079      39.97                 True
+viga175   car-02 0000        4                 99.7              100.0       4.23        0.212      19.97                 True
+viga175   car-02 0750        2                 99.9              100.0       5.53        0.277      19.97                 True
+viga175   car-02 1500        2                100.0              100.0       5.07        0.254      19.97                 True
+viga175   car-02 3000        2                100.0              100.0       4.87        0.244      19.97                 True
+viga175   car-05 0000        3                 99.9              100.0       2.17        0.054      39.97                 True
+viga175   car-05 0750        2                 99.9              100.0       2.47        0.062      39.97                 True
+viga175   car-05 1500        2                100.0              100.0       3.13        0.078      39.97                 True
+viga175   car-05 3000        2                100.0              100.0       1.77        0.044      39.97                 True
+viga250   car-02 0000        4                100.0              100.0       2.93        0.147      19.97                 True
+viga250   car-02 0750        2                 99.2              100.0       4.13        0.207      19.97                 True
+viga250   car-02 1500        2                100.0              100.0       4.03        0.202      19.97                 True
+viga250   car-02 3000        2                100.0              100.0       2.90        0.145      19.97                 True
+viga250   car-05 0000        3                 99.9              100.0       9.90        0.248      39.97                 True
+viga250   car-05 0750        2                100.0              100.0      10.67        0.267      39.97                 True
+viga250   car-05 1500        2                100.0              100.0       8.17        0.204      39.97                 True
+viga250   car-05 3000        2                100.0              100.0       9.47        0.237      39.97                 True
+
+✅ Listo. Resultados en: espectrogramas_plug
+WNDPROC return value cannot be converted to LRESULT
+TypeError: WPARAM is simple, so must be an int object (got NoneType)
+
+----- return code: 0 -----

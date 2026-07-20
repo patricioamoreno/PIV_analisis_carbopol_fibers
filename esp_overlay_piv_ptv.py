@@ -25,6 +25,7 @@ import re
 import json
 import warnings
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.colors import LinearSegmentedColormap
@@ -236,6 +237,11 @@ def graficar_overlay(matriz_vel, tiempos, tiempos_list, ss, t_ptv, s_ptv, v_ptv,
 
 def graficar_diferencia(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv,
                         nombre, zona_label, output_path):
+    """
+    Grafica el campo de diferencias PIV-PTV y devuelve sus métricas
+    cuantitativas (RMS, sesgo, cobertura), para permitir su exportación a
+    CSV en main() y su cita directa en la memoria (Sección res_overlay).
+    """
     t_edges = np.concatenate([tiempos, [tiempos[-1] + (tiempos[-1]-tiempos[-2])]])
     s_edges = np.concatenate([ss, [ss[-1] + (ss[-1]-ss[-2])]])
     suma, _, _   = np.histogram2d(t_ptv, s_ptv, bins=[t_edges, s_edges], weights=v_ptv)
@@ -256,9 +262,22 @@ def graficar_diferencia(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv,
     ax.set_title(f'{nombre}  —  {zona_label}\nDiferencia PIV - PTV',
                  fontsize=11, fontweight='bold')
     valido = ~np.isnan(diff)
+    metricas = {
+        "n_celdas_comparadas": int(valido.sum()),
+        "n_celdas_totales": int(diff.size),
+        "cobertura_pct": round(100 * valido.sum() / diff.size, 2) if diff.size else np.nan,
+        "rms_mm_s": np.nan, "sesgo_mm_s": np.nan,
+        "mediana_abs_diff_mm_s": np.nan, "p95_abs_diff_mm_s": np.nan,
+    }
     if valido.any():
         rms  = np.sqrt(np.nanmean(diff[valido]**2))
         bias = np.nanmean(diff[valido])
+        metricas.update({
+            "rms_mm_s": round(float(rms), 4),
+            "sesgo_mm_s": round(float(bias), 4),
+            "mediana_abs_diff_mm_s": round(float(np.nanmedian(np.abs(diff[valido]))), 4),
+            "p95_abs_diff_mm_s": round(float(lim), 4),
+        })
         ax.text(0.99, 0.02, f'RMS={rms:.1f} mm/s   sesgo={bias:+.1f} mm/s',
                 transform=ax.transAxes, ha='right', va='bottom', fontsize=9,
                 bbox=dict(boxstyle='round', fc='white', alpha=0.8))
@@ -266,13 +285,14 @@ def graficar_diferencia(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv,
     os.makedirs(os.path.dirname(out2), exist_ok=True)
     plt.savefig(out2, dpi=DPI, bbox_inches='tight'); plt.close(fig)
     print(f"  OK -> {os.path.basename(out2)}")
+    return metricas
 
 
 # ============================================================
 # PROCESAR UNA MUESTRA EN UNA ZONA
 # ============================================================
 
-def procesar(etapas, reo, conc, zona_key, prefijo, zona_label):
+def procesar(etapas, reo, conc, zona_key, prefijo, zona_label, filas_diff=None):
     print(f"\n=== car-{reo}_n-{conc}  |  zona {zona_key} ===")
 
     ptv_path = ruta_ptv(reo, conc, prefijo)
@@ -331,8 +351,13 @@ def procesar(etapas, reo, conc, zona_key, prefijo, zona_label):
     out = os.path.join(ruta, f"overlay_{nombre}_{sufijo}.png")
     graficar_overlay(matriz_full, tiempos_full, tiempos_list, ss, t_ptv, s_ptv, v_ptv,
                      tid_ptv, cmap, vmin, vmax, nombre, zona_label, out)
-    graficar_diferencia(matriz_full, tiempos_full, ss, t_ptv, s_ptv, v_ptv,
-                        nombre, zona_label, out)
+    metricas = graficar_diferencia(matriz_full, tiempos_full, ss, t_ptv, s_ptv, v_ptv,
+                                   nombre, zona_label, out)
+    if filas_diff is not None:
+        filas_diff.append({
+            "reologia": f"car-{reo}", "concentracion": conc,
+            "zona": zona_key, "nombre_grupo": nombre, **metricas,
+        })
 
 
 # ============================================================
@@ -344,14 +369,27 @@ if __name__ == "__main__":
     with open(ETAPAS_JSON, 'r', encoding='utf-8') as f:
         etapas = json.load(f)
 
+    # Acumulador de las métricas cuantitativas del campo de diferencias
+    # PIV-PTV (RMS, sesgo, cobertura). Se vuelca a CSV al final para citar
+    # en la memoria (Sección Resultados — verificación cruzada PIV-PTV).
+    filas_diff = []
+
     for reo in REOS:
         for conc in CONCS:
             for zona_key, prefijo, zona_label in ZONAS:
                 try:
-                    procesar(etapas, reo, conc, zona_key, prefijo, zona_label)
+                    procesar(etapas, reo, conc, zona_key, prefijo, zona_label,
+                            filas_diff=filas_diff)
                 except SystemExit as e:
                     print(f"  ⚠ {e}")
                 except Exception as e:
                     print(f"  ⚠ Error en car-{reo}_n-{conc} zona {zona_key}: {e}")
+
+    if filas_diff:
+        df_diff = pd.DataFrame(filas_diff)
+        csv_diff = os.path.join(OUTPUT_DIR, "diferencia_piv_ptv.csv")
+        df_diff.to_csv(csv_diff, index=False)
+        print(f"\n✅ Métricas de diferencia PIV-PTV guardadas: {csv_diff}")
+        print(df_diff.to_string(index=False))
 
     print(f"\nListo. Resultados en: {OUTPUT_DIR}")

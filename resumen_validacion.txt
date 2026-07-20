@@ -1,0 +1,17 @@
+RESUMEN DE VALIDACIÓN — cifras para Resultados 4.1.1/4.1.2
+=================================================================
+
+--- Reproducibilidad entre mezclas (Carbopol sin fibras) ---
+  car-02: n_comparaciones=16  d mediana=0.131  d máx=0.555  94% de las celdas con d < 0,5 (débil o menor)
+  car-05: n_comparaciones=12  d mediana=0.052  d máx=0.174  100% de las celdas con d < 0,5 (débil o menor)
+
+--- Consistencia PTV (toma-1) vs PIV (toma-2) ---
+  car-02: n_comparaciones=32  d mediana=0.045  d máx=0.317  100% de las celdas con d < 0,5 (débil o menor)
+  car-05: n_comparaciones=12  d mediana=0.063  d máx=0.172  100% de las celdas con d < 0,5 (débil o menor)
+
+  Por mezcla:
+    car-02 m71: d mediana=0.021 (n=16 zona×etapa)
+    car-02 m82: d mediana=0.081 (n=16 zona×etapa)
+    car-05 m92: d mediana=0.063 (n=12 zona×etapa)
+
+NOTA: d de Cohen, no p-valor (ver Sección 3 — herramientas_estadisticas). Umbral de referencia: d=0,5 (efecto medio, Cohen 1988), el mismo empleado en el criterio de exclusion de celdas.

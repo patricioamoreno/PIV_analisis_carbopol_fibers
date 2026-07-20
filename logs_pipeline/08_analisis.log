@@ -1,0 +1,120 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe analisis.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+Zonas detectadas: ['Z1', 'Z2', 'Z3', 'Vf1c1', 'Vf1c2', 'Vf2c1', 'Vf2c2', 'Vf2c3'] 
+
+Reología 02 | Concentración 0000 | 4 carpetas
+
+=======================================================
+  Car-02 n-0000  (4 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Vf1c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Vf2c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_diag_Vf2c3.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo02_conc0000\m71-1+71-2+82-1+82-2_car02_tests.csv
+  ✅ Figuras guardadas.
+
+Reología 02 | Concentración 0750 | 2 carpetas
+
+=======================================================
+  Car-02 n-0750  (2 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Vf1c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Vf2c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_diag_Vf2c3.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo02_conc0750\m74-2+75-2_car02_tests.csv
+  ✅ Figuras guardadas.
+
+Reología 02 | Concentración 1500 | 2 carpetas
+
+=======================================================
+  Car-02 n-1500  (2 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Vf1c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Vf2c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_diag_Vf2c3.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo02_conc1500\m73-2+77-2_car02_tests.csv
+  ✅ Figuras guardadas.
+
+Reología 02 | Concentración 3000 | 2 carpetas
+
+=======================================================
+  Car-02 n-3000  (2 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Vf1c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Vf2c2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_diag_Vf2c3.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo02_conc3000\m70-2+80-2_car02_tests.csv
+  ✅ Figuras guardadas.
+
+Reología 05 | Concentración 0000 | 3 carpetas
+
+=======================================================
+  Car-05 n-0000  (3 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0000\m92-1+92-2+93-2_car05_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0000\m92-1+92-2+93-2_car05_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0000\m92-1+92-2+93-2_car05_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0000\m92-1+92-2+93-2_car05_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0000\m92-1+92-2+93-2_car05_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0000\m92-1+92-2+93-2_car05_diag_Vf2c2.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo05_conc0000\m92-1+92-2+93-2_car05_tests.csv
+  ✅ Figuras guardadas.
+
+Reología 05 | Concentración 0750 | 2 carpetas
+
+=======================================================
+  Car-05 n-0750  (2 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0750\m86-2+87-2_car05_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0750\m86-2+87-2_car05_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0750\m86-2+87-2_car05_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0750\m86-2+87-2_car05_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0750\m86-2+87-2_car05_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc0750\m86-2+87-2_car05_diag_Vf2c2.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo05_conc0750\m86-2+87-2_car05_tests.csv
+  ✅ Figuras guardadas.
+
+Reología 05 | Concentración 1500 | 2 carpetas
+
+=======================================================
+  Car-05 n-1500  (2 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc1500\m94-2+95-2_car05_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc1500\m94-2+95-2_car05_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc1500\m94-2+95-2_car05_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc1500\m94-2+95-2_car05_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc1500\m94-2+95-2_car05_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc1500\m94-2+95-2_car05_diag_Vf2c2.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo05_conc1500\m94-2+95-2_car05_tests.csv
+  ✅ Figuras guardadas.
+
+Reología 05 | Concentración 3000 | 2 carpetas
+
+=======================================================
+  Car-05 n-3000  (2 tomas, 8 zonas)
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc3000\m83-2+91-2_car05_diag_Z1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc3000\m83-2+91-2_car05_diag_Z2.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc3000\m83-2+91-2_car05_diag_Z3.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc3000\m83-2+91-2_car05_diag_Vf1c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc3000\m83-2+91-2_car05_diag_Vf2c1.png
+  ✅ Diagnóstico guardado: Analisis_COMPARATIVA_zonas\reo05_conc3000\m83-2+91-2_car05_diag_Vf2c2.png
+  ✅ Tests guardados: Analisis_COMPARATIVA_zonas\reo05_conc3000\m83-2+91-2_car05_tests.csv
+  ✅ Figuras guardadas.
+
+----- return code: 0 -----

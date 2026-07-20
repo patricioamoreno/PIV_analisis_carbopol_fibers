@@ -1,0 +1,377 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe box_act.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+
+==========================================================
+  Boxplots — variable: vel | etapa: transicion
+  Output: Boxplots/Boxplots_por_etapa/boxplots_vel_transicion
+==========================================================
+  Car-02 / 0000 / L / transicion → 46,464 valores
+  Car-02 / 0750 / L / transicion → 23,232 valores
+  Car-02 / 1500 / L / transicion → 23,232 valores
+  Car-02 / 3000 / L / transicion → 23,232 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\boxplot_car02_L.png
+  Car-05 / 0000 / L / transicion → 45,504 valores
+  Car-05 / 0750 / L / transicion → 22,752 valores
+  Car-05 / 1500 / L / transicion → 22,752 valores
+  Car-05 / 3000 / L / transicion → 22,752 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\boxplot_car05_L.png
+  Car-02 / 0000 / L / transicion → 46,464 valores
+  Car-02 / 0750 / L / transicion → 23,232 valores
+  Car-02 / 1500 / L / transicion → 23,232 valores
+  Car-02 / 3000 / L / transicion → 23,232 valores
+  Car-05 / 0000 / L / transicion → 45,504 valores
+  Car-05 / 0750 / L / transicion → 22,752 valores
+  Car-05 / 1500 / L / transicion → 22,752 valores
+  Car-05 / 3000 / L / transicion → 22,752 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\vel_transicion_L.png
+  Car-02 / 0000 / viga175 / transicion → 43,196 valores
+  Car-02 / 0750 / viga175 / transicion → 22,017 valores
+  Car-02 / 1500 / viga175 / transicion → 22,788 valores
+  Car-02 / 3000 / viga175 / transicion → 22,847 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\boxplot_car02_viga175.png
+  Car-05 / 0000 / viga175 / transicion → 32,688 valores
+  Car-05 / 0750 / viga175 / transicion → 22,253 valores
+  Car-05 / 1500 / viga175 / transicion → 21,825 valores
+  Car-05 / 3000 / viga175 / transicion → 23,496 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\boxplot_car05_viga175.png
+  Car-02 / 0000 / viga175 / transicion → 43,196 valores
+  Car-02 / 0750 / viga175 / transicion → 22,017 valores
+  Car-02 / 1500 / viga175 / transicion → 22,788 valores
+  Car-02 / 3000 / viga175 / transicion → 22,847 valores
+  Car-05 / 0000 / viga175 / transicion → 32,688 valores
+  Car-05 / 0750 / viga175 / transicion → 22,253 valores
+  Car-05 / 1500 / viga175 / transicion → 21,825 valores
+  Car-05 / 3000 / viga175 / transicion → 23,496 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\vel_transicion_viga175.png
+  Car-02 / 0000 / viga250 / transicion → 35,465 valores
+  Car-02 / 0750 / viga250 / transicion → 17,344 valores
+  Car-02 / 1500 / viga250 / transicion → 18,053 valores
+  Car-02 / 3000 / viga250 / transicion → 19,447 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\boxplot_car02_viga250.png
+  Car-05 / 0000 / viga250 / transicion → 2,333 valores
+  Car-05 / 0750 / viga250 / transicion → 1,576 valores
+  Car-05 / 1500 / viga250 / transicion → 1,556 valores
+  Car-05 / 3000 / viga250 / transicion → 1,743 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\boxplot_car05_viga250.png
+  Car-02 / 0000 / viga250 / transicion → 35,465 valores
+  Car-02 / 0750 / viga250 / transicion → 17,344 valores
+  Car-02 / 1500 / viga250 / transicion → 18,053 valores
+  Car-02 / 3000 / viga250 / transicion → 19,447 valores
+  Car-05 / 0000 / viga250 / transicion → 2,333 valores
+  Car-05 / 0750 / viga250 / transicion → 1,576 valores
+  Car-05 / 1500 / viga250 / transicion → 1,556 valores
+  Car-05 / 3000 / viga250 / transicion → 1,743 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_transicion\vel_transicion_viga250.png
+
+==========================================================
+  Boxplots — variable: vel | etapa: cuasi
+  Output: Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi
+==========================================================
+  Car-02 / 0000 / L / cuasi → 72,192 valores
+  Car-02 / 0750 / L / cuasi → 36,096 valores
+  Car-02 / 1500 / L / cuasi → 36,096 valores
+  Car-02 / 3000 / L / cuasi → 36,096 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\boxplot_car02_L.png
+  Car-05 / 0000 / L / cuasi → 137,856 valores
+  Car-05 / 0750 / L / cuasi → 68,928 valores
+  Car-05 / 1500 / L / cuasi → 68,928 valores
+  Car-05 / 3000 / L / cuasi → 68,928 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\boxplot_car05_L.png
+  Car-02 / 0000 / L / cuasi → 72,192 valores
+  Car-02 / 0750 / L / cuasi → 36,096 valores
+  Car-02 / 1500 / L / cuasi → 36,096 valores
+  Car-02 / 3000 / L / cuasi → 36,096 valores
+  Car-05 / 0000 / L / cuasi → 137,856 valores
+  Car-05 / 0750 / L / cuasi → 68,928 valores
+  Car-05 / 1500 / L / cuasi → 68,928 valores
+  Car-05 / 3000 / L / cuasi → 68,928 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\vel_cuasi_L.png
+  Car-02 / 0000 / viga175 / cuasi → 97,961 valores
+  Car-02 / 0750 / viga175 / cuasi → 50,125 valores
+  Car-02 / 1500 / viga175 / cuasi → 48,391 valores
+  Car-02 / 3000 / viga175 / cuasi → 51,260 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\boxplot_car02_viga175.png
+  Car-05 / 0000 / viga175 / cuasi → 124,206 valores
+  Car-05 / 0750 / viga175 / cuasi → 82,120 valores
+  Car-05 / 1500 / viga175 / cuasi → 81,907 valores
+  Car-05 / 3000 / viga175 / cuasi → 85,864 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\boxplot_car05_viga175.png
+  Car-02 / 0000 / viga175 / cuasi → 97,961 valores
+  Car-02 / 0750 / viga175 / cuasi → 50,125 valores
+  Car-02 / 1500 / viga175 / cuasi → 48,391 valores
+  Car-02 / 3000 / viga175 / cuasi → 51,260 valores
+  Car-05 / 0000 / viga175 / cuasi → 124,206 valores
+  Car-05 / 0750 / viga175 / cuasi → 82,120 valores
+  Car-05 / 1500 / viga175 / cuasi → 81,907 valores
+  Car-05 / 3000 / viga175 / cuasi → 85,864 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\vel_cuasi_viga175.png
+  Car-02 / 0000 / viga250 / cuasi → 68,882 valores
+  Car-02 / 0750 / viga250 / cuasi → 36,654 valores
+  Car-02 / 1500 / viga250 / cuasi → 35,241 valores
+  Car-02 / 3000 / viga250 / cuasi → 36,265 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\boxplot_car02_viga250.png
+  Car-05 / 0000 / viga250 / cuasi → 49,380 valores
+  Car-05 / 0750 / viga250 / cuasi → 32,469 valores
+  Car-05 / 1500 / viga250 / cuasi → 32,570 valores
+  Car-05 / 3000 / viga250 / cuasi → 35,081 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\boxplot_car05_viga250.png
+  Car-02 / 0000 / viga250 / cuasi → 68,882 valores
+  Car-02 / 0750 / viga250 / cuasi → 36,654 valores
+  Car-02 / 1500 / viga250 / cuasi → 35,241 valores
+  Car-02 / 3000 / viga250 / cuasi → 36,265 valores
+  Car-05 / 0000 / viga250 / cuasi → 49,380 valores
+  Car-05 / 0750 / viga250 / cuasi → 32,469 valores
+  Car-05 / 1500 / viga250 / cuasi → 32,570 valores
+  Car-05 / 3000 / viga250 / cuasi → 35,081 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_cuasi\vel_cuasi_viga250.png
+
+==========================================================
+  Boxplots — variable: gamma_dot | etapa: transicion
+  Output: Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion
+==========================================================
+  Car-02 / 0000 / L / transicion → 46,464 valores
+  Car-02 / 0750 / L / transicion → 23,232 valores
+  Car-02 / 1500 / L / transicion → 23,232 valores
+  Car-02 / 3000 / L / transicion → 23,232 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\boxplot_car02_L.png
+  Car-05 / 0000 / L / transicion → 45,504 valores
+  Car-05 / 0750 / L / transicion → 22,752 valores
+  Car-05 / 1500 / L / transicion → 22,752 valores
+  Car-05 / 3000 / L / transicion → 22,752 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\boxplot_car05_L.png
+  Car-02 / 0000 / L / transicion → 46,464 valores
+  Car-02 / 0750 / L / transicion → 23,232 valores
+  Car-02 / 1500 / L / transicion → 23,232 valores
+  Car-02 / 3000 / L / transicion → 23,232 valores
+  Car-05 / 0000 / L / transicion → 45,504 valores
+  Car-05 / 0750 / L / transicion → 22,752 valores
+  Car-05 / 1500 / L / transicion → 22,752 valores
+  Car-05 / 3000 / L / transicion → 22,752 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\gamma_dot_transicion_L.png
+  Car-02 / 0000 / viga175 / transicion → 40,958 valores
+  Car-02 / 0750 / viga175 / transicion → 20,865 valores
+  Car-02 / 1500 / viga175 / transicion → 21,594 valores
+  Car-02 / 3000 / viga175 / transicion → 21,674 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\boxplot_car02_viga175.png
+  Car-05 / 0000 / viga175 / transicion → 30,753 valores
+  Car-05 / 0750 / viga175 / transicion → 20,963 valores
+  Car-05 / 1500 / viga175 / transicion → 20,535 valores
+  Car-05 / 3000 / viga175 / transicion → 22,206 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\boxplot_car05_viga175.png
+  Car-02 / 0000 / viga175 / transicion → 40,958 valores
+  Car-02 / 0750 / viga175 / transicion → 20,865 valores
+  Car-02 / 1500 / viga175 / transicion → 21,594 valores
+  Car-02 / 3000 / viga175 / transicion → 21,674 valores
+  Car-05 / 0000 / viga175 / transicion → 30,753 valores
+  Car-05 / 0750 / viga175 / transicion → 20,963 valores
+  Car-05 / 1500 / viga175 / transicion → 20,535 valores
+  Car-05 / 3000 / viga175 / transicion → 22,206 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\gamma_dot_transicion_viga175.png
+  Car-02 / 0000 / viga250 / transicion → 32,948 valores
+  Car-02 / 0750 / viga250 / transicion → 16,084 valores
+  Car-02 / 1500 / viga250 / transicion → 16,745 valores
+  Car-02 / 3000 / viga250 / transicion → 18,118 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\boxplot_car02_viga250.png
+  Car-05 / 0000 / viga250 / transicion → 2,063 valores
+  Car-05 / 0750 / viga250 / transicion → 1,396 valores
+  Car-05 / 1500 / viga250 / transicion → 1,376 valores
+  Car-05 / 3000 / viga250 / transicion → 1,563 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\boxplot_car05_viga250.png
+  Car-02 / 0000 / viga250 / transicion → 32,948 valores
+  Car-02 / 0750 / viga250 / transicion → 16,084 valores
+  Car-02 / 1500 / viga250 / transicion → 16,745 valores
+  Car-02 / 3000 / viga250 / transicion → 18,118 valores
+  Car-05 / 0000 / viga250 / transicion → 2,063 valores
+  Car-05 / 0750 / viga250 / transicion → 1,396 valores
+  Car-05 / 1500 / viga250 / transicion → 1,376 valores
+  Car-05 / 3000 / viga250 / transicion → 1,563 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_transicion\gamma_dot_transicion_viga250.png
+
+==========================================================
+  Boxplots — variable: gamma_dot | etapa: cuasi
+  Output: Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi
+==========================================================
+  Car-02 / 0000 / L / cuasi → 72,192 valores
+  Car-02 / 0750 / L / cuasi → 36,096 valores
+  Car-02 / 1500 / L / cuasi → 36,096 valores
+  Car-02 / 3000 / L / cuasi → 36,096 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\boxplot_car02_L.png
+  Car-05 / 0000 / L / cuasi → 137,856 valores
+  Car-05 / 0750 / L / cuasi → 68,928 valores
+  Car-05 / 1500 / L / cuasi → 68,928 valores
+  Car-05 / 3000 / L / cuasi → 68,928 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\boxplot_car05_L.png
+  Car-02 / 0000 / L / cuasi → 72,192 valores
+  Car-02 / 0750 / L / cuasi → 36,096 valores
+  Car-02 / 1500 / L / cuasi → 36,096 valores
+  Car-02 / 3000 / L / cuasi → 36,096 valores
+  Car-05 / 0000 / L / cuasi → 137,856 valores
+  Car-05 / 0750 / L / cuasi → 68,928 valores
+  Car-05 / 1500 / L / cuasi → 68,928 valores
+  Car-05 / 3000 / L / cuasi → 68,928 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\gamma_dot_cuasi_L.png
+  Car-02 / 0000 / viga175 / cuasi → 93,317 valores
+  Car-02 / 0750 / viga175 / cuasi → 47,665 valores
+  Car-02 / 1500 / viga175 / cuasi → 46,015 valores
+  Car-02 / 3000 / viga175 / cuasi → 48,797 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\boxplot_car02_viga175.png
+  Car-05 / 0000 / viga175 / cuasi → 118,023 valores
+  Car-05 / 0750 / viga175 / cuasi → 78,076 valores
+  Car-05 / 1500 / viga175 / cuasi → 77,815 valores
+  Car-05 / 3000 / viga175 / cuasi → 81,787 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\boxplot_car05_viga175.png
+  Car-02 / 0000 / viga175 / cuasi → 93,317 valores
+  Car-02 / 0750 / viga175 / cuasi → 47,665 valores
+  Car-02 / 1500 / viga175 / cuasi → 46,015 valores
+  Car-02 / 3000 / viga175 / cuasi → 48,797 valores
+  Car-05 / 0000 / viga175 / cuasi → 118,023 valores
+  Car-05 / 0750 / viga175 / cuasi → 78,076 valores
+  Car-05 / 1500 / viga175 / cuasi → 77,815 valores
+  Car-05 / 3000 / viga175 / cuasi → 81,787 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\gamma_dot_cuasi_viga175.png
+  Car-02 / 0000 / viga250 / cuasi → 64,829 valores
+  Car-02 / 0750 / viga250 / cuasi → 34,458 valores
+  Car-02 / 1500 / viga250 / cuasi → 33,135 valores
+  Car-02 / 3000 / viga250 / cuasi → 34,114 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\boxplot_car02_viga250.png
+  Car-05 / 0000 / viga250 / cuasi → 44,637 valores
+  Car-05 / 0750 / viga250 / cuasi → 29,385 valores
+  Car-05 / 1500 / viga250 / cuasi → 29,423 valores
+  Car-05 / 3000 / viga250 / cuasi → 31,964 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\boxplot_car05_viga250.png
+  Car-02 / 0000 / viga250 / cuasi → 64,829 valores
+  Car-02 / 0750 / viga250 / cuasi → 34,458 valores
+  Car-02 / 1500 / viga250 / cuasi → 33,135 valores
+  Car-02 / 3000 / viga250 / cuasi → 34,114 valores
+  Car-05 / 0000 / viga250 / cuasi → 44,637 valores
+  Car-05 / 0750 / viga250 / cuasi → 29,385 valores
+  Car-05 / 1500 / viga250 / cuasi → 29,423 valores
+  Car-05 / 3000 / viga250 / cuasi → 31,964 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_gamma_dot_cuasi\gamma_dot_cuasi_viga250.png
+
+==========================================================
+  Boxplots magnitud |V| — solo vigas (comparación PTV)
+==========================================================
+  Car-02 / 0000 / L / transicion → 46,464 valores
+  Car-02 / 0750 / L / transicion → 23,232 valores
+  Car-02 / 1500 / L / transicion → 23,232 valores
+  Car-02 / 3000 / L / transicion → 23,232 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\boxplot_mag_car02_L.png
+  Car-05 / 0000 / L / transicion → 45,504 valores
+  Car-05 / 0750 / L / transicion → 22,752 valores
+  Car-05 / 1500 / L / transicion → 22,752 valores
+  Car-05 / 3000 / L / transicion → 22,752 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\boxplot_mag_car05_L.png
+  Car-02 / 0000 / L / transicion → 46,464 valores
+  Car-02 / 0750 / L / transicion → 23,232 valores
+  Car-02 / 1500 / L / transicion → 23,232 valores
+  Car-02 / 3000 / L / transicion → 23,232 valores
+  Car-05 / 0000 / L / transicion → 45,504 valores
+  Car-05 / 0750 / L / transicion → 22,752 valores
+  Car-05 / 1500 / L / transicion → 22,752 valores
+  Car-05 / 3000 / L / transicion → 22,752 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\vel_magnitud_transicion_L.png
+  Car-02 / 0000 / viga175 / transicion → 43,196 valores
+  Car-02 / 0750 / viga175 / transicion → 22,017 valores
+  Car-02 / 1500 / viga175 / transicion → 22,788 valores
+  Car-02 / 3000 / viga175 / transicion → 22,847 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\boxplot_mag_car02_viga175.png
+  Car-05 / 0000 / viga175 / transicion → 32,688 valores
+  Car-05 / 0750 / viga175 / transicion → 22,253 valores
+  Car-05 / 1500 / viga175 / transicion → 21,825 valores
+  Car-05 / 3000 / viga175 / transicion → 23,496 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\boxplot_mag_car05_viga175.png
+  Car-02 / 0000 / viga175 / transicion → 43,196 valores
+  Car-02 / 0750 / viga175 / transicion → 22,017 valoresWNDPROC return value cannot be converted to LRESULT
+TypeError: WPARAM is simple, so must be an int object (got NoneType)
+
+  Car-02 / 1500 / viga175 / transicion → 22,788 valores
+  Car-02 / 3000 / viga175 / transicion → 22,847 valores
+  Car-05 / 0000 / viga175 / transicion → 32,688 valores
+  Car-05 / 0750 / viga175 / transicion → 22,253 valores
+  Car-05 / 1500 / viga175 / transicion → 21,825 valores
+  Car-05 / 3000 / viga175 / transicion → 23,496 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\vel_magnitud_transicion_viga175.png
+  Car-02 / 0000 / viga250 / transicion → 35,465 valores
+  Car-02 / 0750 / viga250 / transicion → 17,344 valores
+  Car-02 / 1500 / viga250 / transicion → 18,053 valores
+  Car-02 / 3000 / viga250 / transicion → 19,447 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\boxplot_mag_car02_viga250.png
+  Car-05 / 0000 / viga250 / transicion → 2,333 valores
+  Car-05 / 0750 / viga250 / transicion → 1,576 valores
+  Car-05 / 1500 / viga250 / transicion → 1,556 valores
+  Car-05 / 3000 / viga250 / transicion → 1,743 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\boxplot_mag_car05_viga250.png
+  Car-02 / 0000 / viga250 / transicion → 35,465 valores
+  Car-02 / 0750 / viga250 / transicion → 17,344 valores
+  Car-02 / 1500 / viga250 / transicion → 18,053 valores
+  Car-02 / 3000 / viga250 / transicion → 19,447 valores
+  Car-05 / 0000 / viga250 / transicion → 2,333 valores
+  Car-05 / 0750 / viga250 / transicion → 1,576 valores
+  Car-05 / 1500 / viga250 / transicion → 1,556 valores
+  Car-05 / 3000 / viga250 / transicion → 1,743 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_transicion\vel_magnitud_transicion_viga250.png
+  Car-02 / 0000 / L / cuasi → 72,192 valores
+  Car-02 / 0750 / L / cuasi → 36,096 valores
+  Car-02 / 1500 / L / cuasi → 36,096 valores
+  Car-02 / 3000 / L / cuasi → 36,096 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\boxplot_mag_car02_L.png
+  Car-05 / 0000 / L / cuasi → 137,856 valores
+  Car-05 / 0750 / L / cuasi → 68,928 valores
+  Car-05 / 1500 / L / cuasi → 68,928 valores
+  Car-05 / 3000 / L / cuasi → 68,928 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\boxplot_mag_car05_L.png
+  Car-02 / 0000 / L / cuasi → 72,192 valores
+  Car-02 / 0750 / L / cuasi → 36,096 valores
+  Car-02 / 1500 / L / cuasi → 36,096 valores
+  Car-02 / 3000 / L / cuasi → 36,096 valores
+  Car-05 / 0000 / L / cuasi → 137,856 valores
+  Car-05 / 0750 / L / cuasi → 68,928 valores
+  Car-05 / 1500 / L / cuasi → 68,928 valores
+  Car-05 / 3000 / L / cuasi → 68,928 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\vel_magnitud_cuasi_L.png
+  Car-02 / 0000 / viga175 / cuasi → 97,961 valores
+  Car-02 / 0750 / viga175 / cuasi → 50,125 valores
+  Car-02 / 1500 / viga175 / cuasi → 48,391 valores
+  Car-02 / 3000 / viga175 / cuasi → 51,260 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\boxplot_mag_car02_viga175.png
+  Car-05 / 0000 / viga175 / cuasi → 124,206 valores
+  Car-05 / 0750 / viga175 / cuasi → 82,120 valores
+  Car-05 / 1500 / viga175 / cuasi → 81,907 valores
+  Car-05 / 3000 / viga175 / cuasi → 85,864 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\boxplot_mag_car05_viga175.png
+  Car-02 / 0000 / viga175 / cuasi → 97,961 valores
+  Car-02 / 0750 / viga175 / cuasi → 50,125 valores
+  Car-02 / 1500 / viga175 / cuasi → 48,391 valores
+  Car-02 / 3000 / viga175 / cuasi → 51,260 valores
+  Car-05 / 0000 / viga175 / cuasi → 124,206 valores
+  Car-05 / 0750 / viga175 / cuasi → 82,120 valores
+  Car-05 / 1500 / viga175 / cuasi → 81,907 valores
+  Car-05 / 3000 / viga175 / cuasi → 85,864 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\vel_magnitud_cuasi_viga175.png
+  Car-02 / 0000 / viga250 / cuasi → 68,882 valores
+  Car-02 / 0750 / viga250 / cuasi → 36,654 valores
+  Car-02 / 1500 / viga250 / cuasi → 35,241 valores
+  Car-02 / 3000 / viga250 / cuasi → 36,265 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\boxplot_mag_car02_viga250.png
+  Car-05 / 0000 / viga250 / cuasi → 49,380 valores
+  Car-05 / 0750 / viga250 / cuasi → 32,469 valores
+  Car-05 / 1500 / viga250 / cuasi → 32,570 valores
+  Car-05 / 3000 / viga250 / cuasi → 35,081 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\boxplot_mag_car05_viga250.png
+  Car-02 / 0000 / viga250 / cuasi → 68,882 valores
+  Car-02 / 0750 / viga250 / cuasi → 36,654 valores
+  Car-02 / 1500 / viga250 / cuasi → 35,241 valores
+  Car-02 / 3000 / viga250 / cuasi → 36,265 valores
+  Car-05 / 0000 / viga250 / cuasi → 49,380 valores
+  Car-05 / 0750 / viga250 / cuasi → 32,469 valores
+  Car-05 / 1500 / viga250 / cuasi → 32,570 valores
+  Car-05 / 3000 / viga250 / cuasi → 35,081 valores
+✅ Boxplots/Boxplots_por_etapa/boxplots_vel_magnitud_cuasi\vel_magnitud_cuasi_viga250.png
+
+✅ Listo. Figuras en Boxplots/Boxplots_por_etapa
+
+----- return code: 0 -----

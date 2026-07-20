@@ -1,0 +1,35 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe resumen_reproducibilidad.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+Zonas detectadas: ['Z1', 'Z2', 'Z3', 'Vf1c1', 'Vf1c2', 'Vf2c1', 'Vf2c2', 'Vf2c3']
+
+Calculando reproducibilidad entre mezclas...
+  Guardado: reproducibilidad_entre_mezclas.csv (28 filas)
+
+Calculando consistencia PTV vs PIV...
+  [consistencia] car-05 m93: solo tiene toma(s) ['2']; se omite (requiere 1 y 2).
+  Guardado: consistencia_ptv_piv.csv (44 filas)
+
+RESUMEN DE VALIDACIÓN — cifras para Resultados 4.1.1/4.1.2
+=================================================================
+
+--- Reproducibilidad entre mezclas (Carbopol sin fibras) ---
+  car-02: n_comparaciones=16  d mediana=0.131  d máx=0.555  94% de las celdas con d < 0,5 (débil o menor)
+  car-05: n_comparaciones=12  d mediana=0.052  d máx=0.174  100% de las celdas con d < 0,5 (débil o menor)
+
+--- Consistencia PTV (toma-1) vs PIV (toma-2) ---
+  car-02: n_comparaciones=32  d mediana=0.045  d máx=0.317  100% de las celdas con d < 0,5 (débil o menor)
+  car-05: n_comparaciones=12  d mediana=0.063  d máx=0.172  100% de las celdas con d < 0,5 (débil o menor)
+
+  Por mezcla:
+    car-02 m71: d mediana=0.021 (n=16 zona×etapa)
+    car-02 m82: d mediana=0.081 (n=16 zona×etapa)
+    car-05 m92: d mediana=0.063 (n=12 zona×etapa)
+
+NOTA: d de Cohen, no p-valor (ver Sección 3 — herramientas_estadisticas). Umbral de referencia: d=0,5 (efecto medio, Cohen 1988), el mismo empleado en el criterio de exclusion de celdas.
+
+Guardado: resumen_validacion.txt
+
+----- return code: 0 -----

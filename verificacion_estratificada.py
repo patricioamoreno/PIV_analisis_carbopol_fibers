@@ -108,20 +108,53 @@ print("\n  Si las reologías ocupan rangos disjuntos, agregarlas induce Simpson.
 # ----------------------------------------------------------------------
 banner("2. SPEARMAN vs orden_S: estratificado y agregado (CON exclusiones)")
 print(f"{'predictor':<22}{'car-02':>20}{'car-05':>20}{'AGREGADO':>20}")
+filas_simpson = []
 for p_ in PRED:
     fila = []
+    valores_estrato = {}
     for reo in ["car-02", "car-05"]:
         s = v[v.reologia == reo]
         r, pv, n = spearman(s[p_], s.orden_S)
+        valores_estrato[reo] = (r, pv, n)
         fila.append(f"{r:+.3f}(p{pv:.3f},n{n})" if not np.isnan(r)
                     else f"n={n} insuf")
-    r, pv, n = spearman(v[p_], v.orden_S)
-    fila.append(f"{r:+.3f}(p{pv:.3f},n{n})" if not np.isnan(r)
-                else f"n={n} insuf")
+    r_ag, pv_ag, n_ag = spearman(v[p_], v.orden_S)
+    fila.append(f"{r_ag:+.3f}(p{pv_ag:.3f},n{n_ag})" if not np.isnan(r_ag)
+                else f"n={n_ag} insuf")
     print(f"{p_:<22}{fila[0]:>20}{fila[1]:>20}{fila[2]:>20}")
+
+    r02, p02, n02 = valores_estrato["car-02"]
+    r05, p05, n05 = valores_estrato["car-05"]
+    # Diagnóstico automático de Simpson: el agregado difiere de signo, o es
+    # mayor en magnitud que ambos estratos, o cambia de signo respecto a
+    # alguno de ellos.
+    es_simpson = False
+    if not (np.isnan(r_ag) or np.isnan(r02) or np.isnan(r05)):
+        cambia_signo = (np.sign(r_ag) != np.sign(r02)) or (np.sign(r_ag) != np.sign(r05))
+        se_infla = abs(r_ag) > max(abs(r02), abs(r05)) + 0.05
+        es_simpson = cambia_signo or se_infla
+    filas_simpson.append({
+        "predictor": p_,
+        "rho_car02": round(r02, 4) if not np.isnan(r02) else np.nan,
+        "n_car02": n02,
+        "rho_car05": round(r05, 4) if not np.isnan(r05) else np.nan,
+        "n_car05": n05,
+        "rho_agregado": round(r_ag, 4) if not np.isnan(r_ag) else np.nan,
+        "p_agregado": round(pv_ag, 4) if not np.isnan(pv_ag) else np.nan,
+        "n_agregado": n_ag,
+        "posible_simpson": es_simpson,
+    })
 print("\n  Un rho AGREGADO grande que se desvanece o cambia de signo dentro de\n"
       "  cada reología es un artefacto de agregación (Simpson): NO reportarlo\n"
       "  como hallazgo.")
+
+df_simpson = pd.DataFrame(filas_simpson)
+csv_simpson = "contraste_simpson.csv"
+df_simpson.to_csv(csv_simpson, index=False)
+print(f"\n  [export] Contraste agregado vs. estratificado guardado en "
+      f"'{csv_simpson}' (columna 'posible_simpson' marca los predictores "
+      f"cuyo agregado difiere de signo o se infla respecto a ambos estratos; "
+      f"citar en Resultados, Sección 'Necesidad de la estratificación').")
 
 # ----------------------------------------------------------------------
 banner("3. LO QUE SÍ SOBREVIVE: mismo signo en ambas reologías")

@@ -264,3 +264,46 @@ Fallidos (opcionales)  : 1
   ✗ 14. verificacion_estratificada.py          ERROR                       2.1s
   ✓ 15. reconstruccion_lagrangiana.py          OK                       3760.1s
 ==============================================================================
+
+
+==============================================================================
+CORRIDA INICIADA: 2026-07-19 15:27:58
+Repositorio: C:\Users\elisa\Desktop\PIV MEMORIA
+Pasos planificados: 13
+==============================================================================
+
+
+==============================================================================
+CORRIDA INICIADA: 2026-07-19 16:38:49
+Repositorio: C:\Users\elisa\Desktop\PIV MEMORIA
+Pasos planificados: 13
+==============================================================================
+
+
+==============================================================================
+CORRIDA INICIADA: 2026-07-19 16:41:12
+Repositorio: C:\Users\elisa\Desktop\PIV MEMORIA
+Pasos planificados: 13
+==============================================================================
+
+==============================================================================
+RESUMEN — corrida terminada 2026-07-19 20:06:56 (duración total: 205.7 min)
+==============================================================================
+OK                     : 13/13
+Fallidos (obligatorios): 0
+Fallidos (opcionales)  : 0
+
+  ✓ 01. exportar_fibras_ultimo_frame.py        OK                         23.8s
+  ✓ 02. calcular_etapas_polilinea.py           OK                         69.6s
+  ✓ 03. calcular_etapas_zonas.py               OK                        766.0s
+  ✓ 04. box_act.py                             OK                         44.1s
+  ✓ 05. esp_plug_mag.py                        OK                         44.2s
+  ✓ 06. box_piv_ptv.py                         OK                          8.5s
+  ✓ 07. esp_overlay_piv_ptv.py                 OK                         18.7s
+  ✓ 08. analisis.py                            OK                       3571.7s
+  ✓ 09. resumen_reproducibilidad.py            OK                        534.3s
+  ✓ 10. construir_tabla_zonas_todas.py         OK                        151.2s
+  ✓ 11. generar_mapas.py                       OK                          7.3s
+  ✓ 12. verificacion_estratificada.py          OK                          6.4s
+  ✓ 13. reconstruccion_lagrangiana.py          OK                       7098.1s
+==============================================================================

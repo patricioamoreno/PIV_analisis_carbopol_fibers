@@ -1,0 +1,411 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe reconstruccion_lagrangiana.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+[aviso] PIV sin carpeta PTV completa: ['m71', 'm82', 'm92', 'm93']
+Tomas emparejadas (PIV + PTV completo): 12
+
+=======================================================
+  m70
+  PTV: 41232 tracks, frames/track mediana=3.0 (min=1, max=1190)
+  E1 listo en 0m27s
+      stitch_tracks: 34315 enlaces con tolerancia normal, 44 SOLO gracias a la relajación L->viga
+  E2 listo en 3m52s
+  campo PIV cargado en 0m00s (665 frames)
+  Fibras con posición final dentro de una zona: 290/22190
+      E3   5.0%  frame 33/665  transcurrido=0m05s  restante≈1m45s
+      E3   9.9%  frame 66/665  transcurrido=0m11s  restante≈1m47s
+      E3  14.9%  frame 99/665  transcurrido=0m18s  restante≈1m46s
+      E3  19.8%  frame 132/665  transcurrido=0m26s  restante≈1m47s
+      E3  24.8%  frame 165/665  transcurrido=0m35s  restante≈1m46s
+      E3  29.8%  frame 198/665  transcurrido=0m43s  restante≈1m43s
+      E3  34.7%  frame 231/665  transcurrido=0m50s  restante≈1m34s
+      E3  39.7%  frame 264/665  transcurrido=0m57s  restante≈1m26s
+      E3  44.7%  frame 297/665  transcurrido=1m03s  restante≈1m18s
+      E3  49.6%  frame 330/665  transcurrido=1m09s  restante≈1m10s
+      E3  54.6%  frame 363/665  transcurrido=1m16s  restante≈1m03s
+      E3  59.5%  frame 396/665  transcurrido=1m22s  restante≈0m56s
+      ⚠ todas las fibras salieron del material en el frame 416/665; se trunca E3 aquí.
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 0/290 (0%)
+         · zona final en L (Z1/Z2/Z3): 0/216 (0%)
+         · zona final en viga (Vf*): 0/74 (0%)
+  E3 (adveccion) listo en 1m26s
+  Concordancia (n=8): E1-E2=1.00  E1-E3=1.00  E2-E3=1.00
+  → toma m70 completa en 5m50s
+
+=======================================================
+  m73
+  PTV: 39462 tracks, frames/track mediana=3.0 (min=1, max=1026)
+  E1 listo en 0m28s
+      stitch_tracks: 36312 enlaces con tolerancia normal, 43 SOLO gracias a la relajación L->viga
+  E2 listo en 23m16s
+  campo PIV cargado en 0m01s (665 frames)
+  Fibras con posición final dentro de una zona: 295/22001
+      E3   5.0%  frame 33/665  transcurrido=0m11s  restante≈3m38s
+      E3   9.9%  frame 66/665  transcurrido=0m28s  restante≈4m14s
+      E3  14.9%  frame 99/665  transcurrido=0m44s  restante≈4m14s
+      E3  19.8%  frame 132/665  transcurrido=1m01s  restante≈4m10s
+      E3  24.8%  frame 165/665  transcurrido=1m12s  restante≈3m38s
+      E3  29.8%  frame 198/665  transcurrido=1m27s  restante≈3m26s
+      E3  34.7%  frame 231/665  transcurrido=23m39s  restante≈44m27s
+      E3  39.7%  frame 264/665  transcurrido=23m50s  restante≈36m12s
+      E3  44.7%  frame 297/665  transcurrido=24m00s  restante≈29m44s
+      E3  49.6%  frame 330/665  transcurrido=24m07s  restante≈24m29s
+      E3  54.6%  frame 363/665  transcurrido=24m12s  restante≈20m08s
+      E3  59.5%  frame 396/665  transcurrido=24m21s  restante≈16m32s
+      E3  64.5%  frame 429/665  transcurrido=24m29s  restante≈13m28s
+      E3  69.5%  frame 462/665  transcurrido=24m38s  restante≈10m49s
+      ⚠ todas las fibras salieron del material en el frame 490/665; se trunca E3 aquí.
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 0/295 (0%)
+         · zona final en L (Z1/Z2/Z3): 0/169 (0%)
+         · zona final en viga (Vf*): 0/126 (0%)
+  E3 (adveccion) listo en 24m45s
+  Concordancia (n=18): E1-E2=0.94  E1-E3=1.00  E2-E3=0.94
+  → toma m73 completa en 48m34s
+
+=======================================================
+  m74
+  PTV: 21142 tracks, frames/track mediana=4.0 (min=1, max=919)
+  E1 listo en 0m20s
+      stitch_tracks: 19003 enlaces con tolerancia normal, 17 SOLO gracias a la relajación L->viga
+  E2 listo en 2m14s
+  campo PIV cargado en 0m01s (665 frames)
+  Fibras con posición final dentro de una zona: 166/13116
+      E3   5.0%  frame 33/665  transcurrido=0m09s  restante≈2m59s
+      E3   9.9%  frame 66/665  transcurrido=0m23s  restante≈3m35s
+      E3  14.9%  frame 99/665  transcurrido=0m39s  restante≈3m43s
+      E3  19.8%  frame 132/665  transcurrido=0m54s  restante≈3m38s
+      E3  24.8%  frame 165/665  transcurrido=1m11s  restante≈3m37s
+      E3  29.8%  frame 198/665  transcurrido=1m26s  restante≈3m24s
+      E3  34.7%  frame 231/665  transcurrido=5m24s  restante≈10m09s
+      E3  39.7%  frame 264/665  transcurrido=5m32s  restante≈8m24s
+      E3  44.7%  frame 297/665  transcurrido=5m41s  restante≈7m02s
+      E3  49.6%  frame 330/665  transcurrido=5m49s  restante≈5m55s
+      E3  54.6%  frame 363/665  transcurrido=5m59s  restante≈4m59s
+      E3  59.5%  frame 396/665  transcurrido=6m06s  restante≈4m08s
+      ⚠ todas las fibras salieron del material en el frame 410/665; se trunca E3 aquí.
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 0/166 (0%)
+         · zona final en L (Z1/Z2/Z3): 0/91 (0%)
+         · zona final en viga (Vf*): 0/75 (0%)
+  E3 (adveccion) listo en 6m08s
+  Concordancia (n=17): E1-E2=1.00  E1-E3=1.00  E2-E3=1.00
+  → toma m74 completa en 8m49s
+
+=======================================================
+  m75
+  PTV: 21571 tracks, frames/track mediana=5.0 (min=1, max=808)
+  E1 listo en 0m14s
+      stitch_tracks: 16269 enlaces con tolerancia normal, 26 SOLO gracias a la relajación L->viga
+  E2 listo en 1m31s
+  campo PIV cargado en 0m00s (665 frames)
+  Fibras con posición final dentro de una zona: 181/14665
+      E3   5.0%  frame 33/665  transcurrido=0m06s  restante≈1m56s
+      E3   9.9%  frame 66/665  transcurrido=0m11s  restante≈1m45s
+      E3  14.9%  frame 99/665  transcurrido=0m17s  restante≈1m40s
+      E3  19.8%  frame 132/665  transcurrido=0m23s  restante≈1m34s
+      E3  24.8%  frame 165/665  transcurrido=0m28s  restante≈1m26s
+      E3  29.8%  frame 198/665  transcurrido=0m31s  restante≈1m14s
+      E3  34.7%  frame 231/665  transcurrido=0m34s  restante≈1m05s
+      E3  39.7%  frame 264/665  transcurrido=0m40s  restante≈1m01s
+      E3  44.7%  frame 297/665  transcurrido=0m46s  restante≈0m57s
+      E3  49.6%  frame 330/665  transcurrido=0m52s  restante≈0m53s
+      E3  54.6%  frame 363/665  transcurrido=0m57s  restante≈0m47s
+      E3  59.5%  frame 396/665  transcurrido=1m04s  restante≈0m43s
+      E3  64.5%  frame 429/665  transcurrido=1m10s  restante≈0m38s
+      E3  69.5%  frame 462/665  transcurrido=1m13s  restante≈0m32s
+      E3  74.4%  frame 495/665  transcurrido=1m18s  restante≈0m26s
+      E3  79.4%  frame 528/665  transcurrido=1m23s  restante≈0m21s
+      E3  84.4%  frame 561/665  transcurrido=1m28s  restante≈0m16s
+      E3  89.3%  frame 594/665  transcurrido=1m32s  restante≈0m11s
+      E3  94.3%  frame 627/665  transcurrido=1m36s  restante≈0m05s
+      E3  99.2%  frame 660/665  transcurrido=1m38s  restante≈0m00s
+      E3 100.0%  frame 665/665  transcurrido=1m39s  restante≈0m00s
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 6/181 (3%)
+         · zona final en L (Z1/Z2/Z3): 3/119 (3%)
+         · zona final en viga (Vf*): 3/62 (5%)
+  E3 (adveccion) listo en 1m39s
+  Concordancia (n=15): E1-E2=1.00  E1-E3=1.00  E2-E3=1.00
+  → toma m75 completa en 3m28s
+
+=======================================================
+  m77
+  PTV: 41018 tracks, frames/track mediana=3.0 (min=1, max=403)
+  E1 listo en 0m27s
+      stitch_tracks: 36258 enlaces con tolerancia normal, 24 SOLO gracias a la relajación L->viga
+  E2 listo en 3m48s
+  campo PIV cargado en 0m00s (665 frames)
+  Fibras con posición final dentro de una zona: 130/21981
+      E3   5.0%  frame 33/665  transcurrido=0m05s  restante≈1m44s
+      E3   9.9%  frame 66/665  transcurrido=0m09s  restante≈1m27s
+      E3  14.9%  frame 99/665  transcurrido=0m14s  restante≈1m23s
+      E3  19.8%  frame 132/665  transcurrido=0m19s  restante≈1m18s
+      E3  24.8%  frame 165/665  transcurrido=0m22s  restante≈1m07s
+      E3  29.8%  frame 198/665  transcurrido=0m27s  restante≈1m04s
+      E3  34.7%  frame 231/665  transcurrido=0m32s  restante≈1m01s
+      E3  39.7%  frame 264/665  transcurrido=0m37s  restante≈0m57s
+      E3  44.7%  frame 297/665  transcurrido=0m43s  restante≈0m53s
+      E3  49.6%  frame 330/665  transcurrido=0m48s  restante≈0m49s
+      E3  54.6%  frame 363/665  transcurrido=0m53s  restante≈0m44s
+      E3  59.5%  frame 396/665  transcurrido=0m58s  restante≈0m39s
+      E3  64.5%  frame 429/665  transcurrido=1m02s  restante≈0m34s
+      E3  69.5%  frame 462/665  transcurrido=1m07s  restante≈0m29s
+      E3  74.4%  frame 495/665  transcurrido=1m12s  restante≈0m24s
+      E3  79.4%  frame 528/665  transcurrido=1m16s  restante≈0m19s
+      E3  84.4%  frame 561/665  transcurrido=1m20s  restante≈0m14s
+      ⚠ todas las fibras salieron del material en el frame 586/665; se trunca E3 aquí.
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 0/130 (0%)
+         · zona final en L (Z1/Z2/Z3): 0/69 (0%)
+         · zona final en viga (Vf*): 0/61 (0%)
+  E3 (adveccion) listo en 1m23s
+  Concordancia (n=7): E1-E2=1.00  E1-E3=1.00  E2-E3=1.00
+  → toma m77 completa en 5m43s
+
+=======================================================
+  m80
+  PTV: 42707 tracks, frames/track mediana=3.0 (min=1, max=732)
+  E1 listo en 0m28s
+      stitch_tracks: 34035 enlaces con tolerancia normal, 15 SOLO gracias a la relajación L->viga
+  E2 listo en 4m06s
+  campo PIV cargado en 0m00s (665 frames)
+  Fibras con posición final dentro de una zona: 123/23472
+      E3   5.0%  frame 33/665  transcurrido=0m05s  restante≈1m49s
+      E3   9.9%  frame 66/665  transcurrido=0m11s  restante≈1m46s
+      E3  14.9%  frame 99/665  transcurrido=0m17s  restante≈1m38s
+      E3  19.8%  frame 132/665  transcurrido=0m22s  restante≈1m32s
+      E3  24.8%  frame 165/665  transcurrido=0m28s  restante≈1m27s
+      E3  29.8%  frame 198/665  transcurrido=0m34s  restante≈1m20s
+      E3  34.7%  frame 231/665  transcurrido=0m39s  restante≈1m14s
+      E3  39.7%  frame 264/665  transcurrido=0m45s  restante≈1m08s
+      E3  44.7%  frame 297/665  transcurrido=0m49s  restante≈1m01s
+      E3  49.6%  frame 330/665  transcurrido=0m53s  restante≈0m54s
+      ⚠ todas las fibras salieron del material en el frame 340/665; se trunca E3 aquí.
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 0/123 (0%)
+         · zona final en L (Z1/Z2/Z3): 0/92 (0%)
+         · zona final en viga (Vf*): 0/31 (0%)
+  E3 (adveccion) listo en 0m55s
+  Concordancia: sin datos suficientes
+  → toma m80 completa en 5m33s
+
+=======================================================
+  m83
+  PTV: 46210 tracks, frames/track mediana=2.0 (min=1, max=736)
+  E1 listo en 0m30s
+      stitch_tracks: 43973 enlaces con tolerancia normal, 19 SOLO gracias a la relajación L->viga
+  E2 listo en 3m26s
+  campo PIV cargado en 0m03s (1245 frames)
+  Fibras con posición final dentro de una zona: 144/16402
+      E3   5.0%  frame 62/1245  transcurrido=0m22s  restante≈7m17s
+      E3  10.0%  frame 124/1245  transcurrido=0m46s  restante≈6m59s
+      E3  14.9%  frame 186/1245  transcurrido=1m02s  restante≈5m56s
+      E3  19.9%  frame 248/1245  transcurrido=1m20s  restante≈5m23s
+      E3  24.9%  frame 310/1245  transcurrido=1m38s  restante≈4m55s
+      E3  29.9%  frame 372/1245  transcurrido=1m54s  restante≈4m29s
+      E3  34.9%  frame 434/1245  transcurrido=2m10s  restante≈4m04s
+      E3  39.8%  frame 496/1245  transcurrido=2m28s  restante≈3m44s
+      E3  44.8%  frame 558/1245  transcurrido=2m44s  restante≈3m21s
+      E3  49.8%  frame 620/1245  transcurrido=2m59s  restante≈3m00s
+      E3  54.8%  frame 682/1245  transcurrido=3m13s  restante≈2m39s
+      E3  59.8%  frame 744/1245  transcurrido=3m28s  restante≈2m20s
+      E3  64.7%  frame 806/1245  transcurrido=3m42s  restante≈2m01s
+      E3  69.7%  frame 868/1245  transcurrido=3m55s  restante≈1m42s
+      E3  74.7%  frame 930/1245  transcurrido=4m09s  restante≈1m24s
+      E3  79.7%  frame 992/1245  transcurrido=4m20s  restante≈1m06s
+      E3  84.7%  frame 1054/1245  transcurrido=4m31s  restante≈0m49s
+      E3  89.6%  frame 1116/1245  transcurrido=4m40s  restante≈0m32s
+      E3  94.6%  frame 1178/1245  transcurrido=4m49s  restante≈0m16s
+      E3  99.6%  frame 1240/1245  transcurrido=4m57s  restante≈0m01s
+      E3 100.0%  frame 1245/1245  transcurrido=4m58s  restante≈0m00s
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 68/144 (47%)
+         · zona final en L (Z1/Z2/Z3): 68/115 (59%)
+         · zona final en viga (Vf*): 0/29 (0%)
+  E3 (adveccion) listo en 4m58s
+  Concordancia: sin datos suficientes
+  → toma m83 completa en 9m00s
+
+=======================================================
+  m86
+  PTV: 16554 tracks, frames/track mediana=3.0 (min=1, max=739)
+  E1 listo en 0m08s
+      stitch_tracks: 11607 enlaces con tolerancia normal, 11 SOLO gracias a la relajación L->viga
+  E2 listo en 0m36s
+  campo PIV cargado en 0m02s (1245 frames)
+  Fibras con posición final dentro de una zona: 142/9264
+      E3   5.0%  frame 62/1245  transcurrido=0m16s  restante≈5m16s
+      E3  10.0%  frame 124/1245  transcurrido=0m32s  restante≈4m56s
+      E3  14.9%  frame 186/1245  transcurrido=0m50s  restante≈4m45s
+      E3  19.9%  frame 248/1245  transcurrido=1m07s  restante≈4m33s
+      E3  24.9%  frame 310/1245  transcurrido=1m24s  restante≈4m13s
+      E3  29.9%  frame 372/1245  transcurrido=1m40s  restante≈3m55s
+      E3  34.9%  frame 434/1245  transcurrido=1m56s  restante≈3m37s
+      E3  39.8%  frame 496/1245  transcurrido=2m12s  restante≈3m19s
+      E3  44.8%  frame 558/1245  transcurrido=2m27s  restante≈3m01s
+      E3  49.8%  frame 620/1245  transcurrido=2m43s  restante≈2m45s
+      E3  54.8%  frame 682/1245  transcurrido=2m59s  restante≈2m27s
+      E3  59.8%  frame 744/1245  transcurrido=3m13s  restante≈2m10s
+      E3  64.7%  frame 806/1245  transcurrido=3m26s  restante≈1m52s
+      E3  69.7%  frame 868/1245  transcurrido=3m40s  restante≈1m35s
+      E3  74.7%  frame 930/1245  transcurrido=3m52s  restante≈1m18s
+      E3  79.7%  frame 992/1245  transcurrido=4m04s  restante≈1m02s
+      E3  84.7%  frame 1054/1245  transcurrido=4m15s  restante≈0m46s
+      E3  89.6%  frame 1116/1245  transcurrido=4m25s  restante≈0m30s
+      E3  94.6%  frame 1178/1245  transcurrido=4m34s  restante≈0m15s
+      E3  99.6%  frame 1240/1245  transcurrido=4m43s  restante≈0m01s
+      E3 100.0%  frame 1245/1245  transcurrido=4m43s  restante≈0m00s
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 64/142 (45%)
+         · zona final en L (Z1/Z2/Z3): 61/113 (54%)
+         · zona final en viga (Vf*): 3/29 (10%)
+  E3 (adveccion) listo en 4m43s
+  Concordancia: sin datos suficientes
+  → toma m86 completa en 5m32s
+
+=======================================================
+  m87
+  PTV: 14005 tracks, frames/track mediana=4.0 (min=1, max=966)
+  E1 listo en 0m07s
+      stitch_tracks: 7500 enlaces con tolerancia normal, 5 SOLO gracias a la relajación L->viga
+  E2 listo en 0m28s
+  campo PIV cargado en 0m02s (1245 frames)
+  Fibras con posición final dentro de una zona: 127/8875
+      E3   5.0%  frame 62/1245  transcurrido=0m17s  restante≈5m32s
+      E3  10.0%  frame 124/1245  transcurrido=0m33s  restante≈5m03s
+      E3  14.9%  frame 186/1245  transcurrido=0m48s  restante≈4m37s
+      E3  19.9%  frame 248/1245  transcurrido=1m05s  restante≈4m21s
+      E3  24.9%  frame 310/1245  transcurrido=1m20s  restante≈4m01s
+      E3  29.9%  frame 372/1245  transcurrido=1m36s  restante≈3m46s
+      E3  34.9%  frame 434/1245  transcurrido=1m52s  restante≈3m29s
+      E3  39.8%  frame 496/1245  transcurrido=2m08s  restante≈3m14s
+      E3  44.8%  frame 558/1245  transcurrido=2m23s  restante≈2m57s
+      E3  49.8%  frame 620/1245  transcurrido=2m38s  restante≈2m40s
+      E3  54.8%  frame 682/1245  transcurrido=2m54s  restante≈2m24s
+      E3  59.8%  frame 744/1245  transcurrido=3m08s  restante≈2m06s
+      E3  64.7%  frame 806/1245  transcurrido=3m21s  restante≈1m49s
+      E3  69.7%  frame 868/1245  transcurrido=3m34s  restante≈1m33s
+      E3  74.7%  frame 930/1245  transcurrido=3m46s  restante≈1m16s
+      E3  79.7%  frame 992/1245  transcurrido=3m58s  restante≈1m00s
+      E3  84.7%  frame 1054/1245  transcurrido=4m09s  restante≈0m45s
+      E3  89.6%  frame 1116/1245  transcurrido=4m19s  restante≈0m30s
+      E3  94.6%  frame 1178/1245  transcurrido=4m28s  restante≈0m15s
+      E3  99.6%  frame 1240/1245  transcurrido=4m37s  restante≈0m01s
+      E3 100.0%  frame 1245/1245  transcurrido=4m38s  restante≈0m00s
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 49/127 (39%)
+         · zona final en L (Z1/Z2/Z3): 46/110 (42%)
+         · zona final en viga (Vf*): 3/17 (18%)
+  E3 (adveccion) listo en 4m38s
+  Concordancia: sin datos suficientes
+  → toma m87 completa en 5m18s
+
+=======================================================
+  m91
+  PTV: 38773 tracks, frames/track mediana=2.0 (min=1, max=659)
+  E1 listo en 0m21s
+      stitch_tracks: 35826 enlaces con tolerancia normal, 20 SOLO gracias a la relajación L->viga
+  E2 listo en 2m19s
+  campo PIV cargado en 0m02s (1245 frames)
+  Fibras con posición final dentro de una zona: 121/15100
+      E3   5.0%  frame 62/1245  transcurrido=0m18s  restante≈5m47s
+      E3  10.0%  frame 124/1245  transcurrido=0m36s  restante≈5m29s
+      E3  14.9%  frame 186/1245  transcurrido=0m54s  restante≈5m09s
+      E3  19.9%  frame 248/1245  transcurrido=1m12s  restante≈4m52s
+      E3  24.9%  frame 310/1245  transcurrido=1m30s  restante≈4m32s
+      E3  29.9%  frame 372/1245  transcurrido=1m46s  restante≈4m10s
+      E3  34.9%  frame 434/1245  transcurrido=2m00s  restante≈3m45s
+      E3  39.8%  frame 496/1245  transcurrido=2m16s  restante≈3m26s
+      E3  44.8%  frame 558/1245  transcurrido=2m32s  restante≈3m07s
+      E3  49.8%  frame 620/1245  transcurrido=2m47s  restante≈2m48s
+      E3  54.8%  frame 682/1245  transcurrido=3m03s  restante≈2m31s
+      E3  59.8%  frame 744/1245  transcurrido=3m17s  restante≈2m12s
+      E3  64.7%  frame 806/1245  transcurrido=3m31s  restante≈1m55s
+      E3  69.7%  frame 868/1245  transcurrido=3m44s  restante≈1m37s
+      E3  74.7%  frame 930/1245  transcurrido=3m56s  restante≈1m20s
+      E3  79.7%  frame 992/1245  transcurrido=4m07s  restante≈1m03s
+      E3  84.7%  frame 1054/1245  transcurrido=4m18s  restante≈0m46s
+      E3  89.6%  frame 1116/1245  transcurrido=4m27s  restante≈0m30s
+      E3  94.6%  frame 1178/1245  transcurrido=4m35s  restante≈0m15s
+      E3  99.6%  frame 1240/1245  transcurrido=4m44s  restante≈0m01s
+      E3 100.0%  frame 1245/1245  transcurrido=4m45s  restante≈0m00s
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 64/121 (53%)
+         · zona final en L (Z1/Z2/Z3): 59/108 (55%)
+         · zona final en viga (Vf*): 5/13 (38%)
+  E3 (adveccion) listo en 4m45s
+  Concordancia (n=4): E1-E2=1.00  E1-E3=1.00  E2-E3=1.00
+  → toma m91 completa en 7m29s
+
+=======================================================
+  m94
+  PTV: 30610 tracks, frames/track mediana=2.0 (min=1, max=490)
+  E1 listo en 0m16s
+      stitch_tracks: 25418 enlaces con tolerancia normal, 16 SOLO gracias a la relajación L->viga
+  E2 listo en 1m30s
+  campo PIV cargado en 0m02s (1245 frames)
+  Fibras con posición final dentro de una zona: 144/14405
+      E3   5.0%  frame 62/1245  transcurrido=0m17s  restante≈5m25s
+      E3  10.0%  frame 124/1245  transcurrido=0m34s  restante≈5m11s
+      E3  14.9%  frame 186/1245  transcurrido=0m50s  restante≈4m46s
+      E3  19.9%  frame 248/1245  transcurrido=1m05s  restante≈4m25s
+      E3  24.9%  frame 310/1245  transcurrido=1m21s  restante≈4m06s
+      E3  29.9%  frame 372/1245  transcurrido=1m37s  restante≈3m48s
+      E3  34.9%  frame 434/1245  transcurrido=1m52s  restante≈3m30s
+      E3  39.8%  frame 496/1245  transcurrido=2m07s  restante≈3m11s
+      E3  44.8%  frame 558/1245  transcurrido=2m21s  restante≈2m54s
+      E3  49.8%  frame 620/1245  transcurrido=2m35s  restante≈2m37s
+      E3  54.8%  frame 682/1245  transcurrido=2m49s  restante≈2m19s
+      E3  59.8%  frame 744/1245  transcurrido=3m01s  restante≈2m02s
+      E3  64.7%  frame 806/1245  transcurrido=3m13s  restante≈1m45s
+      E3  69.7%  frame 868/1245  transcurrido=3m26s  restante≈1m29s
+      E3  74.7%  frame 930/1245  transcurrido=3m38s  restante≈1m14s
+      E3  79.7%  frame 992/1245  transcurrido=3m49s  restante≈0m58s
+      E3  84.7%  frame 1054/1245  transcurrido=3m58s  restante≈0m43s
+      E3  89.6%  frame 1116/1245  transcurrido=4m07s  restante≈0m28s
+      E3  94.6%  frame 1178/1245  transcurrido=4m15s  restante≈0m14s
+      E3  99.6%  frame 1240/1245  transcurrido=4m23s  restante≈0m01s
+      E3 100.0%  frame 1245/1245  transcurrido=4m24s  restante≈0m00s
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 95/144 (66%)
+         · zona final en L (Z1/Z2/Z3): 83/107 (78%)
+         · zona final en viga (Vf*): 12/37 (32%)
+  E3 (adveccion) listo en 4m24s
+  Concordancia (n=12): E1-E2=1.00  E1-E3=1.00  E2-E3=1.00
+  → toma m94 completa en 6m15s
+
+=======================================================
+  m95
+  PTV: 31286 tracks, frames/track mediana=3.0 (min=1, max=961)
+  E1 listo en 0m17s
+      stitch_tracks: 21336 enlaces con tolerancia normal, 5 SOLO gracias a la relajación L->viga
+  E2 listo en 1m22s
+  campo PIV cargado en 0m02s (1245 frames)
+  Fibras con posición final dentro de una zona: 120/16495
+      E3   5.0%  frame 62/1245  transcurrido=0m18s  restante≈5m43s
+      E3  10.0%  frame 124/1245  transcurrido=0m35s  restante≈5m24s
+      E3  14.9%  frame 186/1245  transcurrido=0m52s  restante≈5m01s
+      E3  19.9%  frame 248/1245  transcurrido=1m09s  restante≈4m41s
+      E3  24.9%  frame 310/1245  transcurrido=1m26s  restante≈4m21s
+      E3  29.9%  frame 372/1245  transcurrido=1m43s  restante≈4m03s
+      E3  34.9%  frame 434/1245  transcurrido=2m01s  restante≈3m46s
+      E3  39.8%  frame 496/1245  transcurrido=2m17s  restante≈3m28s
+      E3  44.8%  frame 558/1245  transcurrido=2m34s  restante≈3m09s
+      E3  49.8%  frame 620/1245  transcurrido=2m49s  restante≈2m50s
+      E3  54.8%  frame 682/1245  transcurrido=3m04s  restante≈2m32s
+      E3  59.8%  frame 744/1245  transcurrido=3m19s  restante≈2m14s
+      E3  64.7%  frame 806/1245  transcurrido=3m33s  restante≈1m56s
+      E3  69.7%  frame 868/1245  transcurrido=3m48s  restante≈1m39s
+      E3  74.7%  frame 930/1245  transcurrido=4m01s  restante≈1m21s
+      E3  79.7%  frame 992/1245  transcurrido=4m13s  restante≈1m04s
+      E3  84.7%  frame 1054/1245  transcurrido=4m24s  restante≈0m47s
+      E3  89.6%  frame 1116/1245  transcurrido=4m33s  restante≈0m31s
+      E3  94.6%  frame 1178/1245  transcurrido=4m42s  restante≈0m16s
+      E3  99.6%  frame 1240/1245  transcurrido=4m51s  restante≈0m01s
+      E3 100.0%  frame 1245/1245  transcurrido=4m51s  restante≈0m00s
+      E3: fibras con trayectoria completa hasta el primer frame disponible: 54/120 (45%)
+         · zona final en L (Z1/Z2/Z3): 45/97 (46%)
+         · zona final en viga (Vf*): 9/23 (39%)
+WNDPROC return value cannot be converted to LRESULT
+TypeError: WPARAM is simple, so must be an int object (got NoneType)
+  E3 (adveccion) listo en 4m51s
+  Concordancia (n=7): E1-E2=1.00  E1-E3=1.00  E2-E3=1.00
+  → toma m95 completa en 6m35s
+
+=======================================================
+Guardado: atribucion_E1_E2_E3.csv, resumen_concordancia.csv
+
+----- return code: 0 -----

@@ -1,0 +1,129 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe verificacion_estratificada.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+
+========================================================================
+DISEÑO
+========================================================================
+reologia  fibras
+car-02    750       10
+          1500      10
+          3000      10
+car-05    750        6
+          1500       6
+          3000       6
+
+Zonas de viga fiables: N = 47
+ADVERTENCIA: cada fila es una celda (toma x zona), NO una réplica independiente.
+El n efectivo es el número de TOMAS por reología (~6), no el de filas.
+Los p-valores están inflados; el peso está en la consistencia de SIGNO
+entre reologías, no en cruzar p<0.05.
+
+========================================================================
+1. POR QUÉ HAY QUE ESTRATIFICAR
+========================================================================
+  car-02: V_tr mediana=  11.34  orden_S medio=0.523
+  car-05: V_tr mediana=   3.07  orden_S medio=0.297
+  Mann-Whitney V_transicion    p=0.000114  (n=26/13)
+  Mann-Whitney orden_S         p=0.000071  (n=29/18)
+
+  Si las reologías ocupan rangos disjuntos, agregarlas induce Simpson.
+
+========================================================================
+2. SPEARMAN vs orden_S: estratificado y agregado (CON exclusiones)
+========================================================================
+predictor                           car-02              car-05            AGREGADO
+V_cuasi                 -0.479(p0.018,n24)  -0.044(p0.887,n13)  -0.443(p0.006,n37)
+V_transicion            -0.238(p0.241,n26)  -0.011(p0.972,n13)  +0.300(p0.063,n39)
+omega_cuasi             +0.354(p0.090,n24)  -0.077(p0.803,n13)  -0.269(p0.108,n37)
+omega_transicion        -0.383(p0.053,n26)  -0.231(p0.448,n13)  +0.069(p0.676,n39)
+gamma_dot_cuasi         +0.324(p0.122,n24)  -0.132(p0.668,n13)  -0.293(p0.078,n37)
+gamma_dot_transicion    -0.385(p0.052,n26)  -0.242(p0.426,n13)  +0.002(p0.991,n39)
+
+  Un rho AGREGADO grande que se desvanece o cambia de signo dentro de
+  cada reología es un artefacto de agregación (Simpson): NO reportarlo
+  como hallazgo.
+
+  [export] Contraste agregado vs. estratificado guardado en 'contraste_simpson.csv' (columna 'posible_simpson' marca los predictores cuyo agregado difiere de signo o se infla respecto a ambos estratos; citar en Resultados, Sección 'Necesidad de la estratificación').
+
+========================================================================
+3. LO QUE SÍ SOBREVIVE: mismo signo en ambas reologías
+========================================================================
+
+V_cuasi:  (rho car-02=-0.479, car-05=-0.044 — mismo signo)
+  car-02: N=24  rho=-0.479 (p=0.0178)   parcial|n_fibras=-0.290 (p=0.170)
+  car-05: N=13  rho=-0.044 (p=0.8866)   parcial|n_fibras=+0.296 (p=0.325)
+  Fisher combinado: p=0.0814
+
+V_transicion:  (rho car-02=-0.238, car-05=-0.011 — mismo signo)
+  car-02: N=26  rho=-0.238 (p=0.2411)   parcial|n_fibras=-0.003 (p=0.987)
+  car-05: N=13  rho=-0.011 (p=0.9716)   parcial|n_fibras=+0.381 (p=0.199)
+  Fisher combinado: p=0.5742
+
+omega_transicion:  (rho car-02=-0.383, car-05=-0.231 — mismo signo)
+  car-02: N=26  rho=-0.383 (p=0.0533)   parcial|n_fibras=-0.280 (p=0.166)
+  car-05: N=13  rho=-0.231 (p=0.4481)   parcial|n_fibras=+0.210 (p=0.490)
+  Fisher combinado: p=0.1131
+
+gamma_dot_transicion:  (rho car-02=-0.385, car-05=-0.242 — mismo signo)
+  car-02: N=26  rho=-0.385 (p=0.0524)   parcial|n_fibras=-0.288 (p=0.153)
+  car-05: N=13  rho=-0.242 (p=0.4262)   parcial|n_fibras=+0.169 (p=0.580)
+  Fisher combinado: p=0.1072
+
+========================================================================
+3b. SENSIBILIDAD: mismos Spearman SIN el criterio de exclusión
+========================================================================
+  El criterio de exclusión (d de Cohen >= 0.5) inserta NaN en celdas
+  no comparables con el base. Aquí se recalcula todo SIN ese filtro.
+
+predictor                         car-02 con/sin            car-05 con/sin
+V_cuasi                  -0.48(n24) / -0.42(n29)   -0.04(n13) / -0.09(n18)
+V_transicion             -0.24(n26) / -0.38(n29)   -0.01(n13) / +0.28(n18)
+omega_cuasi              +0.35(n24) / +0.36(n29)   -0.08(n13) / +0.12(n18)
+omega_transicion         -0.38(n26) / -0.46(n29)   -0.23(n13) / -0.32(n18)
+gamma_dot_cuasi          +0.32(n24) / +0.37(n29)   -0.13(n13) / +0.07(n18)
+gamma_dot_transicion     -0.38(n26) / -0.47(n29)   -0.24(n13) / -0.31(n18)
+
+  Lectura: si el signo se mantiene entre 'con' y 'sin', el hallazgo es
+  robusto a la decisión de exclusión. Si cambia, la conclusión depende
+  del umbral y hay que decirlo explícitamente en la memoria.
+
+========================================================================
+INTERPRETACIÓN (teoría de Jeffery)
+========================================================================
+  Predicción de Jeffery (1922): la parte antisimétrica del gradiente de
+  velocidad (vorticidad, omega) hace rotar la fibra en órbitas periódicas,
+  lo que impide que se estabilice en una orientación preferente. La parte
+  simétrica (tasa de deformación) es la que alinea.
+
+  => Se espera que omega (sobre todo en transición) se asocie NEGATIVAMENTE
+     con el orden_S final. Contrastar el signo observado arriba contra esta
+     predicción, en ambas reologías, es la evidencia física central.
+
+========================================================================
+4. LO QUE NO SE SOSTIENE: colinealidad y modelos multivariados
+========================================================================
+  Filas con predictores completos: 31/47 (16 descartadas por NaN de exclusión).
+
+  VIF (colinealidad):
+    V_cuasi                  VIF=    1.80  
+    V_transicion             VIF=    3.86  
+    omega_cuasi              VIF=  166.71  SEVERA
+    omega_transicion         VIF=  224.28  SEVERA
+    gamma_dot_cuasi          VIF=  162.45  SEVERA
+    gamma_dot_transicion     VIF=  213.26  SEVERA
+
+  Random Forest (AGREGADO): R2_train=+0.903   R2_CV=-0.137
+    OJO: un R2_CV>0 aquí NO valida el modelo. El RF puede estar
+    aprendiendo a separar reologías (que difieren en todo), no la
+    relación flujo->orientación. Evaluar DENTRO de cada estrato.
+
+  Random Forest (POR REOLOGÍA — el test honesto):
+    car-02: N=21  R2_CV=-0.398   <-- peor que la media
+    car-05: N=10  R2_CV=-1.589   <-- peor que la media
+
+  Regla: regresión múltiple descartada si VIF > 10. Random Forest se
+  evalúa con R2_CV DENTRO de cada reología, nunca sobre el agregado.
+
+
+----- return code: 0 -----

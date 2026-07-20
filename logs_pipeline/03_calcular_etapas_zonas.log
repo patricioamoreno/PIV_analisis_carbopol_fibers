@@ -1,0 +1,263 @@
+$ C:\Users\elisa\AppData\Local\Programs\Python\Python313\python.exe calcular_etapas_zonas.py
+(cwd=C:\Users\elisa\Desktop\PIV MEMORIA)
+
+C:\Users\elisa\AppData\Local\Programs\Python\Python313\Lib\site-packages\win10toast\__init__.py:15: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import Requirement
+Carpetas con caché: 19
+
+Zonas a procesar: [np.str_('Vf1c1'), np.str_('Vf1c2'), np.str_('Vf2c1'), np.str_('Vf2c2'), np.str_('Vf2c3'), np.str_('Z1'), np.str_('Z2'), np.str_('Z3')]
+
+
+=======================================================
+  ZONA: Vf1c1
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Vf1c1]  peak=1.77s  cuasi=8.37s  frames_cuasi=349  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Vf1c1]  peak=0.90s  cuasi=6.47s  frames_cuasi=406  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Vf1c1]  peak=1.80s  cuasi=8.20s  frames_cuasi=354  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Vf1c1]  peak=1.20s  cuasi=7.83s  frames_cuasi=365  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m71-toma-1-n-0000-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m71-toma-2-n-0000-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m73-toma-2-n-1500-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m74-toma-2-n-0750-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m75-toma-2-n-0750-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m77-toma-2-n-1500-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m80-toma-2-n-3000-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m82-toma-1-n-0000-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+  m82-toma-2-n-0000-car-02-piv_Vf1c1  peak=1.43s  cuasi=7.73s  [base]
+
+  Base car-05 (3 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_Vf1c1]  peak=17.30s  cuasi=18.30s  frames_cuasi=651  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_Vf1c1]  peak=21.13s  cuasi=36.80s  frames_cuasi=96  fallback=False
+  [m93-toma-2-n-0000-car-05-piv_Vf1c1]  peak=21.17s  cuasi=31.37s  frames_cuasi=259  fallback=False
+  m83-toma-2-n-3000-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m86-toma-2-n-0750-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m87-toma-2-n-0750-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m91-toma-2-n-3000-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m92-toma-1-n-0000-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m92-toma-2-n-0000-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m93-toma-2-n-0000-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m94-toma-2-n-1500-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+  m95-toma-2-n-1500-car-05-piv_Vf1c1  peak=19.87s  cuasi=28.83s  [base]
+
+=======================================================
+  ZONA: Vf1c2
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Vf1c2]  peak=10.27s  cuasi=15.87s  frames_cuasi=124  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Vf1c2]  peak=8.50s  cuasi=17.73s  frames_cuasi=68  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Vf1c2]  peak=10.37s  cuasi=15.87s  frames_cuasi=124  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Vf1c2]  peak=8.57s  cuasi=17.97s  frames_cuasi=61  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m71-toma-1-n-0000-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m71-toma-2-n-0000-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m73-toma-2-n-1500-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m74-toma-2-n-0750-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m75-toma-2-n-0750-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m77-toma-2-n-1500-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m80-toma-2-n-3000-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m82-toma-1-n-0000-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+  m82-toma-2-n-0000-car-02-piv_Vf1c2  peak=9.43s  cuasi=16.87s  [base]
+
+  Base car-05 (3 tomas)...
+
+=======================================================
+  ZONA: Vf2c1
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Vf2c1]  peak=0.93s  cuasi=6.47s  frames_cuasi=406  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Vf2c1]  peak=0.90s  cuasi=6.47s  frames_cuasi=406  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Vf2c1]  peak=0.93s  cuasi=6.35s  frames_cuasi=411  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Vf2c1]  peak=0.97s  cuasi=6.47s  frames_cuasi=406  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m71-toma-1-n-0000-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m71-toma-2-n-0000-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m73-toma-2-n-1500-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m74-toma-2-n-0750-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m75-toma-2-n-0750-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m77-toma-2-n-1500-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m80-toma-2-n-3000-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m82-toma-1-n-0000-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+  m82-toma-2-n-0000-car-02-piv_Vf2c1  peak=0.93s  cuasi=6.43s  [base]
+
+  Base car-05 (3 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_Vf2c1]  peak=14.23s  cuasi=15.57s  frames_cuasi=733  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_Vf2c1]  peak=14.53s  cuasi=17.93s  frames_cuasi=662  fallback=False
+  [m93-toma-2-n-0000-car-05-piv_Vf2c1]  peak=14.50s  cuasi=18.07s  frames_cuasi=658  fallback=False
+  m83-toma-2-n-3000-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m86-toma-2-n-0750-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m87-toma-2-n-0750-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m91-toma-2-n-3000-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m92-toma-1-n-0000-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m92-toma-2-n-0000-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m93-toma-2-n-0000-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m94-toma-2-n-1500-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+  m95-toma-2-n-1500-car-05-piv_Vf2c1  peak=14.43s  cuasi=17.20s  [base]
+
+=======================================================
+  ZONA: Vf2c2
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Vf2c2]  peak=1.20s  cuasi=7.83s  frames_cuasi=365  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Vf2c2]  peak=1.17s  cuasi=5.57s  frames_cuasi=442  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Vf2c2]  peak=1.60s  cuasi=8.13s  frames_cuasi=356  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Vf2c2]  peak=1.60s  cuasi=7.93s  frames_cuasi=362  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m71-toma-1-n-0000-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m71-toma-2-n-0000-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m73-toma-2-n-1500-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m74-toma-2-n-0750-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m75-toma-2-n-0750-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m77-toma-2-n-1500-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m80-toma-2-n-3000-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m82-toma-1-n-0000-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+  m82-toma-2-n-0000-car-02-piv_Vf2c2  peak=1.40s  cuasi=7.37s  [base]
+
+  Base car-05 (3 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_Vf2c2]  peak=17.97s  cuasi=28.87s  frames_cuasi=334  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_Vf2c2]  peak=27.63s  cuasi=28.63s  frames_cuasi=341  fallback=False
+  [m93-toma-2-n-0000-car-05-piv_Vf2c2]  peak=15.63s  cuasi=22.97s  frames_cuasi=511  fallback=False
+  m83-toma-2-n-3000-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+  m86-toma-2-n-0750-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+  m87-toma-2-n-0750-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+  m91-toma-2-n-3000-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+  m92-toma-1-n-0000-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+  m92-toma-2-n-0000-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+  m93-toma-2-n-0000-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+  m94-toma-2-n-1500-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+WNDPROC return value cannot be converted to LRESULT
+TypeError: WPARAM is simple, so must be an int object (got NoneType)
+  m95-toma-2-n-1500-car-05-piv_Vf2c2  peak=20.40s  cuasi=26.83s  [base]
+
+=======================================================
+  ZONA: Vf2c3
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Vf2c3]  peak=3.97s  cuasi=8.23s  frames_cuasi=353  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Vf2c3]  peak=3.95s  cuasi=8.17s  frames_cuasi=355  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Vf2c3]  peak=3.95s  cuasi=8.80s  frames_cuasi=336  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Vf2c3]  peak=3.70s  cuasi=8.70s  frames_cuasi=339  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m71-toma-1-n-0000-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m71-toma-2-n-0000-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m73-toma-2-n-1500-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m74-toma-2-n-0750-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m75-toma-2-n-0750-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m77-toma-2-n-1500-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m80-toma-2-n-3000-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m82-toma-1-n-0000-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+  m82-toma-2-n-0000-car-02-piv_Vf2c3  peak=3.90s  cuasi=8.47s  [base]
+
+  Base car-05 (3 tomas)...
+
+=======================================================
+  ZONA: Z1
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Z1]  peak=0.50s  cuasi=5.15s  frames_cuasi=459  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Z1]  peak=0.50s  cuasi=5.47s  frames_cuasi=446  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Z1]  peak=0.50s  cuasi=6.25s  frames_cuasi=415  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Z1]  peak=0.50s  cuasi=5.17s  frames_cuasi=447  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m71-toma-1-n-0000-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m71-toma-2-n-0000-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m73-toma-2-n-1500-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m74-toma-2-n-0750-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m75-toma-2-n-0750-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m77-toma-2-n-1500-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m80-toma-2-n-3000-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m82-toma-1-n-0000-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+  m82-toma-2-n-0000-car-02-piv_Z1  peak=0.50s  cuasi=5.50s  [base]
+
+  Base car-05 (3 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_Z1]  peak=8.23s  cuasi=18.47s  frames_cuasi=646  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_Z1]  peak=9.90s  cuasi=23.87s  frames_cuasi=484  fallback=False
+  [m93-toma-2-n-0000-car-05-piv_Z1]  peak=11.97s  cuasi=15.27s  frames_cuasi=742  fallback=False
+  m83-toma-2-n-3000-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m86-toma-2-n-0750-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m87-toma-2-n-0750-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m91-toma-2-n-3000-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m92-toma-1-n-0000-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m92-toma-2-n-0000-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m93-toma-2-n-0000-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m94-toma-2-n-1500-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+  m95-toma-2-n-1500-car-05-piv_Z1  peak=10.03s  cuasi=19.20s  [base]
+
+=======================================================
+  ZONA: Z2
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Z2]  peak=0.63s  cuasi=5.87s  frames_cuasi=430  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Z2]  peak=0.50s  cuasi=5.87s  frames_cuasi=430  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Z2]  peak=0.55s  cuasi=5.87s  frames_cuasi=430  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Z2]  peak=0.70s  cuasi=6.07s  frames_cuasi=411  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m71-toma-1-n-0000-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m71-toma-2-n-0000-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m73-toma-2-n-1500-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m74-toma-2-n-0750-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m75-toma-2-n-0750-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m77-toma-2-n-1500-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m80-toma-2-n-3000-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m82-toma-1-n-0000-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+  m82-toma-2-n-0000-car-02-piv_Z2  peak=0.60s  cuasi=5.93s  [base]
+
+  Base car-05 (3 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_Z2]  peak=9.57s  cuasi=12.77s  frames_cuasi=817  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_Z2]  peak=8.53s  cuasi=13.60s  frames_cuasi=792  fallback=False
+  [m93-toma-2-n-0000-car-05-piv_Z2]  peak=9.10s  cuasi=15.30s  frames_cuasi=741  fallback=False
+  m83-toma-2-n-3000-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m86-toma-2-n-0750-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m87-toma-2-n-0750-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m91-toma-2-n-3000-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m92-toma-1-n-0000-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m92-toma-2-n-0000-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m93-toma-2-n-0000-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m94-toma-2-n-1500-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+  m95-toma-2-n-1500-car-05-piv_Z2  peak=9.07s  cuasi=13.90s  [base]
+
+=======================================================
+  ZONA: Z3
+=======================================================
+
+  Base car-02 (4 tomas)...
+  [m71-toma-1-n-0000-car-02-piv_Z3]  peak=1.10s  cuasi=7.53s  frames_cuasi=374  fallback=False
+  [m71-toma-2-n-0000-car-02-piv_Z3]  peak=1.13s  cuasi=7.70s  frames_cuasi=369  fallback=False
+  [m82-toma-1-n-0000-car-02-piv_Z3]  peak=1.10s  cuasi=7.50s  frames_cuasi=375  fallback=False
+  [m82-toma-2-n-0000-car-02-piv_Z3]  peak=1.03s  cuasi=7.37s  frames_cuasi=379  fallback=False
+  m70-toma-2-n-3000-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m71-toma-1-n-0000-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m71-toma-2-n-0000-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m73-toma-2-n-1500-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m74-toma-2-n-0750-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m75-toma-2-n-0750-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m77-toma-2-n-1500-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m80-toma-2-n-3000-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m82-toma-1-n-0000-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+  m82-toma-2-n-0000-car-02-piv_Z3  peak=1.10s  cuasi=7.53s  [base]
+
+  Base car-05 (3 tomas)...
+  [m92-toma-1-n-0000-car-05-piv_Z3]  peak=7.73s  cuasi=9.23s  frames_cuasi=923  fallback=False
+  [m92-toma-2-n-0000-car-05-piv_Z3]  peak=8.87s  cuasi=10.50s  frames_cuasi=885  fallback=False
+  [m93-toma-2-n-0000-car-05-piv_Z3]  peak=9.20s  cuasi=10.57s  frames_cuasi=883  fallback=False
+  m83-toma-2-n-3000-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m86-toma-2-n-0750-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m87-toma-2-n-0750-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m91-toma-2-n-3000-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m92-toma-1-n-0000-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m92-toma-2-n-0000-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m93-toma-2-n-0000-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m94-toma-2-n-1500-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+  m95-toma-2-n-1500-car-05-piv_Z3  peak=8.60s  cuasi=10.10s  [base]
+
+✅ Guardado: etapas_zonas.json  (134 entradas)
+
+----- return code: 0 -----

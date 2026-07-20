@@ -35,6 +35,7 @@ Uso:
 import os
 import re
 import json
+import warnings
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -215,8 +216,17 @@ def graficar_diagnostico_criterio_zona(etapas_zonas, carpetas, zona,
 
     v_interp    = np.array([np.interp(t_com, st, sv) for st, sv in zip(series_t, series_v)])
     tasa_interp = np.array([np.interp(t_com, st, sr) for st, sr in zip(series_t, series_tasa)])
-    v_prom    = np.nanmean(v_interp,    axis=0)
-    tasa_prom = np.nanmean(tasa_interp, axis=0)
+    # En los instantes mas tempranos de t_com, es posible que NINGUNA toma
+    # tenga aun material en esta zona (el frente de avance todavia no llega),
+    # de modo que toda la columna de v_interp/tasa_interp es NaN para ese
+    # instante. np.nanmean() advierte "Mean of empty slice" en ese caso, mas
+    # correctamente devuelve NaN -- que es el resultado FISICAMENTE correcto
+    # (no hay dato que promediar). Se silencia solo esa advertencia puntual;
+    # no se enmascara ningun otro warning ni se altera el resultado numerico.
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message="Mean of empty slice")
+        v_prom    = np.nanmean(v_interp,    axis=0)
+        tasa_prom = np.nanmean(tasa_interp, axis=0)
 
     t_peaks_grupo, t_quasis_grupo = [], []
     for carpeta in carpetas:
