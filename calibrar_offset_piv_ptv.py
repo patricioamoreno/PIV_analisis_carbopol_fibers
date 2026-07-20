@@ -48,10 +48,16 @@ from esp_overlay_piv_ptv import (
     ruta_ptv, cargar_ptv, construir_campo_promedio, ss_linea_L, ss_viga,
 )
 
-# Rango de desfase a explorar. +/- 3 s cubre holgadamente cualquier error de
-# disparo razonable entre dos adquisiciones manuales de la misma corrida;
-# ampliar si el optimo aparece en el borde del rango (el script avisa).
-DT_MIN, DT_MAX, DT_PASO = -3.0, 3.0, 0.05
+# Rango de desfase a explorar. La corrida inicial con +/-3s mostro que la
+# mayoria de los optimos se acumulan CERCA del borde (no dispersos al azar),
+# lo que indica que el verdadero minimo esta fuera de ese rango. Se amplia a
+# +/-8s: dado que PTV (fibras) y PIV son corridas SEPARADAS del mismo
+# material (no una adquisicion simultanea con disparo compartido), un
+# desalineamiento de varios segundos en la definicion de t=0 entre corridas
+# es fisicamente plausible -- muy distinto de un desfase de sincronizacion
+# de hardware entre camaras (que seria de fracciones de frame). Si el nuevo
+# barrido vuelve a acumularse en el borde, ampliar de nuevo antes de concluir.
+DT_MIN, DT_MAX, DT_PASO = -8.0, 8.0, 0.05
 
 OUT_CSV = "calibracion_offset_piv_ptv.csv"
 OUT_RESUMEN = "resumen_calibracion_offset.txt"
@@ -152,6 +158,28 @@ def calibrar_condicion(etapas, reo, conc, zona_key, prefijo):
     mejora_pct = (100 * (rms_cero - rms_best) / rms_cero
                  if rms_cero and not np.isnan(rms_cero) else np.nan)
 
+    # Tendencia cerca del borde tocado: si el RMS SIGUE bajando en el ultimo
+    # 10% del rango hacia ese borde, el minimo probablemente esta mas alla
+    # del rango explorado, y no basta con reportar "toco el borde" -- hay
+    # que ampliar el rango antes de concluir nada.
+    aun_bajando = False
+    if en_borde:
+        n_cola = max(3, len(dts) // 10)
+        if dt_best < 0:
+            cola = rms_vals[:n_cola]
+        else:
+            cola = rms_vals[-n_cola:]
+        cola = cola[~np.isnan(cola)]
+        if len(cola) >= 3:
+            # x crece seguiendo el sentido de dt ascendente dentro de la cola.
+            # Si el minimo real esta mas alla del borde izquierdo (dt_best<0),
+            # el RMS deberia CRECER al alejarse del borde (pendiente>0).
+            # Si esta mas alla del borde derecho (dt_best>0), el RMS deberia
+            # DECRECER al acercarse al borde (pendiente<0).
+            x = np.arange(len(cola))
+            pendiente = np.polyfit(x, cola, 1)[0]
+            aun_bajando = bool(pendiente > 0) if dt_best < 0 else bool(pendiente < 0)
+
     return {
         "reologia": f"car-{reo}", "concentracion": conc, "zona": zona_key,
         "nombre_grupo": nombre,
@@ -161,6 +189,7 @@ def calibrar_condicion(etapas, reo, conc, zona_key, prefijo):
         "mejora_pct": round(mejora_pct, 1) if not np.isnan(mejora_pct) else np.nan,
         "n_dt_optimo": int(n_vals[i_best]),
         "optimo_en_borde_rango": bool(en_borde),
+        "rms_aun_bajando_en_borde": aun_bajando,
     }
 
 
@@ -202,33 +231,46 @@ if __name__ == "__main__":
     lineas.append(f"Mejora de RMS con dt óptimo: mediana={df.mejora_pct.median():.0f}%  "
                   f"(vs. dt=0, mismo binning que diferencia_piv_ptv.csv)")
     n_borde = int(df.optimo_en_borde_rango.sum())
+    n_sigue_bajando = int(df.get("rms_aun_bajando_en_borde", pd.Series(dtype=bool)).sum())
     if n_borde:
         lineas.append(f"\n⚠ {n_borde} condición(es) con óptimo en el borde del rango "
-                      f"explorado: el verdadero dt* podría estar fuera de "
-                      f"[{DT_MIN},{DT_MAX}]s. Ampliar el rango antes de concluir.")
+                      f"explorado [{DT_MIN},{DT_MAX}]s.")
+        if n_sigue_bajando:
+            lineas.append(
+                f"  De ellas, {n_sigue_bajando} muestran el RMS TODAVÍA EN DESCENSO al "
+                f"llegar al borde: el verdadero dt* está casi con certeza FUERA del "
+                f"rango explorado. NO USAR la 'Lectura' de abajo hasta ampliar "
+                f"DT_MIN/DT_MAX y volver a correr — con el rango actual la conclusión "
+                f"de 'no hay desfase' sería prematura para esas condiciones.")
 
     lineas.append("\n--- Lectura ---")
-    dt_disperso = df.dt_optimo_s.std() > 0.5
-    mejora_alta = df.mejora_pct.median() > 40
-    if mejora_alta and not dt_disperso:
+    if n_sigue_bajando > 0:
         lineas.append(
-            "El dt óptimo es CONSISTENTE entre condiciones y reduce el RMS de forma\n"
-            "sustancial: compatible con un desfase de sincronización sistemático,\n"
-            "corregible fijando DT_OFFSET a la mediana encontrada.")
-    elif mejora_alta and dt_disperso:
-        lineas.append(
-            "El desfase óptimo reduce el RMS pero varía mucho entre condiciones:\n"
-            "no hay un DT_OFFSET único que sirva para todas. Podría deberse a que\n"
-            "cada corrida tiene su propio error de t=0 (no un retraso fijo de\n"
-            "hardware). No se recomienda fijar un DT_OFFSET global.")
+            "NO CONCLUYENTE: hay condiciones cuyo óptimo aún no se alcanza dentro del "
+            "rango explorado (ver advertencia arriba). Ampliar el rango antes de "
+            "interpretar el resto de esta sección.")
     else:
-        lineas.append(
-            "El desfase óptimo NO reduce el RMS de forma sustancial: la discrepancia\n"
-            "observada en dt=0 no se explica por un problema de sincronización.\n"
-            "Debe interpretarse como deslizamiento fibra-fluido genuino y/o\n"
-            "variabilidad corrida-a-corrida (el PIV aquí es un promedio de varias\n"
-            "tomas de la condición, comparado contra una única corrida de fibras).\n"
-            "Esto es un resultado a reportar y discutir, no un error de código.")
+        dt_disperso = df.dt_optimo_s.std() > 0.5
+        mejora_alta = df.mejora_pct.median() > 40
+        if mejora_alta and not dt_disperso:
+            lineas.append(
+                "El dt óptimo es CONSISTENTE entre condiciones y reduce el RMS de forma\n"
+                "sustancial: compatible con un desfase de sincronización sistemático,\n"
+                "corregible fijando DT_OFFSET a la mediana encontrada.")
+        elif mejora_alta and dt_disperso:
+            lineas.append(
+                "El desfase óptimo reduce el RMS pero varía mucho entre condiciones:\n"
+                "no hay un DT_OFFSET único que sirva para todas. Podría deberse a que\n"
+                "cada corrida tiene su propio error de t=0 (no un retraso fijo de\n"
+                "hardware). No se recomienda fijar un DT_OFFSET global.")
+        else:
+            lineas.append(
+                "El desfase óptimo NO reduce el RMS de forma sustancial: la discrepancia\n"
+                "observada en dt=0 no se explica por un problema de sincronización.\n"
+                "Debe interpretarse como deslizamiento fibra-fluido genuino y/o\n"
+                "variabilidad corrida-a-corrida (el PIV aquí es un promedio de varias\n"
+                "tomas de la condición, comparado contra una única corrida de fibras).\n"
+                "Esto es un resultado a reportar y discutir, no un error de código.")
 
     resumen = "\n".join(lineas)
     with open(OUT_RESUMEN, "w", encoding="utf-8") as f:
