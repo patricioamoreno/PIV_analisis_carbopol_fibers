@@ -48,16 +48,17 @@ from esp_overlay_piv_ptv import (
     ruta_ptv, cargar_ptv, construir_campo_promedio, ss_linea_L, ss_viga,
 )
 
-# Rango de desfase a explorar. La corrida inicial con +/-3s mostro que la
-# mayoria de los optimos se acumulan CERCA del borde (no dispersos al azar),
-# lo que indica que el verdadero minimo esta fuera de ese rango. Se amplia a
-# +/-15s: dado que PTV (fibras) y PIV son corridas SEPARADAS del mismo
-# material (no una adquisicion simultanea con disparo compartido), un
-# desalineamiento de varios segundos en la definicion de t=0 entre corridas
-# es fisicamente plausible -- muy distinto de un desfase de sincronizacion
-# de hardware entre camaras (que seria de fracciones de frame). Si el nuevo
-# barrido vuelve a acumularse en el borde, ampliar de nuevo antes de concluir.
-DT_MIN, DT_MAX, DT_PASO = -15.0, 15.0, 0.05
+# Rango de desfase a explorar. Historial: +/-3s se acumuló en el borde;
+# se amplió a +/-15s bajo el argumento de que PTV y PIV son corridas
+# SEPARADAS del mismo material (no adquisición simultánea con disparo
+# compartido), así que un desalineamiento de varios segundos en t=0 entre
+# corridas es físicamente plausible. El barrido en +/-15s volvió a
+# acumularse en el borde (car-05, las 18 condiciones de viga), así que el
+# mínimo real sigue fuera de rango. Se amplía a +/-30s. Si vuelve a tocar
+# el borde, el problema no es el rango sino la comparabilidad misma entre
+# corridas (revisar si conviene abandonar la comparación celda a celda y
+# apoyar el supuesto de transporte solo en consistencia_ptv_piv.csv).
+DT_MIN, DT_MAX, DT_PASO = -30.0, 30.0, 0.05
 
 OUT_CSV = "calibracion_offset_piv_ptv.csv"
 OUT_RESUMEN = "resumen_calibracion_offset.txt"
