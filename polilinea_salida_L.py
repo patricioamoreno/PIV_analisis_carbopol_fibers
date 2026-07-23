@@ -132,8 +132,9 @@ def graficar(df, p1, p2, centro, mask):
                 xytext=(p2[0] + 2, p2[1] - 4), fontsize=8,
                 bbox=dict(boxstyle='round,pad=0.2', fc='white', alpha=0.85))
 
-    ax.set_title('Linea de corte automatica sobre la L',
-                 fontsize=11, fontweight='bold')
+    # Título omitido: descripción en el caption de la memoria (figura tipo).
+    # ax.set_title('Linea de corte automatica sobre la L',
+    #              fontsize=11, fontweight='bold')
     ax.set_xlabel('X (mm)'); ax.set_ylabel('Y (mm)')
     ax.set_aspect('equal'); ax.grid(True, alpha=0.25)
     ax.legend(fontsize=8, loc='upper right')

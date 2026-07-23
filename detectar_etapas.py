@@ -253,7 +253,9 @@ def graficar_etapas(resultado, tiempos_raw=None, v_raw=None,
 
     ax.set_xlabel('Tiempo (s)')
     ax.set_ylabel('V media (mm/s)')
-    ax.set_title(titulo or "Detección de etapas")
+    # Título omitido: descripción en el caption de la memoria (figura tipo).
+    # El identificador de corrida/zona (parámetro `titulo`) migra al caption.
+    # ax.set_title(titulo or "Detección de etapas")
     ax.legend(fontsize=8, ncol=2)
     ax.set_ylim(bottom=0)
     plt.tight_layout()

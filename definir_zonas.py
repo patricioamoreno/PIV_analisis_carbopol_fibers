@@ -227,7 +227,8 @@ if __name__ == "__main__":
 
     ax.set_xlabel('x (mm)')
     ax.set_ylabel('y (mm)')
-    ax.set_title('Zonas de análisis — L-beam 30° + Viga horizontal')
+    # Título omitido: descripción en el caption de la memoria (figura tipo).
+    # ax.set_title('Zonas de análisis — L-beam 30° + Viga horizontal')
     ax.legend(loc='upper right', fontsize=9)
     ax.grid(True, linestyle=':', linewidth=0.35, alpha=0.5)
 

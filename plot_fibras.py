@@ -105,7 +105,8 @@ def graficar_fibras_en_setup(ruta_datos, ruta_guardado="fibras_setup.png"):
     # Configuraciones finales del gráfico
     ax.set_xlabel('x (mm)')
     ax.set_ylabel('y (mm)')
-    ax.set_title('Posición final de fibras por Zona — L-beam 30° + Viga')
+    # Título omitido: descripción en el caption de la memoria (figura tipo).
+    # ax.set_title('Posición final de fibras por Zona — L-beam 30° + Viga')
     
     # Mover la leyenda afuera si hay muchas zonas
     ax.legend(loc='upper left', bbox_to_anchor=(1.02, 1), fontsize=9)

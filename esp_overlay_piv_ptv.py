@@ -58,6 +58,22 @@ ZONAS = [
     ("viga250", "viga250", "Viga 250 mm"),
 ]
 
+# --- Incertidumbre de la medición PIV, δU [mm/s] ─────────────
+# Valores de la tabla de incertidumbres del Capítulo 3 (calculados con
+# ε_corr = 0.05 px), por zona y reología. La zona L se mide con la Cámara 4
+# (ventana más fina, mayor δU); las vigas con las Cámaras 1-3.
+#
+# Su papel aquí: el criterio de la memoria establece que las fibras siguen al
+# fluido si la diferencia |V_PIV - V_PTV| se mantiene dentro de la
+# incertidumbre de la propia medición. Una diferencia por debajo de δU no es
+# evidencia de deslizamiento entre fases: es indistinguible del ruido del
+# instrumento. Sin este umbral, el RMS es un número sin escala de referencia.
+DELTA_U = {
+    'L':       {'02': 3.08, '05': 3.08},
+    'viga175': {'02': 1.41, '05': 1.41},
+    'viga250': {'02': 1.38, '05': 1.38},
+}
+
 DT_OFFSET = 0.0
 
 # --- Aspecto del overlay ---
@@ -227,20 +243,28 @@ def graficar_overlay(matriz_vel, tiempos, tiempos_list, ss, t_ptv, s_ptv, v_ptv,
     cax.xaxis.set_ticks_position('top'); cax.xaxis.set_label_position('top')
     ax.set_xlabel('Tiempo [s]'); ax.set_ylabel('Posicion s [mm]')
     ax.set_ylim(ss[0], ss[-1]); ax.set_xlim(tiempos[0], tiempos[-1])
-    ax.set_title(f'{nombre}  —  {zona_label}\n'
-                 f'PIV (base) + PTV (puntos donde hay medicion)',
-                 fontsize=11, fontweight='bold')
+    # Título omitido: descripción completa en el caption de la memoria (figura tipo).
+    # ax.set_title(f'{nombre}  —  {zona_label}\n'
+    #              f'PIV (base) + PTV (puntos donde hay medicion)',
+    #              fontsize=11, fontweight='bold')
     _agregar_divisores(ax, tiempos_list, color='white')
     plt.savefig(output_path, dpi=DPI, bbox_inches='tight'); plt.close(fig)
     print(f"  OK -> {os.path.basename(output_path)}")
 
 
 def graficar_diferencia(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv,
-                        nombre, zona_label, output_path):
+                        nombre, zona_label, output_path, delta_u=None):
     """
     Grafica el campo de diferencias PIV-PTV y devuelve sus métricas
     cuantitativas (RMS, sesgo, cobertura), para permitir su exportación a
     CSV en main() y su cita directa en la memoria (Sección res_overlay).
+
+    Si se entrega `delta_u` (incertidumbre de la medición PIV en mm/s), se
+    evalúa además el criterio de la memoria: qué fracción de las celdas
+    comparadas presenta |V_PIV - V_PTV| < δU. Una diferencia por debajo del
+    umbral de detección del instrumento no constituye evidencia de
+    deslizamiento entre fases; el RMS por sí solo no permite esa lectura,
+    pues carece de escala de referencia.
     """
     t_edges = np.concatenate([tiempos, [tiempos[-1] + (tiempos[-1]-tiempos[-2])]])
     s_edges = np.concatenate([ss, [ss[-1] + (ss[-1]-ss[-2])]])
@@ -254,13 +278,21 @@ def graficar_diferencia(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv,
     pcm = ax.pcolormesh(tiempos, ss, diff.T, cmap='RdBu_r',
                         shading='auto', vmin=-lim, vmax=lim)
     cax = ax.inset_axes([0, 1.04, 1, 0.04])
-    fig.colorbar(pcm, cax=cax, orientation='horizontal',
-                 label='|V|_PIV - |V|_PTV [mm/s]   (blanco = sin dato PTV o acuerdo)')
+    cb = fig.colorbar(pcm, cax=cax, orientation='horizontal',
+                      label='|V|_PIV - |V|_PTV [mm/s]   (blanco = sin dato PTV o acuerdo)')
+    # Marcar la banda ±δU sobre la barra de color: todo lo que cae dentro es
+    # indistinguible del ruido del instrumento y no evidencia deslizamiento.
+    if delta_u is not None and delta_u > 0 and delta_u < lim:
+        for signo in (-1, 1):
+            cax.axvline(signo * delta_u, color='k', lw=1.1, ls='--', alpha=0.9)
+        cax.text(0, 1.6, f'±$\\delta U$ = {delta_u:.2f} mm/s',
+                 transform=cax.transAxes, ha='left', va='bottom', fontsize=8)
     cax.xaxis.set_ticks_position('top'); cax.xaxis.set_label_position('top')
     ax.set_xlabel('Tiempo [s]'); ax.set_ylabel('Posicion s [mm]')
     ax.set_ylim(ss[0], ss[-1]); ax.set_xlim(tiempos[0], tiempos[-1])
-    ax.set_title(f'{nombre}  —  {zona_label}\nDiferencia PIV - PTV',
-                 fontsize=11, fontweight='bold')
+    # Título omitido: descripción en el caption de la memoria (figura tipo).
+    # ax.set_title(f'{nombre}  —  {zona_label}\nDiferencia PIV - PTV',
+    #              fontsize=11, fontweight='bold')
     valido = ~np.isnan(diff)
     metricas = {
         "n_celdas_comparadas": int(valido.sum()),
@@ -268,6 +300,12 @@ def graficar_diferencia(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv,
         "cobertura_pct": round(100 * valido.sum() / diff.size, 2) if diff.size else np.nan,
         "rms_mm_s": np.nan, "sesgo_mm_s": np.nan,
         "mediana_abs_diff_mm_s": np.nan, "p95_abs_diff_mm_s": np.nan,
+        # Criterio de la memoria: comparación contra la incertidumbre del PIV
+        "delta_u_mm_s": delta_u if delta_u is not None else np.nan,
+        "frac_dentro_delta_u_pct": np.nan,
+        "rms_sobre_delta_u": np.nan,
+        "sesgo_sobre_delta_u": np.nan,
+        "veredicto": "sin evaluar",
     }
     if valido.any():
         rms  = np.sqrt(np.nanmean(diff[valido]**2))
@@ -278,7 +316,34 @@ def graficar_diferencia(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv,
             "mediana_abs_diff_mm_s": round(float(np.nanmedian(np.abs(diff[valido]))), 4),
             "p95_abs_diff_mm_s": round(float(lim), 4),
         })
-        ax.text(0.99, 0.02, f'RMS={rms:.1f} mm/s   sesgo={bias:+.1f} mm/s',
+
+        # ── Criterio δU: ¿la discrepancia es distinguible del ruido? ──
+        if delta_u is not None and delta_u > 0:
+            dentro = np.abs(diff[valido]) < delta_u
+            frac = 100.0 * dentro.sum() / dentro.size
+            metricas.update({
+                "frac_dentro_delta_u_pct": round(float(frac), 2),
+                "rms_sobre_delta_u": round(float(rms / delta_u), 3),
+                "sesgo_sobre_delta_u": round(float(bias / delta_u), 3),
+            })
+            # Lectura automática, para no dejar la interpretación al ojo.
+            # El sesgo importa más que el RMS: un sesgo sistemático por encima
+            # de δU indica deslizamiento entre fases; un RMS alto con sesgo
+            # nulo indica dispersión, no deriva sistemática.
+            if abs(bias) < delta_u and rms < delta_u:
+                metricas["veredicto"] = "acuerdo (RMS y sesgo < delta_U)"
+            elif abs(bias) < delta_u:
+                metricas["veredicto"] = "sesgo nulo, dispersion > delta_U"
+            else:
+                metricas["veredicto"] = "SESGO SISTEMATICO > delta_U"
+
+        # Anotación sobre la figura, con la referencia de escala incluida.
+        txt = f'RMS={rms:.1f} mm/s   sesgo={bias:+.1f} mm/s'
+        if delta_u is not None and delta_u > 0:
+            txt += (f'\n$\\delta U$={delta_u:.2f} mm/s   '
+                    f'|diff|<$\\delta U$ en {metricas["frac_dentro_delta_u_pct"]:.0f}% '
+                    f'de las celdas')
+        ax.text(0.99, 0.02, txt,
                 transform=ax.transAxes, ha='right', va='bottom', fontsize=9,
                 bbox=dict(boxstyle='round', fc='white', alpha=0.8))
     out2 = output_path.replace('Overlay', 'Diferencia').replace('overlay', 'diferencia')
@@ -351,8 +416,18 @@ def procesar(etapas, reo, conc, zona_key, prefijo, zona_label, filas_diff=None):
     out = os.path.join(ruta, f"overlay_{nombre}_{sufijo}.png")
     graficar_overlay(matriz_full, tiempos_full, tiempos_list, ss, t_ptv, s_ptv, v_ptv,
                      tid_ptv, cmap, vmin, vmax, nombre, zona_label, out)
+    # δU de esta zona y reología (Tabla de incertidumbres, Capítulo 3).
+    delta_u = DELTA_U.get(zona_key, {}).get(reo)
+    if delta_u is None:
+        print(f"  ⚠ Sin δU definido para zona {zona_key} / car-{reo}: "
+              f"el criterio de acuerdo no se evaluará.")
+
     metricas = graficar_diferencia(matriz_full, tiempos_full, ss, t_ptv, s_ptv, v_ptv,
-                                   nombre, zona_label, out)
+                                   nombre, zona_label, out, delta_u=delta_u)
+    if metricas.get("veredicto", "sin evaluar") != "sin evaluar":
+        print(f"    δU={delta_u:.2f} mm/s → "
+              f"{metricas['frac_dentro_delta_u_pct']:.0f}% de celdas dentro   "
+              f"[{metricas['veredicto']}]")
     if filas_diff is not None:
         filas_diff.append({
             "reologia": f"car-{reo}", "concentracion": conc,
@@ -391,5 +466,36 @@ if __name__ == "__main__":
         df_diff.to_csv(csv_diff, index=False)
         print(f"\n✅ Métricas de diferencia PIV-PTV guardadas: {csv_diff}")
         print(df_diff.to_string(index=False))
+
+        # ── Veredicto global: la frase que va a la memoria ──────────
+        ev = df_diff[df_diff["veredicto"] != "sin evaluar"]
+        if len(ev):
+            print("\n" + "=" * 64)
+            print("CRITERIO δU  —  ¿las fibras siguen al fluido?")
+            print("=" * 64)
+            n_ok = int((ev["veredicto"].str.startswith("acuerdo")).sum())
+            print(f"  casos evaluados:              {len(ev)}")
+            print(f"  con RMS y sesgo < δU:         {n_ok}/{len(ev)}")
+            print(f"  celdas dentro de δU (media):  "
+                  f"{ev['frac_dentro_delta_u_pct'].mean():.0f}%  "
+                  f"(rango {ev['frac_dentro_delta_u_pct'].min():.0f}"
+                  f"-{ev['frac_dentro_delta_u_pct'].max():.0f}%)")
+            print(f"  |sesgo|/δU  mediana:          "
+                  f"{ev['sesgo_sobre_delta_u'].abs().median():.2f}")
+            print(f"  RMS/δU      mediana:          "
+                  f"{ev['rms_sobre_delta_u'].median():.2f}")
+            malos = ev[ev["veredicto"].str.contains("SESGO")]
+            if len(malos):
+                print(f"\n  ⚠ {len(malos)} caso(s) con sesgo sistemático > δU "
+                      f"(posible deslizamiento entre fases):")
+                for r in malos.itertuples():
+                    print(f"      {r.nombre_grupo} / {r.zona}: "
+                          f"sesgo={r.sesgo_mm_s:+.2f} mm/s "
+                          f"({r.sesgo_sobre_delta_u:+.2f}·δU)")
+                print("  → Reportar explícitamente en la memoria.")
+            else:
+                print("\n  ✔ Ningún caso presenta sesgo sistemático superior a δU.")
+                print("  → El supuesto de que las fibras son transportadas por "
+                      "el fluido se sostiene.")
 
     print(f"\nListo. Resultados en: {OUTPUT_DIR}")
