@@ -44,7 +44,7 @@ import numpy as np
 import pandas as pd
 
 from esp_overlay_piv_ptv import (
-    ETAPAS_JSON, REOS, CONCS, ZONAS, PTV_DIR, PCT_LO, PCT_HI,
+    ETAPAS_JSON, REOS, CONCS, ZONAS, PTV_DIR, PCT_LO, PCT_HI, DELTA_U,
     ruta_ptv, cargar_ptv, construir_campo_promedio, ss_linea_L, ss_viga,
 )
 
@@ -66,10 +66,17 @@ OUT_RESUMEN = "resumen_calibracion_offset.txt"
 
 def rms_para_offset(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv, dt):
     """
-    RMS de la diferencia PIV-PTV cuando se desplaza t_ptv en 'dt'. Reutiliza
-    el mismo binning por histograma que graficar_diferencia() en
-    esp_overlay_piv_ptv.py, para que el RMS aqui sea comparable al ya
+    RMS y sesgo de la diferencia PIV-PTV cuando se desplaza t_ptv en 'dt'.
+    Reutiliza el mismo binning por histograma que graficar_diferencia() en
+    esp_overlay_piv_ptv.py, para que ambos sean comparables a lo ya
     reportado en diferencia_piv_ptv.csv (que corresponde a dt=0).
+
+    Se devuelve también el sesgo, y no solo el RMS, porque son preguntas
+    distintas: el RMS mide qué tan bien se alinean las series (y es lo que
+    se optimiza aquí); el sesgo en el dt óptimo dice si, una vez corregida
+    la desincronización, queda una diferencia sistemática de dirección
+    constante -- que es la firma de deslizamiento fibra-fluido y no de un
+    problema de reloj entre corridas.
 
     CONVENCION DE SIGNO: t_shift = t_ptv + dt. Un dt óptimo NEGATIVO
     significa que el reloj de la PTV iba ADELANTADO respecto al PIV (hay que
@@ -81,7 +88,7 @@ def rms_para_offset(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv, dt):
     t_shift = t_ptv + dt
     m = (t_shift >= tiempos[0]) & (t_shift <= tiempos[-1])
     if m.sum() < 5:
-        return np.nan, 0
+        return np.nan, np.nan, 0
     t_shift, s_shift, v_shift = t_shift[m], s_ptv[m], v_ptv[m]
 
     t_edges = np.concatenate([tiempos, [tiempos[-1] + (tiempos[-1]-tiempos[-2])]])
@@ -96,9 +103,10 @@ def rms_para_offset(matriz_vel, tiempos, ss, t_ptv, s_ptv, v_ptv, dt):
     valido = ~np.isnan(diff)
     n = int(valido.sum())
     if n == 0:
-        return np.nan, 0
+        return np.nan, np.nan, 0
     rms = float(np.sqrt(np.nanmean(diff[valido] ** 2)))
-    return rms, n
+    sesgo = float(np.nanmean(diff[valido]))
+    return rms, sesgo, n
 
 
 def calibrar_condicion(etapas, reo, conc, zona_key, prefijo):
@@ -138,13 +146,15 @@ def calibrar_condicion(etapas, reo, conc, zona_key, prefijo):
         return None
 
     dts = np.arange(DT_MIN, DT_MAX + DT_PASO, DT_PASO)
-    rms_vals, n_vals = [], []
+    rms_vals, sesgo_vals, n_vals = [], [], []
     for dt in dts:
-        rms, n = rms_para_offset(matriz_full, tiempos_full, ss,
-                                 t_ptv, s_ptv, v_ptv, dt)
+        rms, sesgo, n = rms_para_offset(matriz_full, tiempos_full, ss,
+                                        t_ptv, s_ptv, v_ptv, dt)
         rms_vals.append(rms)
+        sesgo_vals.append(sesgo)
         n_vals.append(n)
     rms_vals = np.array(rms_vals)
+    sesgo_vals = np.array(sesgo_vals)
 
     if np.all(np.isnan(rms_vals)):
         return None
@@ -152,8 +162,10 @@ def calibrar_condicion(etapas, reo, conc, zona_key, prefijo):
     i_best = np.nanargmin(rms_vals)
     dt_best = float(dts[i_best])
     rms_best = float(rms_vals[i_best])
+    sesgo_best = float(sesgo_vals[i_best])
     i_cero = np.argmin(np.abs(dts))  # dt mas cercano a 0
     rms_cero = float(rms_vals[i_cero])
+    sesgo_cero = float(sesgo_vals[i_cero])
 
     en_borde = np.isclose(dt_best, DT_MIN) or np.isclose(dt_best, DT_MAX)
     mejora_pct = (100 * (rms_cero - rms_best) / rms_cero
@@ -185,12 +197,20 @@ def calibrar_condicion(etapas, reo, conc, zona_key, prefijo):
         "reologia": f"car-{reo}", "concentracion": conc, "zona": zona_key,
         "nombre_grupo": nombre,
         "rms_dt0": round(rms_cero, 4),
+        "sesgo_dt0": round(sesgo_cero, 4),
         "dt_optimo_s": round(dt_best, 3),
         "rms_dt_optimo": round(rms_best, 4),
+        "sesgo_dt_optimo": round(sesgo_best, 4),
         "mejora_pct": round(mejora_pct, 1) if not np.isnan(mejora_pct) else np.nan,
         "n_dt_optimo": int(n_vals[i_best]),
         "optimo_en_borde_rango": bool(en_borde),
         "rms_aun_bajando_en_borde": aun_bajando,
+        "delta_u_mm_s": DELTA_U.get(zona_key, {}).get(reo, np.nan),
+        "sesgo_residual_gt_delta_u": (
+            bool(abs(sesgo_best) > DELTA_U[zona_key][reo])
+            if zona_key in DELTA_U and reo in DELTA_U.get(zona_key, {})
+            else None
+        ),
     }
 
 
@@ -210,7 +230,8 @@ if __name__ == "__main__":
                         if r["optimo_en_borde_rango"] else ""
                     print(f"    dt*={r['dt_optimo_s']:+.2f}s  "
                           f"RMS: {r['rms_dt0']:.2f} -> {r['rms_dt_optimo']:.2f} "
-                          f"({r['mejora_pct']:.0f}% mejora){borde}")
+                          f"({r['mejora_pct']:.0f}% mejora)  "
+                          f"sesgo(dt*)={r['sesgo_dt_optimo']:+.2f} mm/s{borde}")
 
     if not filas:
         print("\nSin datos suficientes para calibrar (revisar rutas de PTV/cache).")
@@ -272,6 +293,43 @@ if __name__ == "__main__":
                 "variabilidad corrida-a-corrida (el PIV aquí es un promedio de varias\n"
                 "tomas de la condición, comparado contra una única corrida de fibras).\n"
                 "Esto es un resultado a reportar y discutir, no un error de código.")
+
+        # ── Sesgo residual en dt óptimo, contra δU ──────────────────
+        # El RMS dice si las series se alinean; el sesgo dice si, ya
+        # alineadas, queda una diferencia de dirección constante. Solo esto
+        # último distingue deslizamiento físico de un simple problema de reloj.
+        con_du = df.dropna(subset=["delta_u_mm_s"])
+        if len(con_du):
+            con_du = con_du.copy()
+            con_du["sesgo_sobre_du"] = (con_du.sesgo_dt_optimo.abs()
+                                        / con_du.delta_u_mm_s)
+            n_resid = int(con_du.sesgo_residual_gt_delta_u.sum())
+            lineas.append(f"\n--- Sesgo residual, ya corregido el desfase ---")
+            lineas.append(
+                f"Condiciones con |sesgo(dt*)| > δU: {n_resid}/{len(con_du)}")
+            if n_resid == 0:
+                lineas.append(
+                    "El sesgo cae dentro de la incertidumbre del PIV en TODAS las\n"
+                    "condiciones una vez corregido el desfase: no hay evidencia de\n"
+                    "deslizamiento fibra-fluido. La discrepancia de diferencia_piv_ptv.csv\n"
+                    "(calculada en dt=0) es atribuible a la desincronización entre\n"
+                    "corridas, no a un efecto físico de las fibras sobre el flujo.")
+            elif n_resid < len(con_du):
+                peores = (con_du[con_du.sesgo_residual_gt_delta_u]
+                         .sort_values("sesgo_sobre_du", ascending=False))
+                lineas.append(
+                    f"Persiste sesgo > δU en {n_resid} de {len(con_du)} condiciones tras\n"
+                    "corregir el desfase. Revisar si concentran en alguna zona o\n"
+                    "concentración particular antes de generalizar:")
+                for r in peores.head(5).itertuples():
+                    lineas.append(
+                        f"  {r.nombre_grupo} / {r.zona}: sesgo(dt*)={r.sesgo_dt_optimo:+.2f} "
+                        f"mm/s  ({r.sesgo_sobre_du:.1f}·δU)")
+            else:
+                lineas.append(
+                    "El sesgo excede δU en TODAS las condiciones evaluadas incluso tras\n"
+                    "corregir el desfase temporal: es un candidato genuino a deslizamiento\n"
+                    "fibra-fluido, no un artefacto de sincronización. Reportar y discutir.")
 
     resumen = "\n".join(lineas)
     with open(OUT_RESUMEN, "w", encoding="utf-8") as f:
