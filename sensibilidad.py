@@ -30,13 +30,25 @@ memoria:
 
 USO
 ---
-    python analisis_sensibilidad.py --dry-run   # verifica config, no ejecuta
-    python analisis_sensibilidad.py --rapido    # barrido univariado (5 corridas)
-    python analisis_sensibilidad.py             # malla completa (9 corridas)
-    python analisis_sensibilidad.py --verbose   # muestra la salida del pipeline
+    python analisis_sensibilidad.py --dry-run    # verifica config, no ejecuta
+    python analisis_sensibilidad.py --rapido     # barrido univariado (5 corridas)
+    python analisis_sensibilidad.py              # malla completa (9 corridas)
+    python analisis_sensibilidad.py --verbose    # muestra la salida del pipeline
+    python analisis_sensibilidad.py --continuar  # reusa combinaciones ya calculadas
 
 Empieza SIEMPRE por --dry-run: comprueba que los scripts existen y muestra
 las conclusiones actuales, sin gastar tiempo de cómputo.
+
+Si tuviste que cortar una corrida a la mitad, vuelve a lanzar el mismo
+comando agregando --continuar: las combinaciones cuyo
+sensibilidad/capa1_<etiqueta>.csv ya existe se reutilizan tal cual, sin
+volver a correr el pipeline sobre ellas.
+
+Cada script del pipeline corre con un timeout (TIMEOUT_POR_SCRIPT, 1 hora
+por defecto) y con un aviso cada 30 s mientras sigue corriendo, para poder
+distinguir "está lento" de "está colgado". Si un paso normalmente tarda más
+de una hora con tus datos, sube TIMEOUT_POR_SCRIPT al inicio del archivo
+antes de lanzar la corrida larga.
 
 Salida: sensibilidad/resumen_sensibilidad.csv  +  veredicto por consola.
 
@@ -48,7 +60,9 @@ esto es LENTO (del orden de horas si la malla es grande). Empieza con
 import os
 import sys
 import json
+import time
 import shutil
+import threading
 import subprocess
 import itertools
 from pathlib import Path
@@ -62,6 +76,18 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent
 DIR_SALIDA = RAIZ / "sensibilidad"
+
+# Tiempo máximo por script del pipeline, en segundos, antes de matarlo y
+# declarar la combinación como fallida. None = sin límite (vuelve al
+# comportamiento anterior, que puede colgarse en silencio sin avisar).
+# 3600 = 1 hora. Ajusta según cuánto tarda normalmente construir_caches.py
+# con tus datos; si no lo sabes, corre primero un paso suelto a mano y
+# cronométralo antes de fijar este valor.
+TIMEOUT_POR_SCRIPT = 3600
+
+# Cada cuántos segundos imprimir una señal de "sigo vivo" mientras un script
+# corre. Es solo para que la consola no se vea congelada; no interrumpe nada.
+LATIDO_SEGUNDOS = 30
 
 # Valores a probar por umbral. El primero de cada lista DEBE ser el valor
 # adoptado en la memoria (el caso base contra el que se compara).
@@ -124,7 +150,21 @@ def escribir_constante(archivo: Path, nombre: str, valor):
     raise ValueError(f"No se encontró {nombre} en {archivo.name}")
 
 
-def correr_pipeline(verbose=False):
+def _latido(detener: threading.Event, script: str, t0: float):
+    """Imprime una señal de vida cada LATIDO_SEGUNDOS mientras el script corre.
+
+    Corre en un hilo aparte porque subprocess.run() bloquea el hilo
+    principal hasta que el proceso termina; sin esto, la consola se ve
+    exactamente igual si el script está progresando lento que si está
+    colgado, y no hay forma de distinguirlas desde afuera.
+    """
+    while not detener.wait(LATIDO_SEGUNDOS):
+        transcurrido = time.time() - t0
+        print(f"      ⏱ {script} sigue corriendo... "
+              f"{transcurrido/60:.1f} min transcurridos", flush=True)
+
+
+def correr_pipeline(verbose=False, timeout=TIMEOUT_POR_SCRIPT):
     """Ejecuta los pasos del pipeline en orden. Devuelve True si todo OK.
 
     Los scripts del pipeline imprimen emojis (✅, 🔨, ⚠). En Windows, la
@@ -132,6 +172,11 @@ def correr_pipeline(verbose=False):
     provocan UnicodeEncodeError DENTRO del subproceso, matándolo aunque el
     cálculo esté bien. Se fuerza UTF-8 vía PYTHONIOENCODING y se decodifica
     con errors='replace' para que ningún carácter raro aborte la corrida.
+
+    Cada script corre con un timeout (ver TIMEOUT_POR_SCRIPT) y con un hilo
+    de "latido" que imprime cada LATIDO_SEGUNDOS para dejar claro que el
+    proceso sigue vivo. Sin esto, un script lento y uno colgado se ven
+    idénticos desde la consola: la única señal es que no pasa nada.
     """
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"   # el subproceso escribe en UTF-8
@@ -142,24 +187,48 @@ def correr_pipeline(verbose=False):
         if not ruta.exists():
             print(f"    ⚠ No existe {script}, se omite")
             continue
-        print(f"    · {script}", flush=True)
-        res = subprocess.run(
-            [sys.executable, str(ruta)],
-            cwd=RAIZ,
-            capture_output=not verbose,
-            text=True,
-            encoding="utf-8",      # decodificar la salida como UTF-8
-            errors="replace",      # nunca abortar por un carácter suelto
-            env=env,
-        )
+
+        t0 = time.time()
+        print(f"    · {script}  (inicio {time.strftime('%H:%M:%S')}"
+              f"{f', timeout {timeout/60:.0f} min' if timeout else ''})",
+              flush=True)
+
+        detener = threading.Event()
+        hilo = threading.Thread(target=_latido, args=(detener, script, t0),
+                                daemon=True)
+        hilo.start()
+        try:
+            res = subprocess.run(
+                [sys.executable, str(ruta)],
+                cwd=RAIZ,
+                capture_output=not verbose,
+                text=True,
+                encoding="utf-8",      # decodificar la salida como UTF-8
+                errors="replace",      # nunca abortar por un carácter suelto
+                env=env,
+                timeout=timeout,
+            )
+        except subprocess.TimeoutExpired:
+            detener.set()
+            print(f"    ✗ {script} superó el timeout de {timeout/60:.0f} min "
+                  f"y fue terminado. Si normalmente tarda más que esto, sube "
+                  f"TIMEOUT_POR_SCRIPT al inicio del archivo.")
+            return False
+        finally:
+            detener.set()
+            hilo.join(timeout=1)
+
+        elapsed = time.time() - t0
         if res.returncode != 0:
-            print(f"    ✗ Falló {script}  (código {res.returncode})")
+            print(f"    ✗ Falló {script}  (código {res.returncode}, "
+                  f"{elapsed/60:.1f} min)")
             if not verbose:
                 # Mostrar las últimas líneas reales del error, no solo una.
                 cola = (res.stderr or res.stdout or "").strip().splitlines()
                 for linea in cola[-8:]:
                     print(f"      | {linea}")
             return False
+        print(f"      ✓ {script} OK  ({elapsed/60:.1f} min)", flush=True)
     return True
 
 
@@ -225,6 +294,7 @@ def main():
     rapido = "--rapido" in sys.argv
     verbose = "--verbose" in sys.argv
     dry_run = "--dry-run" in sys.argv
+    continuar = "--continuar" in sys.argv
     DIR_SALIDA.mkdir(exist_ok=True)
 
     # ── Comprobación previa: que exista todo antes de gastar horas ──
@@ -244,6 +314,14 @@ def main():
         for s in PIPELINE:
             marca = "✓" if (RAIZ / s).exists() else "✗ NO EXISTE"
             print(f"    {marca}  {s}")
+        print(f"\nTimeout por script: "
+              f"{'sin límite' if TIMEOUT_POR_SCRIPT is None else f'{TIMEOUT_POR_SCRIPT/60:.0f} min'}"
+              f"  |  aviso de vida cada {LATIDO_SEGUNDOS} s")
+        combos_prev = list(DIR_SALIDA.glob("capa1_*.csv")) if DIR_SALIDA.exists() else []
+        if combos_prev:
+            print(f"\nCombinaciones ya calculadas en {DIR_SALIDA.name}/: "
+                  f"{len(combos_prev)}")
+            print("  → usa --continuar para reutilizarlas sin recalcular")
         print(f"\nUmbrales actuales:")
         print(f"    MAX_HUECO_INTERP = "
               f"{leer_constante(F_CACHES, 'MAX_HUECO_INTERP')}")
@@ -256,15 +334,42 @@ def main():
                 print(f"             etapa dominante: {d['etapa_dom']}")
         return
 
-    # Guardar los valores originales para restaurarlos al final
+    # Guardar los valores originales para restaurarlos al final. Incluye
+    # CACHE_DIR y RECALCULO: como ahora se modifican para separar el caché
+    # de cada umbral (ver más abajo), hay que devolverlos a su estado de
+    # producción al terminar, o construir_caches.py/construir_caches_zonas.py
+    # quedarían apuntando a una carpeta de experimento en vez de
+    # cache_completo/cache_zonas.
     orig = {
         "MAX_HUECO_INTERP": leer_constante(F_CACHES, "MAX_HUECO_INTERP"),
         "DIST_MAX_KNN_MM":  leer_constante(F_ZONAS,  "DIST_MAX_KNN_MM"),
+        "CACHE_DIR_CACHES":  leer_constante(F_CACHES, "CACHE_DIR"),
+        "RECALCULO_CACHES":  leer_constante(F_CACHES, "RECALCULO"),
+        "CACHE_DIR_ZONAS":   leer_constante(F_ZONAS,  "CACHE_DIR"),
+        "RECALCULO_ZONAS":   leer_constante(F_ZONAS,  "RECALCULO"),
     }
     print("Valores actuales (caso base):")
     for k, v in orig.items():
         print(f"  {k} = {v}")
     print()
+
+    def _restaurar():
+        escribir_constante(F_CACHES, "MAX_HUECO_INTERP", orig["MAX_HUECO_INTERP"])
+        escribir_constante(F_CACHES, "CACHE_DIR", orig["CACHE_DIR_CACHES"])
+        escribir_constante(F_CACHES, "RECALCULO", orig["RECALCULO_CACHES"])
+        escribir_constante(F_ZONAS, "DIST_MAX_KNN_MM", orig["DIST_MAX_KNN_MM"])
+        escribir_constante(F_ZONAS, "CACHE_DIR", orig["CACHE_DIR_ZONAS"])
+        escribir_constante(F_ZONAS, "RECALCULO", orig["RECALCULO_ZONAS"])
+        print("✔ Configuración original restaurada (umbrales, CACHE_DIR, RECALCULO)")
+
+    # Registrado con atexit y no solo llamado al final del flujo normal: así
+    # se ejecuta también si el proceso se corta con Ctrl+C o revienta con una
+    # excepción no controlada. Es justo la situación que dejó
+    # construir_caches.py apuntando a una carpeta de experimento la vez
+    # anterior, porque la restauración de entonces solo corría si el script
+    # llegaba solo hasta el final.
+    import atexit
+    atexit.register(_restaurar)
 
     # Construir la lista de combinaciones a probar
     if rapido:
@@ -292,14 +397,60 @@ def main():
     for i, combo in enumerate(combos, 1):
         etiqueta = "_".join(f"{k.split('_')[0]}{v}" for k, v in combo.items())
         es_base = all(combo[k] == MALLA[k][0] for k in MALLA)
+        f_alt_previo = DIR_SALIDA / f"capa1_{etiqueta}.csv"
+
+        if continuar and f_alt_previo.exists():
+            print(f"[{i}/{len(combos)}] {combo}  ← YA CALCULADA, se reutiliza "
+                  f"({f_alt_previo.name})", flush=True)
+            concl = extraer_conclusiones(f_alt_previo)
+            if es_base:
+                conclusiones_base = concl
+                with open(DIR_SALIDA / "conclusiones_base.json", "w",
+                          encoding="utf-8") as f:
+                    json.dump(concl, f, indent=2, ensure_ascii=False)
+            fila = dict(combo)
+            fila["etiqueta"] = etiqueta
+            df_prev = pd.read_csv(f_alt_previo)
+            g = df_prev[df_prev["respuesta"] == "orden_S"]
+            if len(g):
+                top = g.loc[g["rho"].abs().idxmax()]
+                fila["top_predictor"] = top["predictor"]
+                fila["top_etapa"] = top["etapa"]
+                fila["top_rho"] = round(float(top["rho"]), 4)
+            filas.append(fila)
+            continue
+
         print(f"[{i}/{len(combos)}] {combo}"
               f"{'   ← CASO BASE' if es_base else ''}", flush=True)
 
-        # Aplicar umbrales
-        escribir_constante(F_CACHES, "MAX_HUECO_INTERP",
-                           combo["MAX_HUECO_INTERP"])
-        escribir_constante(F_ZONAS, "DIST_MAX_KNN_MM",
-                           combo["DIST_MAX_KNN_MM"])
+        # Aplicar umbrales. El nombre del caché incluye el valor del umbral
+        # (cache_completo_hueco3, cache_zonas_knn5.0, ...), y RECALCULO se
+        # fuerza a False: si ya existe un caché para ESE valor concreto
+        # (de una combinación anterior de la malla), se reutiliza tal cual
+        # en vez de reconstruirse.
+        #
+        # Esto es clave porque MAX_HUECO_INTERP solo afecta a
+        # construir_caches.py (polilíneas) y DIST_MAX_KNN_MM solo afecta a
+        # construir_caches_zonas.py (zonas): son independientes. Sin este
+        # cambio, cada una de las 9 combinaciones reconstruye AMBOS cachés
+        # aunque uno de los dos parámetros no haya cambiado, multiplicando
+        # el trabajo real por 3 de forma innecesaria.
+        hueco = combo["MAX_HUECO_INTERP"]
+        knn = combo["DIST_MAX_KNN_MM"]
+        escribir_constante(F_CACHES, "MAX_HUECO_INTERP", hueco)
+        escribir_constante(F_CACHES, "CACHE_DIR", f'"cache_completo_hueco{hueco}"')
+        escribir_constante(F_CACHES, "RECALCULO", "False")
+        escribir_constante(F_ZONAS, "DIST_MAX_KNN_MM", knn)
+        escribir_constante(F_ZONAS, "CACHE_DIR", f'"cache_zonas_knn{knn}"')
+        escribir_constante(F_ZONAS, "RECALCULO", "False")
+
+        cache_poli_existe = (RAIZ / f"cache_completo_hueco{hueco}").exists()
+        cache_zona_existe = (RAIZ / f"cache_zonas_knn{knn}").exists()
+        if cache_poli_existe or cache_zona_existe:
+            print(f"    ♻ reutilizando: "
+                  f"{'cache polilíneas' if cache_poli_existe else ''}"
+                  f"{' + ' if cache_poli_existe and cache_zona_existe else ''}"
+                  f"{'cache zonas' if cache_zona_existe else ''}", flush=True)
 
         # Reejecutar
         if not correr_pipeline(verbose=verbose):
@@ -309,11 +460,7 @@ def main():
                       "comparar. Se aborta.\n"
                       "Corre primero:  python analisis_sensibilidad.py "
                       "--verbose  para ver el error completo.")
-                escribir_constante(F_CACHES, "MAX_HUECO_INTERP",
-                                   orig["MAX_HUECO_INTERP"])
-                escribir_constante(F_ZONAS, "DIST_MAX_KNN_MM",
-                                   orig["DIST_MAX_KNN_MM"])
-                print("✔ Umbrales originales restaurados")
+                _restaurar()
                 return
             continue
 
@@ -341,9 +488,8 @@ def main():
         print()
 
     # Restaurar valores originales
-    escribir_constante(F_CACHES, "MAX_HUECO_INTERP", orig["MAX_HUECO_INTERP"])
-    escribir_constante(F_ZONAS, "DIST_MAX_KNN_MM", orig["DIST_MAX_KNN_MM"])
-    print("✔ Umbrales originales restaurados\n")
+    _restaurar()
+    print()
 
     if not filas:
         print("✗ No se completó ninguna combinación.")

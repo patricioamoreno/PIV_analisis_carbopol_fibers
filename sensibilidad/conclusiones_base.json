@@ -1,0 +1,42 @@
+{
+  "orden_S": {
+    "ranking": [
+      "V",
+      "gamma_dot",
+      "omega"
+    ],
+    "etapa_dom": {
+      "V": "cuasi",
+      "gamma_dot": "cuasi",
+      "omega": "cuasi"
+    },
+    "signos": {
+      "V|cuasi": -1,
+      "V|transicion": 1,
+      "gamma_dot|cuasi": -1,
+      "omega|cuasi": -1,
+      "omega|transicion": 1,
+      "gamma_dot|transicion": 1
+    }
+  },
+  "sigma_iso": {
+    "ranking": [
+      "V",
+      "omega",
+      "gamma_dot"
+    ],
+    "etapa_dom": {
+      "V": "transicion",
+      "gamma_dot": "transicion",
+      "omega": "transicion"
+    },
+    "signos": {
+      "V|transicion": 1,
+      "omega|transicion": 1,
+      "gamma_dot|transicion": 1,
+      "V|cuasi": 1,
+      "omega|cuasi": -1,
+      "gamma_dot|cuasi": -1
+    }
+  }
+}
