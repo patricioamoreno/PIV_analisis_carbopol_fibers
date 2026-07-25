@@ -362,6 +362,15 @@ def main():
         escribir_constante(F_ZONAS, "RECALCULO", orig["RECALCULO_ZONAS"])
         print("✔ Configuración original restaurada (umbrales, CACHE_DIR, RECALCULO)")
 
+        for f in ("acum_tabla_zona.csv", "acum_tabla_zona_sin_excluir.csv",
+                  "acum_capa1_global.csv", "acum_capa2_global.csv",
+                  "acum_capa4_global.csv"):
+            p = RAIZ / f
+            if p.exists():
+                p.rename(p.with_suffix(".csv.INVALIDO"))
+        print("CSV derivados invalidados. Correr construir_tabla_zonas_todas.py "
+              "para regenerarlos con la configuracion base.")
+
     # Registrado con atexit y no solo llamado al final del flujo normal: así
     # se ejecuta también si el proceso se corta con Ctrl+C o revienta con una
     # excepción no controlada. Es justo la situación que dejó

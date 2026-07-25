@@ -1,0 +1,7 @@
+{
+  "DIST_MAX_KNN_MM": "5.0",
+  "K_VECINOS": "6",
+  "MAX_HUECO_INTERP": "3",
+  "UMBRAL_D": "0.5",
+  "_sellado": "2026-07-24T13:07:45"
+}

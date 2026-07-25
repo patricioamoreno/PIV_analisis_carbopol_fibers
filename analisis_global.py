@@ -44,7 +44,7 @@ from carga_real import PREDICTORES, ETAPAS
 from nucleo import direccion_media_circular, orden_parametro, \
     dispersion_centroides, calcular_vif
 from orientacion_objetivo import (calidad_orientacion, objetivo_de_zona,
-                                  desviacion_objetivo)
+                                  desviacion_objetivo, columna_de_zona)
 
 RESPUESTAS = ["orden_S", "sigma_iso"]   # foco: alineamiento y dispersion
 
@@ -55,8 +55,13 @@ def tabla_por_zona(df_largo, min_fibras=5):
     """
     Devuelve un DataFrame de UNA fila por zona con:
       zona, n_fibras, orden_S, theta_med, sigma_iso, fiable,
+      objetivo, calidad_orientacion, cos2delta, columna, desviacion_media,
       V_transicion, omega_transicion, gamma_dot_transicion,
       V_cuasi, omega_cuasi, gamma_dot_cuasi
+
+    cos2delta = cos(2*(theta_med - objetivo)) y columna = columna de viga
+    (Vf<fila>c<col> -> col) son el segundo factor de calidad_orientacion,
+    expuestos por separado (NaN en zonas sin objetivo, p.ej. Z1/Z2/Z3).
 
     'fiable' = n_fibras >= min_fibras. El orden_S con 1-2 fibras es un
     artefacto (1 fibra => S=1 trivialmente), por eso las zonas no fiables se
@@ -79,6 +84,16 @@ def tabla_por_zona(df_largo, min_fibras=5):
         calidad = calidad_orientacion(g["theta"], zona)
         desv = (np.nanmean([desviacion_objetivo(t, zona) for t in g["theta"]])
                 if objetivo is not None else np.nan)
+        # Segundo factor de calidad_orientacion, expuesto por separado (ver
+        # Tarea 6): calidad = 1/2 + (S/2)*cos2delta, con cos2delta constante
+        # por columna de viga. Agregar cos2delta entre columnas mezclaria el
+        # gradiente cinematico con la asignacion del objetivo, por eso no se
+        # suma a RESPUESTAS ni se analiza por capas aqui: solo se deja
+        # disponible como columna.
+        cos2delta = (np.cos(2 * np.deg2rad(tm - objetivo))
+                    if objetivo is not None else np.nan)
+        col = columna_de_zona(zona)
+        columna = col if col is not None else np.nan
         filas.append({"zona": zona, "n_fibras": len(g),
                       "orden_S": S, "theta_med": tm,
                       "sigma_iso": disp["sigma_iso"],
@@ -86,8 +101,24 @@ def tabla_por_zona(df_largo, min_fibras=5):
                       "fiable": len(g) >= min_fibras,
                       "objetivo": objetivo,
                       "calidad_orientacion": calidad,
+                      "cos2delta": cos2delta,
+                      "columna": columna,
                       "desviacion_media": desv})
     tabla = pd.DataFrame(filas)
+
+    # Verificacion de la identidad exacta calidad = 1/2 + (S/2)*cos2delta
+    # (ver docstring de calidad_orientacion + Tarea 6 del brief). Si se
+    # rompe, algo en el calculo de S/theta_med/objetivo dejo de ser
+    # consistente y no hay que seguir adelante en silencio.
+    con_objetivo = tabla.dropna(subset=["cos2delta"])
+    if len(con_objetivo):
+        identidad = (0.5 + 0.5 * con_objetivo["orden_S"] * con_objetivo["cos2delta"]
+                    - con_objetivo["calidad_orientacion"]).abs()
+        max_diff = float(identidad.max())
+        if max_diff >= 1e-12:
+            raise RuntimeError(
+                "Identidad calidad_orientacion = 1/2 + (S/2)*cos2delta rota: "
+                f"max|diff| = {max_diff:.3e} (esperado < 1e-12)")
 
     pred = (df_largo.drop_duplicates(["zona", "etapa"])
             [["zona", "etapa"] + PREDICTORES])

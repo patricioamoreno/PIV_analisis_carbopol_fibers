@@ -49,6 +49,7 @@ from analisis_global import (tabla_por_zona, capa1_global, capa2_global,
                              capa4_global)
 from criterio_exclusion import (cargar_exclusiones, aplicar_exclusiones,
                                 reportar_asimetria, UMBRAL_D, DIR_TESTS)
+from procedencia import sellar
 
 # ============================================================
 # CONFIGURACION — editar aqui
@@ -250,6 +251,7 @@ def procesar_todas():
                   f"(¿corriste analisis.py para generar {DIR_TESTS}/?)")
 
     acum.to_csv(SALIDA_CSV, index=False)
+    sellar(SALIDA_CSV)
     n_fiab = int(acum["fiable"].sum()) if "fiable" in acum else len(acum)
     print(f"\n{'='*55}")
     print(f"Guardado: {SALIDA_CSV}")
@@ -275,6 +277,9 @@ def procesar_todas():
         c1.to_csv("acum_capa1_global.csv", index=False)
         c2.to_csv("acum_capa2_global.csv", index=False)
         c4.to_csv("acum_capa4_global.csv", index=False)
+        sellar("acum_capa1_global.csv")
+        sellar("acum_capa2_global.csv")
+        sellar("acum_capa4_global.csv")
         print(f"  (solo_viga={SOLO_VIGA_EN_CAPAS}) Guardados: "
               f"acum_capa1_global.csv, acum_capa2_global.csv, "
               f"acum_capa4_global.csv")

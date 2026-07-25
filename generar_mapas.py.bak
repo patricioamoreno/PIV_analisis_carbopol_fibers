@@ -44,19 +44,6 @@ from matplotlib import cm
 from matplotlib.colors import Normalize
 
 # ----------------------------------------------------------------------
-# Titulos de figura desactivados para la memoria: la informacion va en el
-# pie de figura (\caption), no impresa dentro de la imagen. Los titulos de
-# panel en figuras multi-panel SI se conservan, porque identifican paneles.
-# ----------------------------------------------------------------------
-TITULOS_EN_FIGURA = False
-
-if not TITULOS_EN_FIGURA:
-    import matplotlib.figure as _mplfig
-    _mplfig.Figure.suptitle = lambda self, *a, **k: None
-# ----------------------------------------------------------------------
-
-
-# ----------------------------------------------------------------------
 # CONFIG
 # ----------------------------------------------------------------------
 OUTPUT_FIGS = "figs_memoria"
@@ -203,9 +190,9 @@ def fig_scatter(tabla, respuesta="orden_S", path=None):
                 label="tendencia", zorder=2)
     ax.set_xlabel("Velocidad en transición  $V$  [mm/s]", fontsize=12)
     ax.set_ylabel(etiqueta, fontsize=12)
-    # ax.set_title(f"Velocidad en transición vs {etiqueta.lower()}\n"
-    # f"ρ = {rho:+.2f}   (p = {pv:.1e},  n = {len(x)})",
-    # fontsize=12, fontweight="bold")
+    ax.set_title(f"Velocidad en transición vs {etiqueta.lower()}\n"
+                 f"ρ = {rho:+.2f}   (p = {pv:.1e},  n = {len(x)})",
+                 fontsize=12, fontweight="bold")
     ax.legend(fontsize=10)
     fig.tight_layout()
     fig.savefig(path, dpi=150, bbox_inches="tight")
@@ -229,9 +216,9 @@ def fig_barras(corr, path=f"{DIR_CORRELACION}/fig_barras_temporal.png"):
     ax.set_xticks(x)
     ax.set_xticklabels([ETIQ_PRED[p] for p in PREDICTORES], fontsize=14)
     ax.set_ylabel("|ρ| con el alineamiento (orden S)", fontsize=12)
-    # ax.set_title("¿En qué etapa se define la orientación?\n"
-    # "La asociación es mayor en transición para las 3 variables",
-    # fontsize=12, fontweight="bold")
+    ax.set_title("¿En qué etapa se define la orientación?\n"
+                 "La asociación es mayor en transición para las 3 variables",
+                 fontsize=12, fontweight="bold")
     ax.legend(fontsize=11)
     for i, p in enumerate(PREDICTORES):
         for off, e in [(-w/2, "transicion"), (w/2, "cuasi")]:
@@ -569,9 +556,9 @@ def fig_interaccion(tabla, archivo=f"{DIR_POR_FACTOR}/fig_interaccion.png"):
                         fontsize=8, color="#666")
     ax.set_xlabel("Concentración de fibras", fontsize=12)
     ax.set_ylabel("Orden-parámetro de orientación  S  (media)", fontsize=12)
-    # ax.set_title("Interacción reología × fibras sobre el alineamiento\n"
-    # "(líneas separadas = el efecto de las fibras depende del Carbopol)",
-    # fontsize=11, fontweight="bold")
+    ax.set_title("Interacción reología × fibras sobre el alineamiento\n"
+                 "(líneas separadas = el efecto de las fibras depende del Carbopol)",
+                 fontsize=11, fontweight="bold")
     ax.set_xticks([750, 1500, 3000])
     ax.legend(title="Reología", fontsize=11)
     ax.grid(ls=":", alpha=0.5)
@@ -621,8 +608,8 @@ def fig_corr_por_grupo(tabla, respuesta="orden_S", archivo=None):
     ax.set_xticklabels(etiquetas, fontsize=9)
     ax.axhline(0, color="black", lw=0.8)
     ax.set_ylabel(f"ρ (V transición vs {respuesta})", fontsize=11)
-    # ax.set_title(f"La relación flujo→{respuesta}, desglosada por factor\n"
-    # "(* = significativa p<0.05)", fontsize=11, fontweight="bold")
+    ax.set_title(f"La relación flujo→{respuesta}, desglosada por factor\n"
+                 "(* = significativa p<0.05)", fontsize=11, fontweight="bold")
     ax.grid(axis="y", ls=":", alpha=0.5)
     for i, (rho, p) in enumerate(zip(res.rho, res.p)):
         if not np.isnan(rho):

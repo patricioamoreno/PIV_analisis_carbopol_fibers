@@ -27,6 +27,9 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
+from analisis_global import RESPUESTAS
+from procedencia import sellar
+
 CSV = sys.argv[1] if len(sys.argv) > 1 else "acum_tabla_zona.csv"
 CSV_SIN = (sys.argv[2] if len(sys.argv) > 2
            else "acum_tabla_zona_sin_excluir.csv")
@@ -106,88 +109,125 @@ for col in ["V_transicion", "orden_S"]:
 print("\n  Si las reologías ocupan rangos disjuntos, agregarlas induce Simpson.")
 
 # ----------------------------------------------------------------------
-banner("2. SPEARMAN vs orden_S: estratificado y agregado (CON exclusiones)")
-print(f"{'predictor':<22}{'car-02':>20}{'car-05':>20}{'AGREGADO':>20}")
-filas_simpson = []
-for p_ in PRED:
-    fila = []
-    valores_estrato = {}
-    for reo in ["car-02", "car-05"]:
-        s = v[v.reologia == reo]
-        r, pv, n = spearman(s[p_], s.orden_S)
-        valores_estrato[reo] = (r, pv, n)
-        fila.append(f"{r:+.3f}(p{pv:.3f},n{n})" if not np.isnan(r)
-                    else f"n={n} insuf")
-    r_ag, pv_ag, n_ag = spearman(v[p_], v.orden_S)
-    fila.append(f"{r_ag:+.3f}(p{pv_ag:.3f},n{n_ag})" if not np.isnan(r_ag)
-                else f"n={n_ag} insuf")
-    print(f"{p_:<22}{fila[0]:>20}{fila[1]:>20}{fila[2]:>20}")
+def _separar_etapa(predictor):
+    """'omega_transicion' -> ('omega', 'transicion'); 'V_cuasi' -> ('V', 'cuasi')."""
+    for etapa in ("cuasi", "transicion"):
+        suf = "_" + etapa
+        if predictor.endswith(suf):
+            return predictor[: -len(suf)], etapa
+    return predictor, np.nan
 
-    r02, p02, n02 = valores_estrato["car-02"]
-    r05, p05, n05 = valores_estrato["car-05"]
-    # Diagnóstico automático de Simpson: el agregado difiere de signo, o es
-    # mayor en magnitud que ambos estratos, o cambia de signo respecto a
-    # alguno de ellos.
-    es_simpson = False
-    if not (np.isnan(r_ag) or np.isnan(r02) or np.isnan(r05)):
-        cambia_signo = (np.sign(r_ag) != np.sign(r02)) or (np.sign(r_ag) != np.sign(r05))
-        se_infla = abs(r_ag) > max(abs(r02), abs(r05)) + 0.05
-        es_simpson = cambia_signo or se_infla
-    filas_simpson.append({
-        "predictor": p_,
-        "rho_car02": round(r02, 4) if not np.isnan(r02) else np.nan,
-        "n_car02": n02,
-        "rho_car05": round(r05, 4) if not np.isnan(r05) else np.nan,
-        "n_car05": n05,
-        "rho_agregado": round(r_ag, 4) if not np.isnan(r_ag) else np.nan,
-        "p_agregado": round(pv_ag, 4) if not np.isnan(pv_ag) else np.nan,
-        "n_agregado": n_ag,
-        "posible_simpson": es_simpson,
-    })
-print("\n  Un rho AGREGADO grande que se desvanece o cambia de signo dentro de\n"
-      "  cada reología es un artefacto de agregación (Simpson): NO reportarlo\n"
-      "  como hallazgo.")
 
-df_simpson = pd.DataFrame(filas_simpson)
-csv_simpson = "contraste_simpson.csv"
-df_simpson.to_csv(csv_simpson, index=False)
-print(f"\n  [export] Contraste agregado vs. estratificado guardado en "
-      f"'{csv_simpson}' (columna 'posible_simpson' marca los predictores "
-      f"cuyo agregado difiere de signo o se infla respecto a ambos estratos; "
-      f"citar en Resultados, Sección 'Necesidad de la estratificación').")
+filas_estratificado = []  # acumulado a través de RESPUESTAS, para Tarea 5
+
+for RESP in RESPUESTAS:
+    banner(f"2. SPEARMAN vs {RESP}: estratificado y agregado (CON exclusiones)")
+    print(f"{'predictor':<22}{'car-02':>20}{'car-05':>20}{'AGREGADO':>20}")
+    filas_simpson = []
+    for p_ in PRED:
+        fila = []
+        valores_estrato = {}
+        base_pred, etapa = _separar_etapa(p_)
+        for reo in ["car-02", "car-05"]:
+            s = v[v.reologia == reo]
+            r, pv, n = spearman(s[p_], s[RESP])
+            valores_estrato[reo] = (r, pv, n)
+            fila.append(f"{r:+.3f}(p{pv:.3f},n{n})" if not np.isnan(r)
+                        else f"n={n} insuf")
+            filas_estratificado.append({
+                "respuesta": RESP,
+                "reologia": reo,
+                "predictor": base_pred,
+                "etapa": etapa,
+                "rho": round(r, 4) if not np.isnan(r) else np.nan,
+                "p_value": round(pv, 4) if not np.isnan(pv) else np.nan,
+                "n": n,
+            })
+        r_ag, pv_ag, n_ag = spearman(v[p_], v[RESP])
+        fila.append(f"{r_ag:+.3f}(p{pv_ag:.3f},n{n_ag})" if not np.isnan(r_ag)
+                    else f"n={n_ag} insuf")
+        print(f"{p_:<22}{fila[0]:>20}{fila[1]:>20}{fila[2]:>20}")
+
+        r02, p02, n02 = valores_estrato["car-02"]
+        r05, p05, n05 = valores_estrato["car-05"]
+        # Diagnóstico automático de Simpson: el agregado difiere de signo, o es
+        # mayor en magnitud que ambos estratos, o cambia de signo respecto a
+        # alguno de ellos.
+        es_simpson = False
+        if not (np.isnan(r_ag) or np.isnan(r02) or np.isnan(r05)):
+            cambia_signo = (np.sign(r_ag) != np.sign(r02)) or (np.sign(r_ag) != np.sign(r05))
+            se_infla = abs(r_ag) > max(abs(r02), abs(r05)) + 0.05
+            es_simpson = cambia_signo or se_infla
+        filas_simpson.append({
+            "predictor": p_,
+            "rho_car02": round(r02, 4) if not np.isnan(r02) else np.nan,
+            "n_car02": n02,
+            "rho_car05": round(r05, 4) if not np.isnan(r05) else np.nan,
+            "n_car05": n05,
+            "rho_agregado": round(r_ag, 4) if not np.isnan(r_ag) else np.nan,
+            "p_agregado": round(pv_ag, 4) if not np.isnan(pv_ag) else np.nan,
+            "n_agregado": n_ag,
+            "posible_simpson": es_simpson,
+        })
+    print("\n  Un rho AGREGADO grande que se desvanece o cambia de signo dentro de\n"
+          "  cada reología es un artefacto de agregación (Simpson): NO reportarlo\n"
+          "  como hallazgo.")
+
+    if RESP == "orden_S":
+        # Formato y nombre preexistentes: solo para orden_S, no se toca.
+        df_simpson = pd.DataFrame(filas_simpson)
+        csv_simpson = "contraste_simpson.csv"
+        df_simpson.to_csv(csv_simpson, index=False)
+        sellar(csv_simpson)
+        print(f"\n  [export] Contraste agregado vs. estratificado guardado en "
+              f"'{csv_simpson}' (columna 'posible_simpson' marca los predictores "
+              f"cuyo agregado difiere de signo o se infla respecto a ambos estratos; "
+              f"citar en Resultados, Sección 'Necesidad de la estratificación').")
+
+    # ------------------------------------------------------------------
+    banner(f"3. LO QUE SÍ SOBREVIVE (respuesta={RESP}): mismo signo en ambas reologías")
+    sobreviven = []
+    for p_ in PRED:
+        resultados = {}
+        for reo in ["car-02", "car-05"]:
+            s = v[v.reologia == reo]
+            r, pv, n = spearman(s[p_], s[RESP])
+            rp, pp, npar = spearman_parcial(s[p_], s[RESP], s.n_fibras)
+            resultados[reo] = (r, pv, n, rp, pp)
+        r02 = resultados["car-02"][0]
+        r05 = resultados["car-05"][0]
+        if np.isnan(r02) or np.isnan(r05):
+            continue
+        if np.sign(r02) != np.sign(r05):
+            continue
+        sobreviven.append(p_)
+        print(f"\n{p_}:  (rho car-02={r02:+.3f}, car-05={r05:+.3f} — mismo signo)")
+        ps = []
+        for reo in ["car-02", "car-05"]:
+            r, pv, n, rp, pp = resultados[reo]
+            ps.append(pv)
+            print(f"  {reo}: N={n:2d}  rho={r:+.3f} (p={pv:.4f})   "
+                  f"parcial|n_fibras={rp:+.3f} (p={pp:.3f})")
+        ps_val = [p for p in ps if not np.isnan(p)]
+        if len(ps_val) == 2:
+            _, pc = stats.combine_pvalues(ps_val, method="fisher")
+            print(f"  Fisher combinado: p={pc:.4f}"
+                  f"{'   <-- combinado < 0.05' if pc < 0.05 else ''}")
+
+    if not sobreviven:
+        print("\n  Ningún predictor conserva el mismo signo en ambas reologías.")
 
 # ----------------------------------------------------------------------
-banner("3. LO QUE SÍ SOBREVIVE: mismo signo en ambas reologías")
-sobreviven = []
-for p_ in PRED:
-    resultados = {}
-    for reo in ["car-02", "car-05"]:
-        s = v[v.reologia == reo]
-        r, pv, n = spearman(s[p_], s.orden_S)
-        rp, pp, npar = spearman_parcial(s[p_], s.orden_S, s.n_fibras)
-        resultados[reo] = (r, pv, n, rp, pp)
-    r02 = resultados["car-02"][0]
-    r05 = resultados["car-05"][0]
-    if np.isnan(r02) or np.isnan(r05):
-        continue
-    if np.sign(r02) != np.sign(r05):
-        continue
-    sobreviven.append(p_)
-    print(f"\n{p_}:  (rho car-02={r02:+.3f}, car-05={r05:+.3f} — mismo signo)")
-    ps = []
-    for reo in ["car-02", "car-05"]:
-        r, pv, n, rp, pp = resultados[reo]
-        ps.append(pv)
-        print(f"  {reo}: N={n:2d}  rho={r:+.3f} (p={pv:.4f})   "
-              f"parcial|n_fibras={rp:+.3f} (p={pp:.3f})")
-    ps_val = [p for p in ps if not np.isnan(p)]
-    if len(ps_val) == 2:
-        _, pc = stats.combine_pvalues(ps_val, method="fisher")
-        print(f"  Fisher combinado: p={pc:.4f}"
-              f"{'   <-- combinado < 0.05' if pc < 0.05 else ''}")
-
-if not sobreviven:
-    print("\n  Ningún predictor conserva el mismo signo en ambas reologías.")
+banner("2b/3b [export] Version estratificada de sigma_iso (Tarea 5)")
+df_estratificado = pd.DataFrame(
+    filas_estratificado,
+    columns=["respuesta", "reologia", "predictor", "etapa", "rho", "p_value", "n"])
+print(df_estratificado.to_string(index=False))
+csv_estratificado = "acum_capa1_estratificado.csv"
+df_estratificado.to_csv(csv_estratificado, index=False)
+sellar(csv_estratificado)
+print(f"\n  [export] Version estratificada (orden_S + sigma_iso) guardada en "
+      f"'{csv_estratificado}'.")
 
 # ----------------------------------------------------------------------
 banner("3b. SENSIBILIDAD: mismos Spearman SIN el criterio de exclusión")

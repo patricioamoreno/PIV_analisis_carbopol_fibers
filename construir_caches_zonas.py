@@ -297,6 +297,7 @@ def construir_cache(carpeta):
         reo       = reo,
         n_frames  = len(files),
         k_vecinos = K_VECINOS,
+        dist_max_knn = DIST_MAX_KNN_MM,
     )
     n_pts = sum(len(a) for a in A_frame)
     print(f"  💾 Guardado: {fname}  ({n_pts:,} puntos)", flush=True)
