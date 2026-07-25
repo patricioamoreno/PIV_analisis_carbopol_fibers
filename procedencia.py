@@ -124,8 +124,9 @@ def verificar(*csv_paths, estricto=True):
 if __name__ == "__main__":
     import sys
     objetivos = sys.argv[1:] or [
-        "acum_tabla_zona.csv", "acum_capa1_global.csv",
-        "acum_capa2_global.csv", "acum_capa4_global.csv",
+        "acum_tabla_zona.csv", "acum_tabla_zona_sin_excluir.csv",
+        "acum_capa1_global.csv", "acum_capa2_global.csv",
+        "acum_capa4_global.csv", "acum_capa1_estratificado.csv",
         "contraste_simpson.csv",
     ]
     existentes = [o for o in objetivos if (RAIZ / o).exists()]

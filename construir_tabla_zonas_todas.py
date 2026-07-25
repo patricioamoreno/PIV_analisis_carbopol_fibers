@@ -237,6 +237,7 @@ def procesar_todas():
     # el criterio y comprobar si la conclusion depende del umbral elegido.
     if GUARDAR_VERSION_SIN_EXCLUIR:
         acum.to_csv(SALIDA_CSV_SIN_EXCLUIR, index=False)
+        sellar(SALIDA_CSV_SIN_EXCLUIR)
         print(f"\n[sensibilidad] Guardado sin exclusiones: "
               f"{SALIDA_CSV_SIN_EXCLUIR}")
 
