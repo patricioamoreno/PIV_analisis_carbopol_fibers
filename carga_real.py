@@ -48,7 +48,7 @@ EXCLUIR_INICIO = True
 # True  -> fibras asignadas por poligono geometrico (particion fija).
 # False -> comportamiento historico (bounding box del PIV de cada corrida).
 ASIGNAR_POR_POLIGONO = True
-ETAPAS = ["transicion", "cuasi"]
+ETAPAS = ["inicio", "transicion", "cuasi"]
 
 # Mapeo de columnas PIV -> predictores
 PIV_VARS = {"V": "v_mag", "omega": "vort", "gamma_dot": "gamma_dot"}

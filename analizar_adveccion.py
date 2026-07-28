@@ -146,16 +146,23 @@ def correlacion_influencia(df, etiqueta=""):
         sub = df[df.zona == z]
         if sub["fibra_uid"].nunique() < MIN_FIBRAS_ZONA:
             continue
-        theta = sub["theta"].to_numpy(float)
+        # Delta_theta_i = desviacion angular respecto a la media circular de
+        # la celda, en [0, 90] grados. Spearman sobre theta CRUDO no es valido:
+        # 1 grado y 179 grados son fisicamente adyacentes pero quedan en
+        # extremos opuestos del ranking.
+        th = np.radians(sub["theta"].to_numpy(float))
+        z_bar = np.nanmean(np.exp(2j * th))
+        th_bar = np.angle(z_bar) / 2.0
+        dtheta = np.degrees(np.arccos(np.clip(np.abs(np.cos(th - th_bar)), 0, 1)))
         for fac, col in FACTORES:
             x = sub[col].to_numpy(float)
-            m = ~(np.isnan(x) | np.isnan(theta))
+            m = ~(np.isnan(x) | np.isnan(dtheta))
             if m.sum() < MIN_FIBRAS_ZONA or np.std(x[m]) == 0:
                 rho, pv = np.nan, np.nan
             else:
-                rho, pv = stats.spearmanr(x[m], theta[m])
+                rho, pv = stats.spearmanr(x[m], dtheta[m])
             filas.append({"grupo": etiqueta or "global", "zona": z,
-                          "factor": fac, "rho_vs_theta": rho,
+                          "factor": fac, "rho_vs_delta_theta": rho,
                           "p_value": pv, "n_fibras": int(m.sum())})
     res = pd.DataFrame(filas)
     if len(res):

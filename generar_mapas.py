@@ -712,13 +712,15 @@ def main():
           f"{tabla['zona'].nunique()} zonas, "
           f"{tabla['toma'].nunique()} tomas")
 
-    corr = correlaciones(tabla)
-    print("\nGenerando figuras de zona/correlacion:")
-    fig_heatmap(corr)
-    fig_scatter(tabla)
-    if "calidad_orientacion" in tabla.columns:
-        fig_scatter(tabla, respuesta="calidad_orientacion")
-    fig_barras(corr)
+    if "reologia" in tabla.columns:
+        for reo, g in tabla.groupby("reologia"):
+            c = correlaciones(g)
+            fig_heatmap(c, path=f"{DIR_CORRELACION}/fig_panorama_heatmap_{reo}.png")
+            fig_barras(c, path=f"{DIR_CORRELACION}/fig_barras_temporal_{reo}.png")
+    else:
+        corr = correlaciones(tabla)
+        fig_heatmap(corr)
+        fig_barras(corr)
     fig_mapa(tabla)
     fig_mapa_calidad(tabla)
     # Heatmaps EN FORMA DE VIGA (pedido del profesor): un panel 2x3 por cada
