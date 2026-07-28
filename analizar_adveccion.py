@@ -80,7 +80,7 @@ def _meta_toma(cod_o_nombre):
             int(fib.group(1)) if fib else None)
 
 ATRIBUCION_CSV = "atribucion_E1_E2_E3.csv"
-USAR_ATRIBUCION_VALIDADA = True
+USAR_ATRIBUCION_VALIDADA = False
 
 
 def cargar_atribucion_validada(path_csv=ATRIBUCION_CSV):
