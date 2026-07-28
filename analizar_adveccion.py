@@ -79,6 +79,21 @@ def _meta_toma(cod_o_nombre):
     return (f"car-{car.group(1)}" if car else None,
             int(fib.group(1)) if fib else None)
 
+ATRIBUCION_CSV = "atribucion_E1_E2_E3.csv"
+USAR_ATRIBUCION_VALIDADA = True
+
+
+def cargar_atribucion_validada(path_csv=ATRIBUCION_CSV):
+    """
+    zona_atribuida = E1 si existe (track real medido en la ventana de
+    transicion); si no, E3 (pathline PIV). Devuelve None si el CSV no existe.
+    """
+    if not os.path.exists(path_csv):
+        return None
+    a = pd.read_csv(path_csv)
+    a["zona_atribuida"] = a["zona_transicion_E1"].fillna(a["zona_transicion_E3"])
+    a["metodo_atribucion"] = np.where(a["zona_transicion_E1"].notna(), "E1", "E3")
+    return a[["toma", "track_id", "zona_atribuida", "metodo_atribucion"]]
 
 def cargar_todas_las_tomas():
     """
@@ -113,6 +128,22 @@ def cargar_todas_las_tomas():
     if not filas:
         return None
     out = pd.concat(filas, ignore_index=True)
+
+    if USAR_ATRIBUCION_VALIDADA and "track_id" in out.columns:
+        atrib = cargar_atribucion_validada()
+        tiene_track = (out["track_id"] >= 0).all() if len(out) else False
+        if atrib is not None and tiene_track:
+            n_antes = len(out)
+            out = out.merge(atrib, on=["toma", "track_id"], how="inner")
+            out = out[out["zona"] == out["zona_atribuida"]].copy()
+            print(f"\n[E1/E3] atribucion validada: {n_antes} filas -> {len(out)} filas")
+            print("  metodo usado:", out["metodo_atribucion"].value_counts().to_dict())
+        else:
+            motivo = ("no se encontro atribucion_E1_E2_E3.csv" if atrib is None
+                      else "el cache de adveccion no trae track_id (regenera)")
+            print(f"\n[aviso] Sin atribucion validada ({motivo}); "
+                  f"se usa exposicion fraccional (comportamiento anterior).")
+
     if SOLO_VIGA:
         out = out[out["zona"].str.startswith("V")].copy()
         print(f"\n[SOLO_VIGA] quedan {len(out)} filas (zonas de viga)")
@@ -166,7 +197,7 @@ def correlacion_influencia(df, etiqueta=""):
                           "p_value": pv, "n_fibras": int(m.sum())})
     res = pd.DataFrame(filas)
     if len(res):
-        res["abs_rho"] = res["rho_vs_theta"].abs()
+        res["abs_rho"] = res["rho_vs_delta_theta"].abs()
     return res
 
 
@@ -196,7 +227,7 @@ def fig_exposicion(resumen, path="fig_adv_exposicion.png"):
 
 def _heatmap(ax, corr, titulo):
     piv = corr.pivot_table(index="zona", columns="factor",
-                           values="rho_vs_theta")
+                           values="rho_vs_delta_theta")
     orden = ["V", "omega", "gamma_dot", "t_en_zona"]
     piv = piv.reindex(columns=[c for c in orden if c in piv.columns])
     M = piv.to_numpy()
@@ -279,7 +310,7 @@ if __name__ == "__main__":
     corr = correlacion_influencia(df)
     if not corr.empty:
         print(corr.sort_values("abs_rho", ascending=False)
-              .head(8)[["zona", "factor", "rho_vs_theta", "p_value", "n_fibras"]]
+              .head(8)[["zona", "factor", "rho_vs_delta_theta", "p_value", "n_fibras"]]
               .to_string(index=False))
     corr.to_csv("adv_influencia_global.csv", index=False)
 

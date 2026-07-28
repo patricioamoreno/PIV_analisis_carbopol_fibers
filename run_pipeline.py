@@ -140,6 +140,18 @@ STEPS = [
          etapa="4. Validación atribución de zona E1/E2/E3 (opcional)",
          salida="atribucion_E1_E2_E3.csv",
          optional=True),
+
+    dict(script="construir_caches_adveccion.py",
+         etapa="5. Cachés de advección (integración hacia atrás + track_id)",
+         salida="cache_adveccion/",
+         optional=True,
+         depende_de="cache_zonas/ + fibras_ultimo_frame/"),
+         
+    dict(script="analizar_adveccion.py",
+         etapa="5. Influencia de zona sobre theta, usando atribución E1/E3",
+         salida="adv_influencia_global.csv + adv_influencia_por_reologia.csv",
+         optional=True,
+         depende_de="atribucion_E1_E2_E3.csv + cache_adveccion/"),
 ]
 
 REQUISITOS = ["numpy", "pandas", "scipy", "matplotlib", "sklearn"]

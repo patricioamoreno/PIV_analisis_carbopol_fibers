@@ -114,13 +114,16 @@ def cargar_cache_adveccion(cod, cache_dir=CACHE_ADV_DIR):
     if not os.path.exists(path):
         return None
     d = np.load(path, allow_pickle=True)
-    return pd.DataFrame({
+    out = {
         'fibra_id': d['fibra_id'], 'zona': d['zona'],
         'n_pasos': d['n_pasos'], 't_en_zona': d['t_en_zona'],
         'frac_tiempo': d['frac_tiempo'], 'V_med': d['V_med'],
         'omega_med': d['omega_med'], 'gamma_dot_med': d['gamma_dot_med'],
         'theta': d['theta'],
-    })
+    }
+    if 'track_id' in d.files:
+        out['track_id'] = d['track_id']
+    return pd.DataFrame(out)
 
 
 def emparejar_piv_fibras():
@@ -185,7 +188,10 @@ def cargar_fibras(csv_path):
     df = pd.read_csv(csv_path)
     df = df.rename(columns={"angle_deg": "theta"})
     df["fibra_id"] = np.arange(len(df))
-    return df[["fibra_id", "x_mm", "y_mm", "theta"]]
+    cols = ["fibra_id", "x_mm", "y_mm", "theta"]
+    if "track_id" in df.columns:
+        cols.append("track_id")
+    return df[cols]
 
 
 # ============================================================
@@ -369,7 +375,9 @@ def construir_cache(par):
 
     traj, dt = _retroceder(campo, fib[["x_mm", "y_mm"]].to_numpy())
     infl = _influencia(traj, dt)
-    infl = infl.merge(fib[["fibra_id", "theta"]], on="fibra_id", how="left")
+    tiene_track = "track_id" in fib.columns
+    cols_fib = ["fibra_id", "theta"] + (["track_id"] if tiene_track else [])
+    infl = infl.merge(fib[cols_fib], on="fibra_id", how="left")
 
     os.makedirs(CACHE_ADV_DIR, exist_ok=True)
     np.savez_compressed(
@@ -383,6 +391,8 @@ def construir_cache(par):
         omega_med=infl["omega_med"].to_numpy(),
         gamma_dot_med=infl["gamma_dot_med"].to_numpy(),
         theta=infl["theta"].to_numpy(),
+        track_id=(infl["track_id"].to_numpy() if tiene_track
+                  else np.full(len(infl), -1, dtype=np.int64)),
         toma=cod, n_fibras=len(fib),
         reologia=(reo or ""), conc_fibras=(nfib_conc or 0),
         submuestreo=SUBMUESTREO, metodo=METODO,
