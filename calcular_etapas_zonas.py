@@ -70,6 +70,26 @@ OVERRIDES_MANUALES = {}
 # Mínimo de puntos en un frame para que su v_media cuente (evita ruido).
 MIN_PTS_FRAME = 3
 
+# Cómo se asigna el corte de etapa a cada corrida.
+#   "base"       -> promedio de las tomas SIN FIBRAS (n-0000) de esa reología
+#                   y zona, aplicado a todas las corridas. COMPORTAMIENTO
+#                   HISTÓRICO: los 134 registros del JSON anterior son todos
+#                   modo="base".
+#   "individual" -> detección V3 sobre la serie de CADA corrida y zona.
+#
+# IMPORTANTE PARA LA REDACCIÓN. La metodología declara un tiempo de corte
+# "por celda y corrida", y el pie de la tabla de tiempos por zona habla de
+# la "mediana sobre las corridas disponibles". Con MODO_ETAPAS="base" eso
+# no es cierto: el valor es constante dentro de cada (reología, zona), la
+# varianza entre corridas es cero por construcción, y los cortes provienen
+# de tomas sin fibras aplicadas a tomas con fibras — que es justamente lo
+# que el Análisis I existe para poner a prueba.
+#
+# "base" sigue siendo una decisión defendible (estandariza la segmentación
+# y evita que el efecto de las fibras se confunda con un corte distinto),
+# pero hay que DECLARARLA como tal, no describirla como detección local.
+MODO_ETAPAS = "individual"
+
 
 # ============================================================
 # UTILIDADES
@@ -200,11 +220,15 @@ def calcular_tiempos_base(carpetas, zona, cache_dir):
         res = detectar_etapas(t_full, v_media,
                               nombre_carpeta=nombre,
                               ventana_suavizado=vent_suav)
-        if not res["fallback"]:
+        if res["convergio"]:
             t_peaks.append(res["t_peak"])
             t_quasis.append(res["t_quasi"])
         else:
-            print(f"    ⚠ Fallback en base, ignorada: {nombre}")
+            # Antes se filtraba por res["fallback"], que NO se activaba en el
+            # caso más frecuente de fallo (criterio que nunca converge). Esas
+            # tomas entraban al promedio base con un t_quasi espurio.
+            print(f"    ⚠ No convergió, excluida de la base: {nombre} "
+                  f"({res['motivo']}, ε mínimo={res['eps_minimo']:.4f})")
 
     if not t_peaks:
         return None, None
@@ -283,7 +307,7 @@ def main():
                     t_quasi_used = float(t_full[idx_quasi])
                     modo = "override"
 
-                elif usar_base:
+                elif MODO_ETAPAS == "base" and usar_base:
                     # índice más cercano al tiempo base de esta toma
                     idx_peak  = int(np.argmin(np.abs(t_full - t_peak_base)))
                     idx_quasi = int(np.argmin(np.abs(t_full - t_quasi_base)))
@@ -291,9 +315,10 @@ def main():
                     idx_quasi = min(max(idx_quasi, idx_peak + 1), n - 1)
                     t_peak_used, t_quasi_used = t_peak_base, t_quasi_base
                     modo = "base"
+                    convergio, motivo, eps_min = True, "base", float("nan")
 
                 else:
-                    # sin base válida: detección individual
+                    # detección V3 sobre la serie de ESTA corrida y zona
                     vent_suav = 15 if "car-05" in carpeta else 50
                     res = detectar_etapas(t_full, v_media,
                                           nombre_carpeta=nombre,
@@ -301,6 +326,17 @@ def main():
                     idx_peak, idx_quasi = res["idx_peak"], res["idx_quasi"]
                     t_peak_used, t_quasi_used = res["t_peak"], res["t_quasi"]
                     modo = "individual"
+                    convergio = res["convergio"]
+                    motivo    = res["motivo"]
+                    eps_min   = res["eps_minimo"]
+                    if not convergio and usar_base:
+                        # No convergió: en vez de dejar t_quasi = t_peak + 30
+                        # frames (que NO es una medición), se cae al tiempo
+                        # base de la reología, y queda registrado.
+                        idx_quasi = int(np.argmin(np.abs(t_full - t_quasi_base)))
+                        idx_quasi = min(max(idx_quasi, idx_peak + 1), n - 1)
+                        t_quasi_used = float(t_full[idx_quasi])
+                        modo = "individual_fallback_base"
 
                 entrada = {
                     'idx_peak' : int(idx_peak),
@@ -309,7 +345,13 @@ def main():
                     't_quasi'  : float(t_quasi_used),
                     'n_frames' : int(n),
                     'modo'     : modo,
-                    'fallback' : False,
+                    # 'fallback' estaba HARDCODEADO en False: cualquier
+                    # fallback real de detectar_etapas quedaba invisible.
+                    'fallback' : (not convergio),
+                    'convergio': bool(convergio),
+                    'motivo'   : motivo,
+                    'eps_minimo': (float(eps_min) if eps_min == eps_min
+                                   else None),
                     'etapas'   : {
                         'inicio'    : (0, int(idx_peak)),
                         'transicion': (int(idx_peak), int(idx_quasi)),

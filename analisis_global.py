@@ -132,6 +132,49 @@ def tabla_por_zona(df_largo, min_fibras=5):
 # ----------------------------------------------------------------------
 # Capa 1 global: Spearman a traves de zonas
 # ----------------------------------------------------------------------
+def spearman_parcial(x, y, z):
+    """
+    Correlacion parcial de Spearman entre x e y controlando por z.
+
+    Se rankean las tres variables y se calcula la correlacion de Pearson
+    entre los residuos de rank(x)~rank(z) y rank(y)~rank(z). Es la version
+    no parametrica estandar del control por una covariable.
+
+    POR QUE ES NECESARIA AQUI. n_fibras esta fuertemente asociado tanto a
+    las respuestas como a los predictores:
+
+        rho(n_fibras, sigma_iso)     = +0,82 (car-02)  +0,54 (car-05)
+        rho(n_fibras, V_transicion)  = +0,76 (car-02)  +0,51 (car-05)
+
+    y ademas sigma_iso es la desviacion MUESTRAL de los centroides en una
+    celda de tamaño fijo, de modo que crece con n por puro muestreo (con
+    pocas fibras subestima la extension real). Sin controlar por n_fibras,
+    parte de la asociacion reportada es un artefacto de cobertura.
+
+    Devuelve (rho_parcial, p_valor, n). El p-valor sigue siendo
+    anticonservador por la pseudo-replicacion (zonas de una misma corrida);
+    ver la advertencia estadistica del proyecto.
+    """
+    x = np.asarray(x, float); y = np.asarray(y, float); z = np.asarray(z, float)
+    m = ~(np.isnan(x) | np.isnan(y) | np.isnan(z))
+    x, y, z = x[m], y[m], z[m]
+    n = len(x)
+    if n < 5 or np.std(x) == 0 or np.std(y) == 0 or np.std(z) == 0:
+        return np.nan, np.nan, n
+    rx, ry, rz = (stats.rankdata(a) for a in (x, y, z))
+
+    def _resid(a, b):
+        B = np.column_stack([np.ones(len(b)), b])
+        coef, *_ = np.linalg.lstsq(B, a, rcond=None)
+        return a - B @ coef
+
+    ex, ey = _resid(rx, rz), _resid(ry, rz)
+    if np.std(ex) == 0 or np.std(ey) == 0:
+        return np.nan, np.nan, n
+    rho, pv = stats.pearsonr(ex, ey)
+    return float(rho), float(pv), n
+
+
 def capa1_global(tabla, solo_viga=True):
     """
     solo_viga=True (default): la orientacion de fibras solo se analiza en la
@@ -160,8 +203,20 @@ def capa1_global(tabla, solo_viga=True):
                     rho, pv = stats.spearmanr(x[m], y[m])
                 else:
                     rho, pv = np.nan, np.nan
+
+                # Control por n_fibras (ver spearman_parcial).
+                if "n_fibras" in t:
+                    rho_p, pv_p, n_p = spearman_parcial(
+                        t[col].to_numpy(float), t[resp].to_numpy(float),
+                        t["n_fibras"].to_numpy(float))
+                else:
+                    rho_p, pv_p, n_p = np.nan, np.nan, np.nan
+
                 filas.append({"respuesta": resp, "predictor": p, "etapa": e,
                               "rho": rho, "p_value": pv, "n_zonas": n,
+                              "rho_parcial_nf": rho_p,
+                              "p_parcial_nf": pv_p,
+                              "n_parcial": n_p,
                               "abs_rho": abs(rho) if rho == rho else np.nan})
     return pd.DataFrame(filas).sort_values(
         ["respuesta", "abs_rho"], ascending=[True, False])
@@ -226,6 +281,56 @@ def capa4_global(c1g):
     piv["domina_etapa"] = np.where(
         piv["rho_transicion"].abs().fillna(0) >=
         piv["rho_cuasi"].abs().fillna(0), "transicion", "cuasi")
-    piv["delta_abs_rho"] = (piv["rho_cuasi"].abs().fillna(0) -
-                            piv["rho_transicion"].abs().fillna(0))
+    # Delta segun la definicion de la memoria:
+    #     Delta_p = |rho_transicion| - |rho_cuasi|
+    # positivo  => la etapa de TRANSICION domina  (coherente con domina_etapa)
+    #
+    # La version anterior calculaba el signo OPUESTO y lo llamaba
+    # 'delta_abs_rho', de modo que la columna contradecia tanto la leyenda de
+    # la tabla como la columna domina_etapa de su propia fila.
+    piv["delta_abs_rho"] = (piv["rho_transicion"].abs().fillna(0) -
+                            piv["rho_cuasi"].abs().fillna(0))
     return piv.sort_values(["respuesta", "predictor"]).reset_index(drop=True)
+
+# ----------------------------------------------------------------------
+# Capa 1 y 4 ESTRATIFICADAS por reologia
+# ----------------------------------------------------------------------
+def capa1_estratificado(tabla, col_estrato="reologia", solo_viga=True):
+    """
+    Capa 1 corrida DENTRO de cada estrato (por defecto, cada reologia).
+
+    Es la forma correcta segun el propio protocolo del trabajo: Car-0,2 % y
+    Car-0,5 % operan en escalas cinematicas no comparables (los tiempos de
+    etapa difieren por factores > 2), de modo que agrupar ambas en una sola
+    correlacion mezcla dos poblaciones y puede producir un efecto Simpson.
+    """
+    salidas = []
+    for estrato, g in tabla.groupby(col_estrato):
+        c1 = capa1_global(g, solo_viga=solo_viga)
+        c1.insert(0, col_estrato, estrato)
+        salidas.append(c1)
+    if not salidas:
+        return pd.DataFrame()
+    return pd.concat(salidas, ignore_index=True)
+
+
+def capa4_estratificado(c1_estrat, col_estrato="reologia"):
+    """
+    Capa 4 DENTRO de cada estrato.
+
+    POR QUE EXISTE. run_real.py y construir_tabla_zonas_todas.py llamaban
+    unicamente a capa4_global(c1) sobre la tabla COMPLETA, es decir,
+    mezclando ambas reologias en una sola correlacion. El CSV resultante
+    (acum_capa4_global.csv) es, por tanto, agrupado (pooled), pese a que la
+    tabla correspondiente de la memoria esta estratificada por reologia y a
+    que el protocolo del trabajo prohibe explicitamente mezclarlas. No
+    existia ninguna version estratificada de la Capa 4 en el codigo.
+    """
+    salidas = []
+    for estrato, g in c1_estrat.groupby(col_estrato):
+        c4 = capa4_global(g)
+        c4.insert(0, col_estrato, estrato)
+        salidas.append(c4)
+    if not salidas:
+        return pd.DataFrame()
+    return pd.concat(salidas, ignore_index=True)

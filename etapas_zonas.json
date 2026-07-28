@@ -1,863 +1,977 @@
 {
   "m70-toma-2-n-3000-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 63,
+    "idx_quasi": 425,
+    "t_peak": 1.566667,
+    "t_quasi": 12.0,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        63
       ],
       "transicion": [
-        57,
-        297
+        63,
+        425
       ],
       "cuasi": [
-        297,
+        425,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 71,
+    "idx_quasi": 430,
+    "t_peak": 1.766667,
+    "t_quasi": 12.166667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        71
       ],
       "transicion": [
-        57,
-        297
+        71,
+        430
       ],
       "cuasi": [
-        297,
+        430,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 73,
+    "idx_quasi": 319,
+    "t_peak": 1.833333,
+    "t_quasi": 8.466667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        73
       ],
       "transicion": [
-        57,
-        297
+        73,
+        319
       ],
       "cuasi": [
-        297,
+        319,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 71,
+    "idx_quasi": 396,
+    "t_peak": 1.766667,
+    "t_quasi": 11.033333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        71
       ],
       "transicion": [
-        57,
-        297
+        71,
+        396
       ],
       "cuasi": [
-        297,
+        396,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 69,
+    "idx_quasi": 378,
+    "t_peak": 1.733333,
+    "t_quasi": 10.433333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        69
       ],
       "transicion": [
-        57,
-        297
+        69,
+        378
       ],
       "cuasi": [
-        297,
+        378,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 74,
+    "idx_quasi": 413,
+    "t_peak": 1.85,
+    "t_quasi": 11.6,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        74
       ],
       "transicion": [
-        57,
-        297
+        74,
+        413
       ],
       "cuasi": [
-        297,
+        413,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 89,
+    "idx_quasi": 472,
+    "t_peak": 2.233333,
+    "t_quasi": 13.566667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        89
       ],
       "transicion": [
-        57,
-        297
+        89,
+        472
       ],
       "cuasi": [
-        297,
+        472,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 92,
+    "idx_quasi": 482,
+    "t_peak": 2.3,
+    "t_quasi": 13.9,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        92
       ],
       "transicion": [
-        57,
-        297
+        92,
+        482
       ],
       "cuasi": [
-        297,
+        482,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 72,
+    "idx_quasi": 326,
+    "t_peak": 1.8,
+    "t_quasi": 8.7,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        72
       ],
       "transicion": [
-        57,
-        297
+        72,
+        326
       ],
       "cuasi": [
-        297,
+        326,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Vf1c1": {
-    "idx_peak": 57,
-    "idx_quasi": 297,
-    "t_peak": 1.41666675,
-    "t_quasi": 7.71666675,
+    "idx_peak": 80,
+    "idx_quasi": 330,
+    "t_peak": 2.0,
+    "t_quasi": 8.833333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        57
+        80
       ],
       "transicion": [
-        57,
-        297
+        80,
+        330
       ],
       "cuasi": [
-        297,
+        330,
         665
       ]
     }
   },
   "m83-toma-2-n-3000-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 508,
+    "idx_quasi": 934,
+    "t_peak": 15.433333,
+    "t_quasi": 29.633333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        508
       ],
       "transicion": [
-        641,
-        910
+        508,
+        934
       ],
       "cuasi": [
-        910,
+        934,
         1245
       ]
     }
   },
   "m86-toma-2-n-0750-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 588,
+    "idx_quasi": 853,
+    "t_peak": 18.1,
+    "t_quasi": 26.933333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        588
       ],
       "transicion": [
-        641,
-        910
+        588,
+        853
       ],
       "cuasi": [
-        910,
+        853,
         1245
       ]
     }
   },
   "m87-toma-2-n-0750-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 570,
+    "idx_quasi": 872,
+    "t_peak": 17.5,
+    "t_quasi": 27.566667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        570
       ],
       "transicion": [
-        641,
-        910
+        570,
+        872
       ],
       "cuasi": [
-        910,
+        872,
         1245
       ]
     }
   },
   "m91-toma-2-n-3000-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 567,
+    "idx_quasi": 897,
+    "t_peak": 17.4,
+    "t_quasi": 28.4,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        567
       ],
       "transicion": [
-        641,
-        910
+        567,
+        897
       ],
       "cuasi": [
-        910,
+        897,
         1245
       ]
     }
   },
   "m92-toma-1-n-0000-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 564,
+    "idx_quasi": 898,
+    "t_peak": 17.3,
+    "t_quasi": 28.433333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        564
       ],
       "transicion": [
-        641,
-        910
+        564,
+        898
       ],
       "cuasi": [
-        910,
+        898,
         1245
       ]
     }
   },
   "m92-toma-2-n-0000-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 679,
+    "idx_quasi": 853,
+    "t_peak": 21.133333,
+    "t_quasi": 26.933333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        679
       ],
       "transicion": [
-        641,
-        910
+        679,
+        853
       ],
       "cuasi": [
-        910,
+        853,
         1245
       ]
     }
   },
   "m93-toma-2-n-0000-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 680,
+    "idx_quasi": 952,
+    "t_peak": 21.166667,
+    "t_quasi": 30.233333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        680
       ],
       "transicion": [
-        641,
-        910
+        680,
+        952
       ],
       "cuasi": [
-        910,
+        952,
         1245
       ]
     }
   },
   "m94-toma-2-n-1500-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 674,
+    "idx_quasi": 979,
+    "t_peak": 20.966667,
+    "t_quasi": 31.133333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        674
       ],
       "transicion": [
-        641,
-        910
+        674,
+        979
       ],
       "cuasi": [
-        910,
+        979,
         1245
       ]
     }
   },
   "m95-toma-2-n-1500-car-05-piv_Vf1c1": {
-    "idx_peak": 641,
-    "idx_quasi": 910,
-    "t_peak": 19.86666666666667,
-    "t_quasi": 28.822222333333333,
+    "idx_peak": 406,
+    "idx_quasi": 806,
+    "t_peak": 12.033333,
+    "t_quasi": 25.366667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        641
+        406
       ],
       "transicion": [
-        641,
-        910
+        406,
+        806
       ],
       "cuasi": [
-        910,
+        806,
         1245
       ]
     }
   },
   "m70-toma-2-n-3000-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 205,
+    "idx_quasi": 496,
+    "t_peak": 5.133333,
+    "t_quasi": 14.366667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        205
       ],
       "transicion": [
-        348,
-        571
+        205,
+        496
       ],
       "cuasi": [
-        571,
+        496,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 373,
+    "idx_quasi": 610,
+    "t_peak": 10.266667,
+    "t_quasi": 18.166667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        373
       ],
       "transicion": [
-        348,
-        571
+        373,
+        610
       ],
       "cuasi": [
-        571,
+        610,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 302,
+    "idx_quasi": 594,
+    "t_peak": 7.9,
+    "t_quasi": 17.633333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        302
       ],
       "transicion": [
-        348,
-        571
+        302,
+        594
       ],
       "cuasi": [
-        571,
+        594,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 290,
+    "idx_quasi": 512,
+    "t_peak": 7.5,
+    "t_quasi": 14.9,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        290
       ],
       "transicion": [
-        348,
-        571
+        290,
+        512
       ],
       "cuasi": [
-        571,
+        512,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 192,
+    "idx_quasi": 533,
+    "t_peak": 4.8,
+    "t_quasi": 15.6,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        192
       ],
       "transicion": [
-        348,
-        571
+        192,
+        533
       ],
       "cuasi": [
-        571,
+        533,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 383,
+    "idx_quasi": 612,
+    "t_peak": 10.6,
+    "t_quasi": 18.233333,
     "n_frames": 665,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual_fallback_base",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.02253235650821955,
     "etapas": {
       "inicio": [
         0,
-        348
+        383
       ],
       "transicion": [
-        348,
-        571
+        383,
+        612
       ],
       "cuasi": [
-        571,
+        612,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 353,
+    "idx_quasi": 642,
+    "t_peak": 9.6,
+    "t_quasi": 19.233333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        353
       ],
       "transicion": [
-        348,
-        571
+        353,
+        642
       ],
       "cuasi": [
-        571,
+        642,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 292,
+    "idx_quasi": 563,
+    "t_peak": 7.566667,
+    "t_quasi": 16.6,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        292
       ],
       "transicion": [
-        348,
-        571
+        292,
+        563
       ],
       "cuasi": [
-        571,
+        563,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 376,
+    "idx_quasi": 633,
+    "t_peak": 10.366667,
+    "t_quasi": 18.933333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        348
+        376
       ],
       "transicion": [
-        348,
-        571
+        376,
+        633
       ],
       "cuasi": [
-        571,
+        633,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Vf1c2": {
-    "idx_peak": 348,
-    "idx_quasi": 571,
-    "t_peak": 9.42500025,
-    "t_quasi": 16.8583335,
+    "idx_peak": 322,
+    "idx_quasi": 612,
+    "t_peak": 8.566667,
+    "t_quasi": 18.233333,
     "n_frames": 665,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual_fallback_base",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.0406101483222569,
     "etapas": {
       "inicio": [
         0,
-        348
+        322
       ],
       "transicion": [
-        348,
-        571
+        322,
+        612
       ],
       "cuasi": [
-        571,
+        612,
         665
       ]
     }
   },
   "m70-toma-2-n-3000-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 265,
+    "t_peak": 0.5,
+    "t_quasi": 6.666667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        265
       ],
       "cuasi": [
-        257,
+        265,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 283,
+    "t_peak": 0.5,
+    "t_quasi": 7.266667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        283
       ],
       "cuasi": [
-        257,
+        283,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 36,
+    "idx_quasi": 290,
+    "t_peak": 0.9,
+    "t_quasi": 7.5,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        36
       ],
       "transicion": [
-        37,
-        257
+        36,
+        290
       ],
       "cuasi": [
-        257,
+        290,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 260,
+    "t_peak": 0.5,
+    "t_quasi": 6.5,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        260
       ],
       "cuasi": [
-        257,
+        260,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 279,
+    "t_peak": 0.5,
+    "t_quasi": 7.133333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        279
       ],
       "cuasi": [
-        257,
+        279,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 273,
+    "t_peak": 0.5,
+    "t_quasi": 6.933333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        273
       ],
       "cuasi": [
-        257,
+        273,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 285,
+    "t_peak": 0.5,
+    "t_quasi": 7.333333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        285
       ],
       "cuasi": [
-        257,
+        285,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 282,
+    "t_peak": 0.5,
+    "t_quasi": 7.233333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        282
       ],
       "cuasi": [
-        257,
+        282,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Vf2c1": {
     "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_quasi": 300,
+    "t_peak": 0.933333,
+    "t_quasi": 7.833333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -865,344 +979,389 @@
       ],
       "transicion": [
         37,
-        257
+        300
       ],
       "cuasi": [
-        257,
+        300,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Vf2c1": {
-    "idx_peak": 37,
-    "idx_quasi": 257,
-    "t_peak": 0.93333325,
-    "t_quasi": 6.43750025,
+    "idx_peak": 20,
+    "idx_quasi": 281,
+    "t_peak": 0.5,
+    "t_quasi": 7.2,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        37
+        20
       ],
       "transicion": [
-        37,
-        257
+        20,
+        281
       ],
       "cuasi": [
-        257,
+        281,
         665
       ]
     }
   },
   "m83-toma-2-n-3000-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 443,
+    "idx_quasi": 1114,
+    "t_peak": 13.266667,
+    "t_quasi": 35.633333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        443
       ],
       "transicion": [
-        478,
-        561
+        443,
+        1114
       ],
       "cuasi": [
-        561,
+        1114,
         1245
       ]
     }
   },
   "m86-toma-2-n-0750-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 527,
+    "idx_quasi": 1121,
+    "t_peak": 16.066667,
+    "t_quasi": 35.866667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        527
       ],
       "transicion": [
-        478,
-        561
+        527,
+        1121
       ],
       "cuasi": [
-        561,
+        1121,
         1245
       ]
     }
   },
   "m87-toma-2-n-0750-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 446,
+    "idx_quasi": 1056,
+    "t_peak": 13.366667,
+    "t_quasi": 33.7,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        446
       ],
       "transicion": [
-        478,
-        561
+        446,
+        1056
       ],
       "cuasi": [
-        561,
+        1056,
         1245
       ]
     }
   },
   "m91-toma-2-n-3000-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 438,
+    "idx_quasi": 1109,
+    "t_peak": 13.1,
+    "t_quasi": 35.466667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        438
       ],
       "transicion": [
-        478,
-        561
+        438,
+        1109
       ],
       "cuasi": [
-        561,
+        1109,
         1245
       ]
     }
   },
   "m92-toma-1-n-0000-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 472,
+    "idx_quasi": 1108,
+    "t_peak": 14.233333,
+    "t_quasi": 35.433333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        472
       ],
       "transicion": [
-        478,
-        561
+        472,
+        1108
       ],
       "cuasi": [
-        561,
+        1108,
         1245
       ]
     }
   },
   "m92-toma-2-n-0000-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 481,
+    "idx_quasi": 934,
+    "t_peak": 14.533333,
+    "t_quasi": 29.633333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        481
       ],
       "transicion": [
-        478,
-        561
+        481,
+        934
       ],
       "cuasi": [
-        561,
+        934,
         1245
       ]
     }
   },
   "m93-toma-2-n-0000-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 480,
+    "idx_quasi": 1121,
+    "t_peak": 14.5,
+    "t_quasi": 35.866667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        480
       ],
       "transicion": [
-        478,
-        561
+        480,
+        1121
       ],
       "cuasi": [
-        561,
+        1121,
         1245
       ]
     }
   },
   "m94-toma-2-n-1500-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 461,
+    "idx_quasi": 1042,
+    "t_peak": 13.866667,
+    "t_quasi": 33.233333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        461
       ],
       "transicion": [
-        478,
-        561
+        461,
+        1042
       ],
       "cuasi": [
-        561,
+        1042,
         1245
       ]
     }
   },
   "m95-toma-2-n-1500-car-05-piv_Vf2c1": {
-    "idx_peak": 478,
-    "idx_quasi": 561,
-    "t_peak": 14.422222,
-    "t_quasi": 17.188889,
+    "idx_peak": 399,
+    "idx_quasi": 1030,
+    "t_peak": 11.8,
+    "t_quasi": 32.833333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        478
+        399
       ],
       "transicion": [
-        478,
-        561
+        399,
+        1030
       ],
       "cuasi": [
-        561,
+        1030,
         1245
       ]
     }
   },
   "m70-toma-2-n-3000-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 20,
+    "idx_quasi": 288,
+    "t_peak": 0.5,
+    "t_quasi": 7.433333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        20
       ],
       "transicion": [
-        56,
-        286
+        20,
+        288
       ],
       "cuasi": [
-        286,
+        288,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 57,
+    "idx_quasi": 297,
+    "t_peak": 1.433333,
+    "t_quasi": 7.733333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        57
       ],
       "transicion": [
-        56,
-        286
+        57,
+        297
       ],
       "cuasi": [
-        286,
+        297,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 20,
+    "idx_quasi": 224,
+    "t_peak": 0.5,
+    "t_quasi": 5.6,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        20
       ],
       "transicion": [
-        56,
-        286
+        20,
+        224
       ],
       "cuasi": [
-        286,
+        224,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 20,
+    "idx_quasi": 287,
+    "t_peak": 0.5,
+    "t_quasi": 7.4,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        20
       ],
       "transicion": [
-        56,
-        286
+        20,
+        287
       ],
       "cuasi": [
-        286,
+        287,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Vf2c2": {
     "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_quasi": 297,
+    "t_peak": 1.4,
+    "t_quasi": 7.733333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1210,574 +1369,649 @@
       ],
       "transicion": [
         56,
-        286
+        297
       ],
       "cuasi": [
-        286,
+        297,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 54,
+    "idx_quasi": 296,
+    "t_peak": 1.35,
+    "t_quasi": 7.7,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        54
       ],
       "transicion": [
-        56,
-        286
+        54,
+        296
       ],
       "cuasi": [
-        286,
+        296,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 39,
+    "idx_quasi": 290,
+    "t_peak": 0.966667,
+    "t_quasi": 7.5,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        39
       ],
       "transicion": [
-        56,
-        286
+        39,
+        290
       ],
       "cuasi": [
-        286,
+        290,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 58,
+    "idx_quasi": 297,
+    "t_peak": 1.45,
+    "t_quasi": 7.733333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        58
       ],
       "transicion": [
-        56,
-        286
+        58,
+        297
       ],
       "cuasi": [
-        286,
+        297,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 64,
+    "idx_quasi": 309,
+    "t_peak": 1.6,
+    "t_quasi": 8.133333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        64
       ],
       "transicion": [
-        56,
-        286
+        64,
+        309
       ],
       "cuasi": [
-        286,
+        309,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Vf2c2": {
-    "idx_peak": 56,
-    "idx_quasi": 286,
-    "t_peak": 1.39166675,
-    "t_quasi": 7.3666665,
+    "idx_peak": 66,
+    "idx_quasi": 306,
+    "t_peak": 1.65,
+    "t_quasi": 8.033333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        56
+        66
       ],
       "transicion": [
-        56,
-        286
+        66,
+        306
       ],
       "cuasi": [
-        286,
+        306,
         665
       ]
     }
   },
   "m83-toma-2-n-3000-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 803,
+    "idx_quasi": 833,
+    "t_peak": 25.266667,
+    "t_quasi": 26.266667,
     "n_frames": 1245,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.02623832430564014,
     "etapas": {
       "inicio": [
         0,
-        657
+        803
       ],
       "transicion": [
-        657,
-        850
+        803,
+        833
       ],
       "cuasi": [
-        850,
+        833,
         1245
       ]
     }
   },
   "m86-toma-2-n-0750-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 810,
+    "idx_quasi": 840,
+    "t_peak": 25.5,
+    "t_quasi": 26.5,
     "n_frames": 1245,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.028068336270914797,
     "etapas": {
       "inicio": [
         0,
-        657
+        810
       ],
       "transicion": [
-        657,
-        850
+        810,
+        840
       ],
       "cuasi": [
-        850,
+        840,
         1245
       ]
     }
   },
   "m87-toma-2-n-0750-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 794,
+    "idx_quasi": 1193,
+    "t_peak": 24.966667,
+    "t_quasi": 38.266667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        657
+        794
       ],
       "transicion": [
-        657,
-        850
+        794,
+        1193
       ],
       "cuasi": [
-        850,
+        1193,
         1245
       ]
     }
   },
   "m91-toma-2-n-3000-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 761,
+    "idx_quasi": 1223,
+    "t_peak": 23.866667,
+    "t_quasi": 39.266667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        657
+        761
       ],
       "transicion": [
-        657,
-        850
+        761,
+        1223
       ],
       "cuasi": [
-        850,
+        1223,
         1245
       ]
     }
   },
   "m92-toma-1-n-0000-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 722,
+    "idx_quasi": 752,
+    "t_peak": 22.566667,
+    "t_quasi": 23.566667,
     "n_frames": 1245,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.027907236808211704,
     "etapas": {
       "inicio": [
         0,
-        657
+        722
       ],
       "transicion": [
-        657,
-        850
+        722,
+        752
       ],
       "cuasi": [
-        850,
+        752,
         1245
       ]
     }
   },
   "m92-toma-2-n-0000-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 874,
+    "idx_quasi": 904,
+    "t_peak": 27.633333,
+    "t_quasi": 28.633333,
     "n_frames": 1245,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.03504030889823743,
     "etapas": {
       "inicio": [
         0,
-        657
+        874
       ],
       "transicion": [
-        657,
-        850
+        874,
+        904
       ],
       "cuasi": [
-        850,
+        904,
         1245
       ]
     }
   },
   "m93-toma-2-n-0000-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 669,
+    "idx_quasi": 699,
+    "t_peak": 20.8,
+    "t_quasi": 21.8,
     "n_frames": 1245,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.022656744978407473,
     "etapas": {
       "inicio": [
         0,
-        657
+        669
       ],
       "transicion": [
-        657,
-        850
+        669,
+        699
       ],
       "cuasi": [
-        850,
+        699,
         1245
       ]
     }
   },
   "m94-toma-2-n-1500-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 929,
+    "idx_quasi": 959,
+    "t_peak": 29.466667,
+    "t_quasi": 30.466667,
     "n_frames": 1245,
-    "modo": "base",
-    "fallback": false,
+    "modo": "individual",
+    "fallback": true,
+    "convergio": false,
+    "motivo": "no_converge",
+    "eps_minimo": 0.034516914655975534,
     "etapas": {
       "inicio": [
         0,
-        657
+        929
       ],
       "transicion": [
-        657,
-        850
+        929,
+        959
       ],
       "cuasi": [
-        850,
+        959,
         1245
       ]
     }
   },
   "m95-toma-2-n-1500-car-05-piv_Vf2c2": {
-    "idx_peak": 657,
-    "idx_quasi": 850,
-    "t_peak": 20.411111000000002,
-    "t_quasi": 26.822222333333333,
+    "idx_peak": 647,
+    "idx_quasi": 700,
+    "t_peak": 20.066667,
+    "t_quasi": 21.833333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        657
+        647
       ],
       "transicion": [
-        657,
-        850
+        647,
+        700
       ],
       "cuasi": [
-        850,
+        700,
         1245
       ]
     }
   },
   "m70-toma-2-n-3000-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 154,
+    "idx_quasi": 465,
+    "t_peak": 3.85,
+    "t_quasi": 13.333333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        154
       ],
       "transicion": [
-        156,
-        319
+        154,
+        465
       ],
       "cuasi": [
-        319,
+        465,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 159,
+    "idx_quasi": 507,
+    "t_peak": 3.966667,
+    "t_quasi": 14.733333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        159
       ],
       "transicion": [
-        156,
-        319
+        159,
+        507
       ],
       "cuasi": [
-        319,
+        507,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 158,
+    "idx_quasi": 505,
+    "t_peak": 3.95,
+    "t_quasi": 14.666667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        158
       ],
       "transicion": [
-        156,
-        319
+        158,
+        505
       ],
       "cuasi": [
-        319,
+        505,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 72,
+    "idx_quasi": 408,
+    "t_peak": 1.8,
+    "t_quasi": 11.433333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        72
       ],
       "transicion": [
-        156,
-        319
+        72,
+        408
       ],
       "cuasi": [
-        319,
+        408,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 162,
+    "idx_quasi": 507,
+    "t_peak": 4.05,
+    "t_quasi": 14.733333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        162
       ],
       "transicion": [
-        156,
-        319
+        162,
+        507
       ],
       "cuasi": [
-        319,
+        507,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 157,
+    "idx_quasi": 496,
+    "t_peak": 3.933333,
+    "t_quasi": 14.366667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        157
       ],
       "transicion": [
-        156,
-        319
+        157,
+        496
       ],
       "cuasi": [
-        319,
+        496,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 228,
+    "idx_quasi": 583,
+    "t_peak": 5.7,
+    "t_quasi": 17.266667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        228
       ],
       "transicion": [
-        156,
-        319
+        228,
+        583
       ],
       "cuasi": [
-        319,
+        583,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 233,
+    "idx_quasi": 548,
+    "t_peak": 5.833333,
+    "t_quasi": 16.1,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        233
       ],
       "transicion": [
-        156,
-        319
+        233,
+        548
       ],
       "cuasi": [
-        319,
+        548,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 158,
+    "idx_quasi": 541,
+    "t_peak": 3.95,
+    "t_quasi": 15.866667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        158
       ],
       "transicion": [
-        156,
-        319
+        158,
+        541
       ],
       "cuasi": [
-        319,
+        541,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Vf2c3": {
-    "idx_peak": 156,
-    "idx_quasi": 319,
-    "t_peak": 3.8916667499999997,
-    "t_quasi": 8.475,
+    "idx_peak": 119,
+    "idx_quasi": 344,
+    "t_peak": 2.966667,
+    "t_quasi": 9.3,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        156
+        119
       ],
       "transicion": [
-        156,
-        319
+        119,
+        344
       ],
       "cuasi": [
-        319,
+        344,
         665
       ]
     }
   },
   "m70-toma-2-n-3000-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 252,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 6.3,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1785,22 +2019,25 @@
       ],
       "transicion": [
         20,
-        220
+        252
       ],
       "cuasi": [
-        220,
+        252,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 253,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 6.333333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1808,22 +2045,25 @@
       ],
       "transicion": [
         20,
-        220
+        253
       ],
       "cuasi": [
-        220,
+        253,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 283,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 7.266667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1831,22 +2071,25 @@
       ],
       "transicion": [
         20,
-        220
+        283
       ],
       "cuasi": [
-        220,
+        283,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 260,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 6.5,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1854,22 +2097,25 @@
       ],
       "transicion": [
         20,
-        220
+        260
       ],
       "cuasi": [
-        220,
+        260,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 248,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 6.2,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1877,22 +2123,25 @@
       ],
       "transicion": [
         20,
-        220
+        248
       ],
       "cuasi": [
-        220,
+        248,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 277,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 7.066667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1900,22 +2149,25 @@
       ],
       "transicion": [
         20,
-        220
+        277
       ],
       "cuasi": [
-        220,
+        277,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 244,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 6.1,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1923,22 +2175,25 @@
       ],
       "transicion": [
         20,
-        220
+        244
       ],
       "cuasi": [
-        220,
+        244,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 244,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 6.1,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1946,22 +2201,25 @@
       ],
       "transicion": [
         20,
-        220
+        244
       ],
       "cuasi": [
-        220,
+        244,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 325,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 8.666667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1969,22 +2227,25 @@
       ],
       "transicion": [
         20,
-        220
+        325
       ],
       "cuasi": [
-        220,
+        325,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Z1": {
     "idx_peak": 20,
-    "idx_quasi": 220,
+    "idx_quasi": 343,
     "t_peak": 0.5,
-    "t_quasi": 5.5083335,
+    "t_quasi": 9.266667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -1992,689 +2253,779 @@
       ],
       "transicion": [
         20,
-        220
+        343
       ],
       "cuasi": [
-        220,
+        343,
         665
       ]
     }
   },
   "m83-toma-2-n-3000-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 315,
+    "idx_quasi": 832,
+    "t_peak": 9.0,
+    "t_quasi": 26.233333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        315
       ],
       "transicion": [
-        346,
-        621
+        315,
+        832
       ],
       "cuasi": [
-        621,
+        832,
         1245
       ]
     }
   },
   "m86-toma-2-n-0750-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 530,
+    "idx_quasi": 941,
+    "t_peak": 16.166667,
+    "t_quasi": 29.866667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        530
       ],
       "transicion": [
-        346,
-        621
+        530,
+        941
       ],
       "cuasi": [
-        621,
+        941,
         1245
       ]
     }
   },
   "m87-toma-2-n-0750-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 354,
+    "idx_quasi": 869,
+    "t_peak": 10.3,
+    "t_quasi": 27.466667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        354
       ],
       "transicion": [
-        346,
-        621
+        354,
+        869
       ],
       "cuasi": [
-        621,
+        869,
         1245
       ]
     }
   },
   "m91-toma-2-n-3000-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 374,
+    "idx_quasi": 954,
+    "t_peak": 10.966667,
+    "t_quasi": 30.3,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        374
       ],
       "transicion": [
-        346,
-        621
+        374,
+        954
       ],
       "cuasi": [
-        621,
+        954,
         1245
       ]
     }
   },
   "m92-toma-1-n-0000-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 292,
+    "idx_quasi": 835,
+    "t_peak": 8.233333,
+    "t_quasi": 26.333333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        292
       ],
       "transicion": [
-        346,
-        621
+        292,
+        835
       ],
       "cuasi": [
-        621,
+        835,
         1245
       ]
     }
   },
   "m92-toma-2-n-0000-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 342,
+    "idx_quasi": 910,
+    "t_peak": 9.9,
+    "t_quasi": 28.833333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        342
       ],
       "transicion": [
-        346,
-        621
+        342,
+        910
       ],
       "cuasi": [
-        621,
+        910,
         1245
       ]
     }
   },
   "m93-toma-2-n-0000-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 404,
+    "idx_quasi": 923,
+    "t_peak": 11.966667,
+    "t_quasi": 29.266667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        404
       ],
       "transicion": [
-        346,
-        621
+        404,
+        923
       ],
       "cuasi": [
-        621,
+        923,
         1245
       ]
     }
   },
   "m94-toma-2-n-1500-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 502,
+    "idx_quasi": 947,
+    "t_peak": 15.233333,
+    "t_quasi": 30.066667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        502
       ],
       "transicion": [
-        346,
-        621
+        502,
+        947
       ],
       "cuasi": [
-        621,
+        947,
         1245
       ]
     }
   },
   "m95-toma-2-n-1500-car-05-piv_Z1": {
-    "idx_peak": 346,
-    "idx_quasi": 621,
-    "t_peak": 10.033333333333333,
-    "t_quasi": 19.200000333333332,
+    "idx_peak": 293,
+    "idx_quasi": 854,
+    "t_peak": 8.266667,
+    "t_quasi": 26.966667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        346
+        293
       ],
       "transicion": [
-        346,
-        621
+        293,
+        854
       ],
       "cuasi": [
-        621,
+        854,
         1245
       ]
     }
   },
   "m70-toma-2-n-3000-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 20,
+    "idx_quasi": 297,
+    "t_peak": 0.5,
+    "t_quasi": 7.733333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        20
       ],
       "transicion": [
-        24,
-        237
+        20,
+        297
       ],
       "cuasi": [
-        237,
+        297,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 20,
+    "idx_quasi": 259,
+    "t_peak": 0.5,
+    "t_quasi": 6.466667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        20
       ],
       "transicion": [
-        24,
-        237
+        20,
+        259
       ],
       "cuasi": [
-        237,
+        259,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 20,
+    "idx_quasi": 259,
+    "t_peak": 0.5,
+    "t_quasi": 6.466667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        20
       ],
       "transicion": [
-        24,
-        237
+        20,
+        259
       ],
       "cuasi": [
-        237,
+        259,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 26,
+    "idx_quasi": 307,
+    "t_peak": 0.65,
+    "t_quasi": 8.066667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        26
       ],
       "transicion": [
-        24,
-        237
+        26,
+        307
       ],
       "cuasi": [
-        237,
+        307,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 20,
+    "idx_quasi": 295,
+    "t_peak": 0.5,
+    "t_quasi": 7.666667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        20
       ],
       "transicion": [
-        24,
-        237
+        20,
+        295
       ],
       "cuasi": [
-        237,
+        295,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 20,
+    "idx_quasi": 293,
+    "t_peak": 0.5,
+    "t_quasi": 7.6,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        20
       ],
       "transicion": [
-        24,
-        237
+        20,
+        293
       ],
       "cuasi": [
-        237,
+        293,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 20,
+    "idx_quasi": 271,
+    "t_peak": 0.5,
+    "t_quasi": 6.866667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        20
       ],
       "transicion": [
-        24,
-        237
+        20,
+        271
       ],
       "cuasi": [
-        237,
+        271,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 20,
+    "idx_quasi": 327,
+    "t_peak": 0.5,
+    "t_quasi": 8.733333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        20
       ],
       "transicion": [
-        24,
-        237
+        20,
+        327
       ],
       "cuasi": [
-        237,
+        327,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 26,
+    "idx_quasi": 251,
+    "t_peak": 0.65,
+    "t_quasi": 6.266667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        26
       ],
       "transicion": [
-        24,
-        237
+        26,
+        251
       ],
       "cuasi": [
-        237,
+        251,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Z2": {
-    "idx_peak": 24,
-    "idx_quasi": 237,
-    "t_peak": 0.59583325,
-    "t_quasi": 5.9166669999999995,
+    "idx_peak": 28,
+    "idx_quasi": 326,
+    "t_peak": 0.7,
+    "t_quasi": 8.7,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        24
+        28
       ],
       "transicion": [
-        24,
-        237
+        28,
+        326
       ],
       "cuasi": [
-        237,
+        326,
         665
       ]
     }
   },
   "m83-toma-2-n-3000-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 260,
+    "idx_quasi": 777,
+    "t_peak": 7.166667,
+    "t_quasi": 24.4,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        260
       ],
       "transicion": [
-        317,
-        462
+        260,
+        777
       ],
       "cuasi": [
-        462,
+        777,
         1245
       ]
     }
   },
   "m86-toma-2-n-0750-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 470,
+    "idx_quasi": 724,
+    "t_peak": 14.166667,
+    "t_quasi": 22.633333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        470
       ],
       "transicion": [
-        317,
-        462
+        470,
+        724
       ],
       "cuasi": [
-        462,
+        724,
         1245
       ]
     }
   },
   "m87-toma-2-n-0750-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 291,
+    "idx_quasi": 738,
+    "t_peak": 8.2,
+    "t_quasi": 23.1,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        291
       ],
       "transicion": [
-        317,
-        462
+        291,
+        738
       ],
       "cuasi": [
-        462,
+        738,
         1245
       ]
     }
   },
   "m91-toma-2-n-3000-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 258,
+    "idx_quasi": 798,
+    "t_peak": 7.1,
+    "t_quasi": 25.1,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        258
       ],
       "transicion": [
-        317,
-        462
+        258,
+        798
       ],
       "cuasi": [
-        462,
+        798,
         1245
       ]
     }
   },
   "m92-toma-1-n-0000-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 332,
+    "idx_quasi": 797,
+    "t_peak": 9.566667,
+    "t_quasi": 25.066667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        332
       ],
       "transicion": [
-        317,
-        462
+        332,
+        797
       ],
       "cuasi": [
-        462,
+        797,
         1245
       ]
     }
   },
   "m92-toma-2-n-0000-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 301,
+    "idx_quasi": 647,
+    "t_peak": 8.533333,
+    "t_quasi": 20.066667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        301
       ],
       "transicion": [
-        317,
-        462
+        301,
+        647
       ],
       "cuasi": [
-        462,
+        647,
         1245
       ]
     }
   },
   "m93-toma-2-n-0000-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 318,
+    "idx_quasi": 851,
+    "t_peak": 9.1,
+    "t_quasi": 26.866667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        318
       ],
       "transicion": [
-        317,
-        462
+        318,
+        851
       ],
       "cuasi": [
-        462,
+        851,
         1245
       ]
     }
   },
   "m94-toma-2-n-1500-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 240,
+    "idx_quasi": 743,
+    "t_peak": 6.5,
+    "t_quasi": 23.266667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        240
       ],
       "transicion": [
-        317,
-        462
+        240,
+        743
       ],
       "cuasi": [
-        462,
+        743,
         1245
       ]
     }
   },
   "m95-toma-2-n-1500-car-05-piv_Z2": {
-    "idx_peak": 317,
-    "idx_quasi": 462,
-    "t_peak": 9.066666666666668,
-    "t_quasi": 13.888889,
+    "idx_peak": 253,
+    "idx_quasi": 599,
+    "t_peak": 6.933333,
+    "t_quasi": 18.466667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        317
+        253
       ],
       "transicion": [
-        317,
-        462
+        253,
+        599
       ],
       "cuasi": [
-        462,
+        599,
         1245
       ]
     }
   },
   "m70-toma-2-n-3000-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 36,
+    "idx_quasi": 286,
+    "t_peak": 0.9,
+    "t_quasi": 7.366667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        36
       ],
       "transicion": [
-        44,
-        291
+        36,
+        286
       ],
       "cuasi": [
-        291,
+        286,
         665
       ]
     }
   },
   "m71-toma-1-n-0000-car-02-piv_Z3": {
     "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_quasi": 289,
+    "t_peak": 1.1,
+    "t_quasi": 7.466667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -2682,160 +3033,181 @@
       ],
       "transicion": [
         44,
-        291
+        289
       ],
       "cuasi": [
-        291,
+        289,
         665
       ]
     }
   },
   "m71-toma-2-n-0000-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 45,
+    "idx_quasi": 294,
+    "t_peak": 1.133333,
+    "t_quasi": 7.633333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        45
       ],
       "transicion": [
-        44,
-        291
+        45,
+        294
       ],
       "cuasi": [
-        291,
+        294,
         665
       ]
     }
   },
   "m73-toma-2-n-1500-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 48,
+    "idx_quasi": 281,
+    "t_peak": 1.2,
+    "t_quasi": 7.2,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        48
       ],
       "transicion": [
-        44,
-        291
+        48,
+        281
       ],
       "cuasi": [
-        291,
+        281,
         665
       ]
     }
   },
   "m74-toma-2-n-0750-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 48,
+    "idx_quasi": 289,
+    "t_peak": 1.2,
+    "t_quasi": 7.466667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        48
       ],
       "transicion": [
-        44,
-        291
+        48,
+        289
       ],
       "cuasi": [
-        291,
+        289,
         665
       ]
     }
   },
   "m75-toma-2-n-0750-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 48,
+    "idx_quasi": 288,
+    "t_peak": 1.2,
+    "t_quasi": 7.433333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        48
       ],
       "transicion": [
-        44,
-        291
+        48,
+        288
       ],
       "cuasi": [
-        291,
+        288,
         665
       ]
     }
   },
   "m77-toma-2-n-1500-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 37,
+    "idx_quasi": 290,
+    "t_peak": 0.933333,
+    "t_quasi": 7.5,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        37
       ],
       "transicion": [
-        44,
-        291
+        37,
+        290
       ],
       "cuasi": [
-        291,
+        290,
         665
       ]
     }
   },
   "m80-toma-2-n-3000-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 45,
+    "idx_quasi": 289,
+    "t_peak": 1.133333,
+    "t_quasi": 7.466667,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        45
       ],
       "transicion": [
-        44,
-        291
+        45,
+        289
       ],
       "cuasi": [
-        291,
+        289,
         665
       ]
     }
   },
   "m82-toma-1-n-0000-car-02-piv_Z3": {
     "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_quasi": 294,
+    "t_peak": 1.1,
+    "t_quasi": 7.633333,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
@@ -2843,240 +3215,270 @@
       ],
       "transicion": [
         44,
-        291
+        294
       ],
       "cuasi": [
-        291,
+        294,
         665
       ]
     }
   },
   "m82-toma-2-n-0000-car-02-piv_Z3": {
-    "idx_peak": 44,
-    "idx_quasi": 291,
-    "t_peak": 1.0916665,
-    "t_quasi": 7.525,
+    "idx_peak": 41,
+    "idx_quasi": 290,
+    "t_peak": 1.033333,
+    "t_quasi": 7.5,
     "n_frames": 665,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        44
+        41
       ],
       "transicion": [
-        44,
-        291
+        41,
+        290
       ],
       "cuasi": [
-        291,
+        290,
         665
       ]
     }
   },
   "m83-toma-2-n-3000-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 242,
+    "idx_quasi": 594,
+    "t_peak": 6.566667,
+    "t_quasi": 18.3,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        242
       ],
       "transicion": [
-        303,
-        348
+        242,
+        594
       ],
       "cuasi": [
-        348,
+        594,
         1245
       ]
     }
   },
   "m86-toma-2-n-0750-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 353,
+    "idx_quasi": 726,
+    "t_peak": 10.266667,
+    "t_quasi": 22.7,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        353
       ],
       "transicion": [
-        303,
-        348
+        353,
+        726
       ],
       "cuasi": [
-        348,
+        726,
         1245
       ]
     }
   },
   "m87-toma-2-n-0750-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 340,
+    "idx_quasi": 803,
+    "t_peak": 9.833333,
+    "t_quasi": 25.266667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        340
       ],
       "transicion": [
-        303,
-        348
+        340,
+        803
       ],
       "cuasi": [
-        348,
+        803,
         1245
       ]
     }
   },
   "m91-toma-2-n-3000-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 265,
+    "idx_quasi": 630,
+    "t_peak": 7.333333,
+    "t_quasi": 19.5,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        265
       ],
       "transicion": [
-        303,
-        348
+        265,
+        630
       ],
       "cuasi": [
-        348,
+        630,
         1245
       ]
     }
   },
   "m92-toma-1-n-0000-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 277,
+    "idx_quasi": 791,
+    "t_peak": 7.733333,
+    "t_quasi": 24.866667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        277
       ],
       "transicion": [
-        303,
-        348
+        277,
+        791
       ],
       "cuasi": [
-        348,
+        791,
         1245
       ]
     }
   },
   "m92-toma-2-n-0000-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 311,
+    "idx_quasi": 815,
+    "t_peak": 8.866667,
+    "t_quasi": 25.666667,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        311
       ],
       "transicion": [
-        303,
-        348
+        311,
+        815
       ],
       "cuasi": [
-        348,
+        815,
         1245
       ]
     }
   },
   "m93-toma-2-n-0000-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 321,
+    "idx_quasi": 826,
+    "t_peak": 9.2,
+    "t_quasi": 26.033333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        321
       ],
       "transicion": [
-        303,
-        348
+        321,
+        826
       ],
       "cuasi": [
-        348,
+        826,
         1245
       ]
     }
   },
   "m94-toma-2-n-1500-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 326,
+    "idx_quasi": 798,
+    "t_peak": 9.366667,
+    "t_quasi": 25.1,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        326
       ],
       "transicion": [
-        303,
-        348
+        326,
+        798
       ],
       "cuasi": [
-        348,
+        798,
         1245
       ]
     }
   },
   "m95-toma-2-n-1500-car-05-piv_Z3": {
-    "idx_peak": 303,
-    "idx_quasi": 348,
-    "t_peak": 8.6,
-    "t_quasi": 10.100000000000001,
+    "idx_peak": 243,
+    "idx_quasi": 586,
+    "t_peak": 6.6,
+    "t_quasi": 18.033333,
     "n_frames": 1245,
-    "modo": "base",
+    "modo": "individual",
     "fallback": false,
+    "convergio": true,
+    "motivo": "ok",
+    "eps_minimo": null,
     "etapas": {
       "inicio": [
         0,
-        303
+        243
       ],
       "transicion": [
-        303,
-        348
+        243,
+        586
       ],
       "cuasi": [
-        348,
+        586,
         1245
       ]
     }

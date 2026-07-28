@@ -46,7 +46,8 @@ import pandas as pd
 
 from carga_real import cargar_todo, PREDICTORES, ETAPAS
 from analisis_global import (tabla_por_zona, capa1_global, capa2_global,
-                             capa4_global)
+                             capa4_global, capa1_estratificado,
+                             capa4_estratificado)
 from criterio_exclusion import (cargar_exclusiones, aplicar_exclusiones,
                                 reportar_asimetria, UMBRAL_D, DIR_TESTS)
 from procedencia import sellar
@@ -281,6 +282,23 @@ def procesar_todas():
         sellar("acum_capa1_global.csv")
         sellar("acum_capa2_global.csv")
         sellar("acum_capa4_global.csv")
+
+        # --- Versiones ESTRATIFICADAS por reologia ------------------------
+        # Estas son las que deben citarse en la memoria. Las 'global' de
+        # arriba mezclan Car-0,2 % y Car-0,5 % en una sola correlacion,
+        # pese a que el protocolo del trabajo establece que operan en
+        # escalas cinematicas no comparables. Hasta ahora solo existia la
+        # version agrupada de la Capa 4.
+        if "reologia" in acum.columns:
+            c1e = capa1_estratificado(acum, solo_viga=SOLO_VIGA_EN_CAPAS)
+            c4e = capa4_estratificado(c1e)
+            c1e.to_csv("acum_capa1_estratificado.csv", index=False)
+            c4e.to_csv("acum_capa4_estratificado.csv", index=False)
+            sellar("acum_capa1_estratificado.csv")
+            sellar("acum_capa4_estratificado.csv")
+            print("  Guardados tambien: acum_capa1_estratificado.csv, "
+                  "acum_capa4_estratificado.csv  (USAR ESTOS en la memoria)")
+
         print(f"  (solo_viga={SOLO_VIGA_EN_CAPAS}) Guardados: "
               f"acum_capa1_global.csv, acum_capa2_global.csv, "
               f"acum_capa4_global.csv")

@@ -146,13 +146,20 @@ def calcular_indices_base(carpetas, prefijo, zona_key, cache_dir):
                               nombre_carpeta=nombre,
                               ventana_suavizado=vent_suav)
 
-        if not res["fallback"]:
+        if res["convergio"]:
             resultados_peak.append(res["idx_peak"])
             resultados_quasi.append(res["idx_quasi"])
             t_peaks_lista.append(res["t_peak"])
             t_quasis_lista.append(res["t_quasi"])
         else:
-            print(f"    ⚠ Fallback en base, ignorada: {nombre}")
+            # Antes el filtro era res["fallback"], que NO se activaba cuando
+            # el criterio simplemente no convergía (el caso frecuente). Esas
+            # tomas contaminaban el promedio base con t_quasi = t_peak + 30
+            # frames. Sobre este dataset eran 15 de 58 series, todas
+            # Car-0,5 % en viga175/viga250, y de ahí salió el t_quasi de la
+            # tabla de tiempos de referencia.
+            print(f"    ⚠ No convergió, excluida de la base: {nombre} "
+                  f"({res['motivo']}, ε mínimo={res['eps_minimo']:.4f})")
 
     if not resultados_peak:
         return None, None

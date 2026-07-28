@@ -77,6 +77,15 @@ K_VECINOS = 6
 # Los puntos sin vecindad suficiente dentro del radio quedan con γ̇ = ω = NaN.
 DIST_MAX_KNN_MM = 5.0
 
+# Mínimo de vecinos para ajustar el plano local. 3 = sistema exactamente
+# determinado (sin promediado); 4 da al menos un grado de libertad.
+MIN_VECINOS = 4
+
+# Número de condición máximo admisible de la matriz de diseño [1, dx, dy].
+# Por encima de este valor la vecindad es geométricamente degenerada
+# (vecinos casi colineales) y el gradiente transversal es indeterminado.
+COND_MAX = 1.0e4
+
 # Filtros opcionales de carpetas (None = todas)
 CAR_OBJETIVO = None     # p.ej. "02"
 FIB_OBJETIVO = None     # p.ej. "1500"
@@ -126,7 +135,8 @@ def cargar_y_corregir(fpath):
 # GRADIENTES POR KNN  →  γ̇  y  vorticidad  (de gamma_fields.py, extendido)
 # ============================================================
 
-def calcular_gradientes(df, k=K_VECINOS, dist_max=DIST_MAX_KNN_MM):
+def calcular_gradientes(df, k=K_VECINOS, dist_max=DIST_MAX_KNN_MM,
+                        min_vecinos=MIN_VECINOS, cond_max=COND_MAX):
     x = df['x'].values; y = df['y'].values
     u = df['u'].values; v = df['v'].values
     n = len(x)
@@ -136,6 +146,7 @@ def calcular_gradientes(df, k=K_VECINOS, dist_max=DIST_MAX_KNN_MM):
         return gamma_dot, vort
 
     tree = cKDTree(np.column_stack([x, y]))
+    n_mal_cond = 0
     for i in range(n):
         # distance_upper_bound acota el ajuste a la vecindad FÍSICA real: un
         # punto en el borde del material no debe ajustar su gradiente contra
@@ -147,12 +158,34 @@ def calcular_gradientes(df, k=K_VECINOS, dist_max=DIST_MAX_KNN_MM):
         idxs = np.atleast_1d(idxs)[1:]
         val  = np.isfinite(dd) & (idxs < n)
         idxs = idxs[val]
-        if len(idxs) < 3:
+        if len(idxs) < min_vecinos:
             # Vecindad insuficiente dentro del radio → γ̇ y ω quedan NaN.
             # Preferible a un ajuste sobre una base geométrica inventada.
+            #
+            # MIN_VECINOS subió de 3 a 4: con exactamente 3 vecinos el
+            # sistema [1, dx, dy] queda EXACTAMENTE determinado, el ajuste
+            # interpola sin promediar y no hay ningún grado de libertad que
+            # amortigüe el ruido de un solo vector espurio.
             continue
         dx = x[idxs] - x[i]; dy = y[idxs] - y[i]
         A  = np.column_stack([np.ones(len(idxs)), dx, dy])
+
+        # ── Rechazo por mal condicionamiento ──────────────────────────────
+        # Si los vecinos son casi COLINEALES (situación típica en el borde
+        # del material, donde los vectores se alinean a lo largo del frente),
+        # la matriz A es casi singular: el gradiente en la dirección sin
+        # soporte queda indeterminado y lstsq devuelve valores enormes en
+        # vez de NaN. Esa es la fuente más probable de los γ̇ ~ 1e6 que el
+        # pipeline luego intenta contener con recortes de percentil.
+        # cond(A) > COND_MAX ⇒ la geometría no sostiene un ajuste plano 2D.
+        try:
+            cond = np.linalg.cond(A)
+        except Exception:
+            continue
+        if not np.isfinite(cond) or cond > cond_max:
+            n_mal_cond += 1
+            continue
+
         try:
             cu, *_ = np.linalg.lstsq(A, u[idxs], rcond=None)
             cv, *_ = np.linalg.lstsq(A, v[idxs], rcond=None)
@@ -162,6 +195,10 @@ def calcular_gradientes(df, k=K_VECINOS, dist_max=DIST_MAX_KNN_MM):
             vort[i]      = dvdx - dudy
         except Exception:
             continue
+
+    if n_mal_cond and n_mal_cond > 0.05 * n:
+        print(f"      ℹ {n_mal_cond}/{n} puntos ({100*n_mal_cond/n:.1f} %) "
+              f"descartados por vecindad mal condicionada (cond > {cond_max:g})")
     return gamma_dot, vort
 
 

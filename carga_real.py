@@ -37,6 +37,17 @@ import pandas as pd
 
 # Predictores estandar que esperan las capas
 PREDICTORES = ["V", "omega", "gamma_dot"]
+
+# --- Interruptores de metodologia (ver docstrings de las funciones) -------
+# True  -> la etapa de inicio [0, t_peak] se etiqueta aparte y NO entra en
+#          "transicion". Es lo que declara la metodologia.
+# False -> comportamiento historico (un solo corte; inicio dentro de
+#          transicion). Util solo para reproducir resultados antiguos.
+EXCLUIR_INICIO = True
+
+# True  -> fibras asignadas por poligono geometrico (particion fija).
+# False -> comportamiento historico (bounding box del PIV de cada corrida).
+ASIGNAR_POR_POLIGONO = True
 ETAPAS = ["transicion", "cuasi"]
 
 # Mapeo de columnas PIV -> predictores
@@ -125,6 +136,13 @@ def cargar_piv(piv_path):
         "y": get("y").astype(float),
         "t": get("t").astype(float),
         "V": get("v_mag").astype(float),
+        # OJO: el predictor es |omega_z|, NO omega_z con signo. Se toma el
+        # valor absoluto porque interesa "cuanta" rotacion local hay, no su
+        # sentido. Debe declararse asi en la memoria: el Cap. 1 y el Cap. 2
+        # hablan de vorticidad con signo, y la teoria de Jeffery distingue
+        # el sentido de giro. Promediar omega con signo sobre una zona donde
+        # cambia de sentido daria una mediana cercana a cero y sin
+        # significado fisico.
         "omega": np.abs(get("vort").astype(float)),
         "gamma_dot": get("gamma_dot").astype(float),
         "zona": get("zona").astype(str),
@@ -278,31 +296,80 @@ def _fallback_cortes(df_piv, zonas):
     return cortes
 
 
-def etiquetar_etapa(df_piv, cortes):
-    """Agrega columna 'etapa' (transicion/cuasi) segun corte por zona."""
+def etiquetar_etapa(df_piv, cortes, cortes_peak=None, excluir_inicio=True):
+    """
+    Agrega la columna 'etapa' con TRES niveles: inicio / transicion / cuasi.
+
+        inicio      : t <= t_peak,z
+        transicion  : t_peak,z < t <= t_quasi,z
+        cuasi       : t >  t_quasi,z
+
+    POR QUE CAMBIO. La version anterior usaba un solo corte:
+
+        etapa = "transicion" si t <= t_quasi, si no "cuasi"
+
+    es decir, la etiqueta "transicion" cubria [0, t_quasi] e INCLUIA la
+    etapa de inicio, pese a que la metodologia declara que el inicio se
+    excluye del modelo predictivo por corresponder solo al transitorio de
+    liberacion del tapon. Medido sobre etapas_zonas.json, la mediana de la
+    ventana etiquetada "transicion" que era en realidad inicio es 46 %, y
+    en Car-0,5 % llega a 85 %. Peor aun, la contaminacion es ASIMETRICA
+    entre reologias (18 % vs 76 % en celdas de viga), de modo que el
+    predictor V_transicion no medía lo mismo en cada estrato.
+
+    excluir_inicio=False reproduce el comportamiento historico (un corte).
+    """
     df = df_piv.copy()
-    tc = df["zona"].map(cortes)
-    df["etapa"] = np.where(df["t"] <= tc, "transicion", "cuasi")
+    tq = df["zona"].map(cortes).astype(float)
+
+    if not excluir_inicio or cortes_peak is None:
+        df["etapa"] = np.where(df["t"] <= tq, "transicion", "cuasi")
+        return df
+
+    tp = df["zona"].map(cortes_peak).astype(float)
+    # Si falta t_peak para una zona, se degrada al comportamiento antiguo
+    # SOLO en esa zona (tp = -inf => nada cae en 'inicio').
+    tp = tp.fillna(-np.inf)
+
+    df["etapa"] = np.select(
+        [df["t"] <= tp, df["t"] <= tq],
+        ["inicio", "transicion"],
+        default="cuasi")
     return df
 
 
 # ----------------------------------------------------------------------
 # 3. AGREGACION DE PREDICTORES POR ZONA Y ETAPA
 # ----------------------------------------------------------------------
-def agregar_fluido(df_piv_etapas, clip_p=CLIP_PERCENTIL):
+def agregar_fluido(df_piv_etapas, clip_p=CLIP_PERCENTIL, estimador="mediana"):
     """
     Mediana robusta de cada predictor por (zona, etapa), con clip de outliers
     al percentil clip_p calculado dentro de cada (zona, etapa).
     Devuelve DataFrame: zona, etapa, V, omega, gamma_dot, n_puntos.
+
+    ADVERTENCIA SOBRE EL CLIP. Recortar al percentil 99 y despues tomar la
+    MEDIANA es una operacion inocua: truncar el 1 % superior no puede mover
+    el percentil 50 (verificado numericamente para n entre 1e2 y 1e5, la
+    mediana resulta identica con y sin clip). El clip NO aporta robustez
+    adicional aqui; toda la robustez la da la mediana.
+
+    Se conserva porque (a) es inocuo, y (b) protege si alguna vez se cambia
+    'estimador' a "media". Pero NO debe describirse en la memoria como un
+    segundo filtro que aporte insensibilidad a los outliers, porque no lo
+    hace. Con estimador="media" el clip si tiene efecto y es necesario.
     """
     filas = []
     for (z, e), g in df_piv_etapas.groupby(["zona", "etapa"]):
         fila = {"zona": z, "etapa": e, "n_puntos": len(g)}
         for p in PREDICTORES:
             v = g[p].to_numpy(float)
-            hi = np.nanpercentile(v, clip_p)
-            v = np.clip(v, None, hi)
-            fila[p] = float(np.nanmedian(v))
+            if np.isfinite(v).any():
+                hi = np.nanpercentile(v, clip_p)
+                v = np.clip(v, None, hi)
+                fila[p] = (float(np.nanmedian(v)) if estimador == "mediana"
+                           else float(np.nanmean(v)))
+            else:
+                fila[p] = np.nan
         filas.append(fila)
     return pd.DataFrame(filas)
 
@@ -318,22 +385,49 @@ def cargar_fibras(path_csv):
     return df[["fibra_id", "x_mm", "y_mm", "theta", "track_id"]]
 
 
-def asignar_fibras_zona(df_fibras, boxes):
+def asignar_fibras_zona(df_fibras, boxes=None, usar_poligono=True):
     """
-    Asigna cada fibra a la zona cuya bounding box (del PIV) la contiene.
-    Si cae en varias (cajas solapadas), elige la de menor area (mas especifica).
-    Si no cae en ninguna, zona = NaN (se descarta del analisis).
+    Asigna cada fibra a su zona GEOMETRICA, con la misma funcion que usa el
+    PIV (definir_zonas.asignar_zona). Fibras fuera de toda zona -> NaN.
+
+    POR QUE CAMBIO. La version anterior asignaba por la BOUNDING BOX de los
+    puntos PIV de cada zona. Eso tenia tres problemas:
+
+      1. Para Z1/Z2/Z3 (paralelogramos inclinados 30 grados) la caja
+         envolvente es mucho mayor que el poligono y se SOLAPA con las
+         vecinas; el desempate era "la de menor area", que es arbitrario.
+      2. La caja depende de la COBERTURA PIV de esa corrida en particular,
+         de modo que los limites de zona cambiaban entre corridas. Las
+         zonas dejaban de ser una particion fija del dominio.
+      3. Fibras cerca del borde de una celda podian quedar fuera de toda
+         caja (la nube PIV no llega al borde exacto) y se descartaban.
+
+    usar_poligono=False reproduce el comportamiento historico; requiere
+    'boxes'.
     """
+    out = df_fibras.copy()
+
+    if usar_poligono:
+        from definir_zonas import asignar_zona as _asignar_zona_geom
+        z = _asignar_zona_geom(out["x_mm"].to_numpy(float),
+                               out["y_mm"].to_numpy(float))
+        # OJO: no usar np.where(z == "fuera", np.nan, z). En NumPy >= 2.0 eso
+        # lanza DTypePromotionError porque no existe un dtype comun entre str
+        # y float. Hay que pasar por dtype=object explicitamente.
+        z = np.asarray(z, dtype=object)
+        z[z == "fuera"] = np.nan
+        out["zona"] = z
+        return out
+
+    if boxes is None:
+        raise ValueError("usar_poligono=False requiere 'boxes'")
     areas = {z: (x1 - x0) * (y1 - y0) for z, (x0, x1, y0, y1) in boxes.items()}
     zonas = []
     for px, py in zip(df_fibras.x_mm, df_fibras.y_mm):
         candidatas = [z for z, (x0, x1, y0, y1) in boxes.items()
                       if x0 <= px <= x1 and y0 <= py <= y1]
-        if not candidatas:
-            zonas.append(np.nan)
-        else:
-            zonas.append(min(candidatas, key=lambda z: areas[z]))
-    out = df_fibras.copy()
+        zonas.append(np.nan if not candidatas
+                     else min(candidatas, key=lambda z: areas[z]))
     out["zona"] = zonas
     return out
 
@@ -373,17 +467,34 @@ def cargar_todo(dir_piv, path_fibras_csv, path_etapas_json=None,
     nombre_toma = os.path.splitext(os.path.basename(
         _resolver_fuente_piv(dir_piv)[1]))[0]
     cortes = cargar_etapas(path_etapas_json, df_piv, zonas, toma=nombre_toma)
-    df_piv_e = etiquetar_etapa(df_piv, cortes)
+
+    # Segundo corte: t_peak por zona, necesario para EXCLUIR la etapa de
+    # inicio de la etapa de transicion (ver etiquetar_etapa).
+    cortes_peak = None
+    if EXCLUIR_INICIO:
+        cortes_peak = cargar_etapas(path_etapas_json, df_piv, zonas,
+                                    toma=nombre_toma, campo_corte="t_peak")
+        # Si el JSON no trae t_peak, cargar_etapas cae al fallback por
+        # decaimiento de v_mag, que NO es un t_peak. Se descarta en ese caso.
+        if not (path_etapas_json and os.path.exists(path_etapas_json)):
+            cortes_peak = None
+
+    df_piv_e = etiquetar_etapa(df_piv, cortes, cortes_peak,
+                               excluir_inicio=EXCLUIR_INICIO)
     df_fluido = agregar_fluido(df_piv_e)
 
     df_fib = cargar_fibras(path_fibras_csv)
-    df_fib_z = asignar_fibras_zona(df_fib, boxes)
+    df_fib_z = asignar_fibras_zona(df_fib, boxes, usar_poligono=ASIGNAR_POR_POLIGONO)
     n_fuera = df_fib_z["zona"].isna().sum()
 
     df_largo = construir_largo(df_fib_z, df_fluido)
 
     diag = {
         "cortes_etapa": cortes,
+        "cortes_peak": cortes_peak,
+        "excluir_inicio": bool(EXCLUIR_INICIO and cortes_peak is not None),
+        "asignacion_fibras": "poligono" if ASIGNAR_POR_POLIGONO else "bbox_piv",
+        "reparto_etapas": df_piv_e["etapa"].value_counts().to_dict(),
         "zonas_piv": zonas,
         "n_fibras_total": len(df_fib),
         "n_fibras_asignadas": len(df_fib) - n_fuera,
