@@ -301,8 +301,10 @@ def _retroceder(campo, fibras_xy, cod=""):
                 pos[vivo, 0] -= camp["u"][vivo] * dt
                 pos[vivo, 1] -= camp["v"][vivo] * dt
             else:
-                xm = pos[:, 0] - 0.5 * camp["u"] * dt
-                ym = pos[:, 1] - 0.5 * camp["v"] * dt
+                xm = pos[:, 0].copy()
+                ym = pos[:, 1].copy()
+                xm[vivo] -= 0.5 * camp["u"][vivo] * dt
+                ym[vivo] -= 0.5 * camp["v"][vivo] * dt
                 mid, ok_mid = _interp_en(interp[f], campos,
                                          np.column_stack([xm, ym]))
                 # Si el punto medio del RK2 cae fuera, el paso no es fiable:
@@ -413,10 +415,17 @@ if __name__ == "__main__":
         print(f"[ERROR] No se emparejo nada. Revisa .npz en '{CACHE_ZONAS}/' "
               f"y CSV en '{FIBRAS_DIR}/' con codigo mNN comun.")
     t0_total = time.time()
+    fallidas = []
     for i, par in enumerate(pares, 1):
         print(f"\n{'='*55}\n  [{i}/{len(pares)}]  {par['cod']}  "
               f"(transcurrido total: {_fmt_seg(time.time()-t0_total)})")
-        construir_cache(par)
+        try:
+            construir_cache(par)
+        except Exception as e:
+            print(f"  [ERROR] {par['cod']} omitida: {e}")
+            fallidas.append(par['cod'])
+    if fallidas:
+        print(f"\n[aviso] {len(fallidas)} toma(s) NO se cachearon: {fallidas}")
     if pares:
         print(f"\n{'='*55}\nTODO TERMINADO en {_fmt_seg(time.time()-t0_total)} "
               f"({len(pares)} tomas)")

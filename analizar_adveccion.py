@@ -129,9 +129,10 @@ def cargar_todas_las_tomas():
         return None
     out = pd.concat(filas, ignore_index=True)
 
-    if USAR_ATRIBUCION_VALIDADA and "track_id" in out.columns:
+    if USAR_ATRIBUCION_VALIDADA:
+        tiene_col = "track_id" in out.columns
         atrib = cargar_atribucion_validada()
-        tiene_track = (out["track_id"] >= 0).all() if len(out) else False
+        tiene_track = tiene_col and (out["track_id"] >= 0).all() if len(out) else False
         if atrib is not None and tiene_track:
             n_antes = len(out)
             out = out.merge(atrib, on=["toma", "track_id"], how="inner")
