@@ -35,7 +35,7 @@ except ImportError:
 
 CACHE_DIR = "cache_completo"
 OUTPUT_JSON = "etapas_polilinea.json"
-OUTPUT_FIGS = "Semana8/Etapas_polilinea"
+OUTPUT_FIGS = "Etapas_polilinea"
 GUARDAR_FIGURAS = True
 
 # Zonas: (prefijo_cache, zona_key)

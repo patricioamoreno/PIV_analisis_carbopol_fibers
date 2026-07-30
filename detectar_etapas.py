@@ -399,10 +399,8 @@ def graficar_etapas(resultado, tiempos_raw=None, v_raw=None,
     ax.axvspan(t[ip], t[iq], alpha=0.10, color='darkorange',  label='Transición')
     ax.axvspan(t[iq], t[-1], alpha=0.10, color='forestgreen', label='Cuasi-estacionario')
 
-    ax.axvline(t[ip], color='royalblue',   lw=1.5, linestyle='--',
-               label=f'Peak  t={t[ip]:.2f}s')
-    ax.axvline(t[iq], color='forestgreen', lw=1.5, linestyle='--',
-               label=f'Cuasi t={t[iq]:.2f}s')
+    ax.axvline(t[ip], color='royalblue',   lw=1.5, linestyle='--')
+    ax.axvline(t[iq], color='forestgreen', lw=1.5, linestyle='--')
 
     if resultado['fallback']:
         ax.axvline(t[iq], color='red', lw=2.5, linestyle=':',
@@ -413,8 +411,9 @@ def graficar_etapas(resultado, tiempos_raw=None, v_raw=None,
     # Título omitido: descripción en el caption de la memoria (figura tipo).
     # El identificador de corrida/zona (parámetro `titulo`) migra al caption.
     # ax.set_title(titulo or "Detección de etapas")
-    ax.legend(fontsize=8, ncol=2)
+    ax.legend(fontsize=8)
     ax.set_ylim(bottom=0)
+    ax.set_xlim(left=0, right=round(t[-1]))
     plt.tight_layout()
 
     if output_path:

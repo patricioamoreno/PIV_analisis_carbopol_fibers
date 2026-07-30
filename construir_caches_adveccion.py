@@ -38,6 +38,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
 from scipy.spatial import cKDTree
+from adveccion_nucleo import construir_interpoladores, interp_campos
 
 try:
     from win10toast import ToastNotifier
@@ -200,50 +201,22 @@ def cargar_fibras(csv_path):
 
 def _construir_interpoladores(por_frame):
     """
-    Construye UNA vez el interpolador de cada frame (triangulacion de Delaunay)
-    y lo cachea. griddata retriangulaba en cada llamada; esto lo hace una sola
-    vez por frame y acelera el proceso varias veces.
-    Devuelve dict frame -> (LinearNDInterpolator, NearestNDInterpolator,
-    cKDTree) sobre las columnas [u, v, V, omega, gamma_dot] juntas. El KDTree
-    permite medir la distancia real al vector PIV más cercano y así acotar el
-    relleno por vecino más cercano (ver DIST_MAX_NN_MM).
+    Construye UNA vez el interpolador de cada frame, sobre las columnas
+    [u, v, V, omega, gamma_dot] juntas. Delega la fisica (triangulacion +
+    respaldo por vecino mas cercano) a adveccion_nucleo.construir_interpoladores,
+    que tambien usa reconstruccion_lagrangiana.py -- ver ese modulo para el
+    porque de la unificacion.
+    Devuelve (dict frame -> (lin, nn, tree), lista_de_campos).
     """
     campos = ["u", "v", "V", "omega", "gamma_dot"]
-    interp = {}
-    for f, sub in por_frame.items():
-        xy = sub[["x", "y"]].to_numpy()
-        vals = sub[campos].to_numpy()
-        # un solo interpolador multi-columna (comparte la triangulacion)
-        lin = LinearNDInterpolator(xy, vals)
-        nn = NearestNDInterpolator(xy, vals)
-        tree = cKDTree(xy)
-        interp[f] = (lin, nn, tree)
+    interp = {f: construir_interpoladores(sub, campos)
+              for f, sub in por_frame.items()}
     return interp, campos
 
 
 def _interp_en(interp_frame, campos, puntos, dist_max=DIST_MAX_NN_MM):
-    """Interpola todos los campos a la vez en 'puntos'.
-
-    Dentro de la envolvente convexa se usa la interpolación lineal. Fuera de
-    ella se admite el relleno por vecino más cercano ÚNICAMENTE si el punto
-    está a menos de `dist_max` mm de un vector PIV real; en caso contrario el
-    punto se devuelve como NaN (partícula fuera del material medido).
-
-    Devuelve (dict campo -> array, mask_valido).
-    """
-    lin, nn, tree = interp_frame
-    M = lin(puntos)                       # (P x 5)
-    nanrows = np.isnan(M).any(axis=1)
-    if nanrows.any():
-        cand = puntos[nanrows]
-        dist, _ = tree.query(cand, k=1)
-        cerca = dist <= dist_max
-        relleno = np.full((len(cand), M.shape[1]), np.nan)
-        if cerca.any():
-            relleno[cerca] = nn(cand[cerca])
-        M[nanrows] = relleno
-    valido = ~np.isnan(M).any(axis=1)
-    return {c: M[:, j] for j, c in enumerate(campos)}, valido
+    """Delega a adveccion_nucleo.interp_campos (ver ese modulo)."""
+    return interp_campos(interp_frame, campos, puntos, dist_max=dist_max)
 
 
 def _zona_de_puntos(puntos, boxes):

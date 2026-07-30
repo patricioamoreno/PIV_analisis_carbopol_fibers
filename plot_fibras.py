@@ -40,8 +40,8 @@ def graficar_fibras_en_setup(ruta_datos, ruta_guardado="fibras_setup.png"):
     # 3. Configurar la figura (Mismo estilo que tu código original)
     fig, ax = plt.subplots(figsize=(14, 11))
     ax.set_aspect('equal')
-    ax.set_facecolor('#f5f7fa')
-    fig.patch.set_facecolor('#f5f7fa')
+    # ax.set_facecolor('#f5f7fa')
+    # fig.patch.set_facecolor('#f5f7fa')
 
     # -- DIBUJAR FONDO GEOMÉTRICO --
     AZUL_OSC  = '#1a3a6e'
@@ -109,8 +109,7 @@ def graficar_fibras_en_setup(ruta_datos, ruta_guardado="fibras_setup.png"):
     # ax.set_title('Posición final de fibras por Zona — L-beam 30° + Viga')
     
     # Mover la leyenda afuera si hay muchas zonas
-    ax.legend(loc='upper left', bbox_to_anchor=(1.02, 1), fontsize=9)
-    ax.grid(True, linestyle=':', linewidth=0.35, alpha=0.5)
+    ax.legend(loc='upper left', fontsize=9)
 
     # Ajustar los límites igual que en tu código original
     all_pts = np.vstack([l1, l2, l3, l4, l5, l6, b1, b2, b3, b4])

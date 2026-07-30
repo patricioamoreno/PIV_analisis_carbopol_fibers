@@ -63,6 +63,7 @@ from trayectoria_comun import (cargar_ptv_completo, clasificar_zona_y_etapa,
                                zona_modal, resumen_fragmentacion)
 from definir_zonas import asignar_zona
 from carga_real import cargar_etapas
+from adveccion_nucleo import construir_interpoladores, interp_campos
 
 # ============================================================
 # CONFIGURACION — editar aqui
@@ -323,63 +324,14 @@ def cargar_campo_piv_e3(npz_path):
 
 
 def _construir_interpoladores(sub):
-    """
-    Construye la triangulacion de Delaunay UNA SOLA VEZ por frame, e
-    interpola u y v JUNTOS (LinearNDInterpolator acepta valores vectoriales).
-
-    Antes se llamaba griddata por separado para 'u' y 'v', lo que triangulaba
-    los MISMOS puntos (x,y) dos veces por evaluacion -- con RK2 (posicion +
-    punto medio) eso eran 4 triangulaciones por frame en vez de 1. Con
-    cientos de frames y varias tomas, esto es el cuello de botella principal
-    del tiempo de ejecucion. Ahora: 1 triangulacion por frame, reutilizada
-    para todas las evaluaciones de ese frame.
-
-    Se construye también un cKDTree sobre los mismos puntos: permite acotar
-    el respaldo por vecino más cercano a DIST_MAX_NN_MM (ver _interp_uv_rapido).
-    """
-    xy = sub[["x", "y"]].to_numpy()
-    uv = sub[["u", "v"]].to_numpy()
-    lin = LinearNDInterpolator(xy, uv)
-    nn = NearestNDInterpolator(xy, uv)   # respaldo fuera del casco convexo
-    tree = cKDTree(xy)
-    return lin, nn, tree
+    """Delega a adveccion_nucleo.construir_interpoladores (ver ese modulo
+    para el porque de la unificacion con construir_caches_adveccion.py)."""
+    return construir_interpoladores(sub, campos=("u", "v"))
 
 
 def _interp_uv_rapido(lin, nn, tree, puntos, dist_max=DIST_MAX_NN_MM):
-    """Evalua los interpoladores YA CONSTRUIDOS (ver _construir_interpoladores).
-
-    Fuera de la envolvente convexa se admite el respaldo por vecino más
-    cercano SOLO si el punto está a menos de `dist_max` mm de un vector PIV
-    real. Más allá, el valor queda NaN: es una posición fuera del material
-    medido, no un hueco de correlación a rellenar.
-
-    Devuelve (dict campo -> array, mask_valido).
-    """
-    puntos = np.asarray(puntos, dtype=float)
-
-    # Puntos con coordenada no finita (NaN o inf) no se le pasan NUNCA al
-    # interpolador ni al KDTree: cKDTree.query revienta con ValueError ante
-    # un input no finito. Una coordenada no finita sólo puede provenir de
-    # una fibra que ya se dio por perdida en un paso anterior de la
-    # integración (velocidad NaN -> posición NaN); se marca inválida de
-    # inmediato, sin intentar interpolar ni buscar vecino.
-    finito = np.all(np.isfinite(puntos), axis=1)
-
-    val = np.full((len(puntos), 2), np.nan, dtype=float)
-    if finito.any():
-        val[finito] = np.asarray(lin(puntos[finito]), dtype=float)
-
-    nanmask = finito & np.isnan(val).any(axis=1)
-    if nanmask.any():
-        cand = puntos[nanmask]
-        dist, _ = tree.query(cand, k=1)
-        cerca = dist <= dist_max
-        relleno = np.full((len(cand), val.shape[1]), np.nan)
-        if cerca.any():
-            relleno[cerca] = nn(cand[cerca])
-        val[nanmask] = relleno
-    valido = finito & ~np.isnan(val).any(axis=1)
-    return {"u": val[:, 0], "v": val[:, 1]}, valido
+    """Delega a adveccion_nucleo.interp_campos."""
+    return interp_campos((lin, nn, tree), ("u", "v"), puntos, dist_max=dist_max)
 
 
 def _fmt_seg(s):
@@ -455,8 +407,15 @@ def calcular_E3(campo, fib_finales, cortes_etapa, metodo=METODO_ADVECCION,
                 pos[vivo, 0] -= uv["u"][vivo] * dt
                 pos[vivo, 1] -= uv["v"][vivo] * dt
             else:
-                xm = pos[:, 0] - 0.5 * uv["u"] * dt
-                ym = pos[:, 1] - 0.5 * uv["v"] * dt
+                # Enmascarado por 'vivo': el guardia de coordenadas no
+                # finitas en interp_campos ya protegia contra esto, pero
+                # calcular el punto medio solo para las fibras vivas evita
+                # depender unicamente de ese guardia (misma correccion que
+                # construir_caches_adveccion.py).
+                xm = pos[:, 0].copy()
+                ym = pos[:, 1].copy()
+                xm[vivo] -= 0.5 * uv["u"][vivo] * dt
+                ym[vivo] -= 0.5 * uv["v"][vivo] * dt
                 mid, ok_mid = _interp_uv_rapido(lin, nn, tree,
                                                 np.column_stack([xm, ym]))
                 # Punto medio del RK2 fuera del radio de confianza -> el paso
