@@ -446,8 +446,8 @@ def fig_pequenos_multiplos_viga(tabla, metrica="calidad_orientacion",
     sm.set_array([])
     fig.colorbar(sm, ax=axes, orientation="vertical", fraction=0.025,
                 pad=0.02, label=etiqueta)
-    fig.suptitle(f"{etiqueta} por zona de viga — cada Carbopol × concentración",
-                fontsize=13, fontweight="bold")
+    # fig.suptitle(f"{etiqueta} por zona de viga — cada Carbopol × concentración",
+    #             fontsize=13, fontweight="bold")
     fig.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print("  guardado:", path)

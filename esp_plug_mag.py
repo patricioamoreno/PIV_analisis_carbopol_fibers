@@ -256,7 +256,7 @@ def graficar(matriz_vel, mat_plug, mat_ratio, tiempos_full, tiempos_list,
       [bottom] v_media(t) con perfiles individuales
     """
     fig = plt.figure(figsize=(14, 13))
-    gs  = GridSpec(3, 1, figure=fig, height_ratios=[2.5, 2.5, 1.2], hspace=0.45)
+    gs  = GridSpec(3, 1, figure=fig, height_ratios=[2.5, 2.5, 1.2], hspace=0.25)
     ax_vel  = fig.add_subplot(gs[0])
     ax_plug = fig.add_subplot(gs[1], sharex=ax_vel)
     ax_v    = fig.add_subplot(gs[2], sharex=ax_vel)
@@ -281,7 +281,7 @@ def graficar(matriz_vel, mat_plug, mat_ratio, tiempos_full, tiempos_list,
     cax1.xaxis.set_label_position('top')
     ax_vel.set_ylabel('Posición s [mm]', fontsize=10)
     ax_vel.set_ylim(ss[0], ss[-1])
-    ax_vel.set_title(f'{nombre_grupo}  —  {zona_label}', fontsize=11, fontweight='bold')
+    # ax_vel.set_title(f'{nombre_grupo}  —  {zona_label}', fontsize=11, fontweight='bold')
     _agregar_divisores(ax_vel, tiempos_list, 'white')
 
     # ── Panel 2: plug / no-plug ───────────────────────────────
@@ -305,9 +305,9 @@ def graficar(matriz_vel, mat_plug, mat_ratio, tiempos_full, tiempos_list,
     cax2.xaxis.set_label_position('top')
     ax_plug.set_ylabel('Posición s [mm]', fontsize=10)
     ax_plug.set_ylim(ss[0], ss[-1])
-    ax_plug.set_title(
-        f'γ̇ = |dv/ds|  [s⁻¹]   (umbral PIV={umbral_gamma:.2f} s⁻¹,  τ₀={reo_ref["tau0"]} Pa)',
-        fontsize=10)
+    # ax_plug.set_title(
+    #     f'γ̇ = |dv/ds|  [s⁻¹]   (umbral PIV={umbral_gamma:.2f} s⁻¹,  τ₀={reo_ref["tau0"]} Pa)',
+    #     fontsize=10)
     ax_plug.contour(tiempos_full, ss, ratio_plot.T,
                     levels=[umbral_gamma], colors='white', linewidths=0.8, alpha=0.7)
     _agregar_divisores(ax_plug, tiempos_list, 'white')
